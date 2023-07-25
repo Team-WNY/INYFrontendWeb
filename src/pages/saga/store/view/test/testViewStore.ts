@@ -8,7 +8,7 @@ interface Props {
 
 const initialState = {
     btnNumberValue : 0,
-    btnNumberActive : false,
+    btnNumberActive : true,
 }
 
 const testViewStore = createSlice({
