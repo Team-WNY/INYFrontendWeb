@@ -1,21 +1,12 @@
 import styled from "styled-components";
 import {isDev} from "../../../data/config/config";
-import {useEffect, useState} from "react";
 import imgSrc from "../../../public/static/images/logo/INY.png"
-import loginBtnImgSrc from "../../../public/static/images/button/login_login.png"
+import loginBtnImgSrc from "../../../public/static/images/button/login/btn_login_login.png"
 
-const LoginAreaWrapper = styled.div`
-  //display: flex;
-  //align-items: center;
-  //align-content: flex-end;
-  //gap: 2.86vh 1.053vw;
-  ////flex-wrap: wrap;
-  //
-  //
-
+const LoginFrameWrapper = styled.div`
   display: flex;
   width: 257px;
-  padding: 50px 51px 304px 52px;
+  padding: 50px 60px 304px 60px;
   flex-direction: column;
   align-items: center;
   gap: 65px;
@@ -70,7 +61,7 @@ const LoginInput = styled.input`
   background: var(--color-whiter, #FFF)
 `
 
-const StyledImg = styled.img<{isDev:boolean}>`
+const StyledImg = styled.img`
   width: 20px;
   height: 10px;
   background-image: ${isDev ? `../../../public/static/images/logo/INY.png` : `../../../public/static/images/logo/INY.png`}
@@ -90,22 +81,21 @@ const LoginBtn = styled.button`
   background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
   color: var(--color-black, #000);
   background-image: url('${loginBtnImgSrc}')
-
 `
 
 const LoginPage = () => {
 
-    const [imgSrc, setImgSrc] = useState<string>("")
+    // const [imgSrc, setImgSrc] = useState<string>("")
 
     const joinClickHandler = () => {
-
+        window.location.href = "/wny/join"
     }
 
     return (
         <>
             {/*<StyledImg isDev={isDev}></StyledImg>*/}
-            <img src={imgSrc} style={{width:"20px", height: "10px"}}/>
-            <LoginAreaWrapper>
+            <img src={imgSrc} style={{width:"20px", height: "10px", margin:"10px"}}/>
+            <LoginFrameWrapper>
                 <LoginFrame>
                     <div>
                         <div style={{marginBottom:"9px"}}>
@@ -125,7 +115,7 @@ const LoginPage = () => {
                         <FindBtn>ID/PW 찾기</FindBtn>
                     </div>
                 </LoginFrame>
-            </LoginAreaWrapper>
+            </LoginFrameWrapper>
         </>
     )
 }

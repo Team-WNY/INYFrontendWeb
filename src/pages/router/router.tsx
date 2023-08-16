@@ -7,6 +7,7 @@ import TestPage from "../component/login/TestPage";
 import HomePage from "../component/home/HomePage";
 import {isDev} from "../../data/config/config";
 import LoginPage from "../component/login/LoginPage";
+import JoinPage from "../component/join/JoinPage";
 
 
 const Router: React.FC = () => {
@@ -29,6 +30,10 @@ const Router: React.FC = () => {
                 {
                     isDev &&
                     <Route path="/login" element={<LoginPage/>}/>
+                }
+                {
+                    isDev &&
+                    <Route path="/join" element={<JoinPage/>}/>
                 }
 
             </Routes>
