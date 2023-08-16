@@ -2,28 +2,27 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../saga/store/rootStore";
 import {updateBtnNumberActive, updateBtnNumberValue} from "../../saga/store/view/test/testViewStore";
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 
-const MainRoot = (props:{stringType:string}) => {
+const TestRoot = (props: { stringType: string }) => {
 
     const dispatch = useDispatch()
     const btnNumberActive = useSelector((state: RootState) => state.view.test.btnNumberActive as boolean)
     const btnNumberValue = useSelector((state: RootState) => state.view.test.btnNumberValue as number)
     const [btnTitle, setBtnTitle] = useState<string>("btn")
 
-    const clickHandler = (clickCnt:number) => {
-        console.log("main btn clicked !! ")
+    const clickHandler = (clickCnt: number) => {
+        console.log("test btn clicked !! ")
         dispatch(updateBtnNumberValue(clickCnt))
 
-        if(clickCnt === 10) {
+        if (clickCnt === 10) {
             dispatch(updateBtnNumberActive(false))
             setBtnTitle("btn broken")
         }
     }
 
-    useEffect(()=> {
-        console.log("main btnNumberValue " , btnNumberValue)
-    },[btnNumberValue])
+    useEffect(() => {
+        console.log("test btnNumberValue ", btnNumberValue)
+    }, [btnNumberValue])
 
     const tempStyle = {
         width: "100%",
@@ -35,27 +34,27 @@ const MainRoot = (props:{stringType:string}) => {
         Position: 'fixed',
     }
 
-    const hanler = () => {
-        console.log("")
-    }
     return (
         <>
             <div style={tempStyle}>
-                <h1>{btnTitle}</h1>
-                <button style={{right:"0", height: "100px", width:"100px"}}
+                <h1>hello world !!</h1>
+                <h1/>
+                <button style={{right: "0", height: "100px", width: "100px"}}
                         onClick={(e) => clickHandler(btnNumberValue + 1)}
                         disabled={!btnNumberActive}
                 >
                     {btnTitle} {btnNumberValue}
                 </button>
-                <button>
-                    <Link to={"/test"}>main</Link>
-                </button>
-                <div style={{right:"0", width:"100px", height:"100px", backgroundColor:"saddlebrown", fontSize:"large"}}>{btnNumberValue}</div>
-                <input onKeyUp={() => hanler()}/>
+                <div style={{
+                    right: "0",
+                    width: "100px",
+                    height: "100px",
+                    backgroundColor: "saddlebrown",
+                    fontSize: "large"
+                }}>{btnNumberValue}</div>
             </div>
         </>
     )
 }
 
-export default MainRoot
+export default TestRoot

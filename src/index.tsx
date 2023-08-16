@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './index.css';
 import {Reset} from "styled-reset";
 import reportWebVitals from './reportWebVitals';
 import createSagaMiddleware from "redux-saga";
@@ -9,7 +9,8 @@ import rootSaga from "./pages/saga/rootSaga";
 import {Provider} from "react-redux";
 import Root from "./pages/root";
 import rootStore from "./pages/saga/store/rootStore";
-
+import {ThemeProvider} from "styled-components";
+import theme from "./data/theme/theme";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,12 +24,12 @@ sagaMiddleware.run(rootSaga);
 const rootNode = document.getElementById('root') as HTMLElement
 
 ReactDOM.createRoot(rootNode).render(
-    // <React.StrictMode>
     <Provider store={store}>
-        <Reset/>
-        <Root/>
+        <ThemeProvider theme={theme}>
+            <Reset/>
+            <Root/>
+        </ThemeProvider>
     </Provider>
-    // </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
