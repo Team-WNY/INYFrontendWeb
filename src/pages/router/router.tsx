@@ -9,7 +9,6 @@ import {isDev} from "../../data/config/config";
 import LoginPage from "../component/login/LoginPage";
 import JoinPage from "../component/join/JoinPage";
 
-
 const Router: React.FC = () => {
 
     const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
@@ -21,21 +20,19 @@ const Router: React.FC = () => {
     return (
         <BrowserRouter basename={"/wny"}>
             <Routes>
-                <Route path={"/home"} element={<HomePage/>}/>
-
+                <Route path={"/home"} element={<HomePage currentPage={"home"}/>}/>
                 {
                     isDev &&
                     <Route path="/test" element={<TestPage/>}/>
                 }
                 {
                     isDev &&
-                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/login" element={<LoginPage currentPage={"login"}/>}/>
                 }
                 {
                     isDev &&
-                    <Route path="/join" element={<JoinPage/>}/>
+                    <Route path="/join" element={<JoinPage currentPage={"join"}/>}/>
                 }
-
             </Routes>
         </BrowserRouter>
     )

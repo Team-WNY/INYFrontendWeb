@@ -83,7 +83,7 @@ const LoginBtn = styled.button`
   background-image: url('${loginBtnImgSrc}')
 `
 
-const LoginPage = () => {
+const LoginPage = (props:{currentPage:string}) => {
 
     // const [imgSrc, setImgSrc] = useState<string>("")
 

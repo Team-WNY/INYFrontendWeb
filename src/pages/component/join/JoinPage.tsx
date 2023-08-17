@@ -1,9 +1,15 @@
 import imgSrc from "../../../public/static/images/logo/INY.png";
 import styled from "styled-components";
 import joinDuplicatesBtnImgSrc from "../../../public/static/images/button/join/btn_join_duplicates_check.png"
-import joinBtnImgSrc from "../../../public/static/images/button/join/btn_join.png"
+import joinBtnImgSrc from "../../../public/static/images/button/join/btn_join_join.png"
 import joinCancelBtnImgSrc from "../../../public/static/images/button/join/btn_join_cancel.png"
 import joinCertifiedBtnImgSrc from "../../../public/static/images/button/join/btn_join_certified.png"
+import {useDispatch} from "react-redux";
+import CommonModal from "../modal/CommonModal";
+import React from "react";
+import {updateModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {ModalInterface} from "../../../data/interface/modal/modalInterface";
+import {ModalConst} from "../../../data/const/modalConst";
 
 const JoinFrameWrapper = styled.div`
   display: inline-flex;
@@ -91,10 +97,30 @@ const CancelBtn = styled.button`
   background-image: url("${joinCancelBtnImgSrc}");
 `
 
-const JoinPage = () => {
+const JoinPage = (props:{currentPage:string}) => {
+
+    const dispatch = useDispatch()
+
+    const duplicatesCheck = () => {
+
+    }
+
+    const cancelClick = () => {
+        console.log("cancel btn clicked !! ")
+        const btn :string = "cancel"
+        const payload: ModalInterface = {
+            title: ModalConst[props.currentPage][btn].title,
+            content: ModalConst[props.currentPage][btn].content,
+            isConfirm: ModalConst[props.currentPage][btn].isConfirm,
+            isOpen: true,
+            currentPage: props.currentPage,
+        }
+        dispatch(updateModalStatus(payload))
+    }
 
     return (
         <>
+            <CommonModal/>
             <img src={imgSrc} style={{width: "20px", height: "10px", margin: "10px"}}/>
             <JoinTextBox/>
             <JoinFrameWrapper>
@@ -106,7 +132,7 @@ const JoinPage = () => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}>
                             <JoinInput/>
-                            <DuplicatesCheckBtn/>
+                            <DuplicatesCheckBtn onClick={() => duplicatesCheck()}/>
                         </div>
                     </div>
 
@@ -141,23 +167,13 @@ const JoinPage = () => {
                             <CertifiedBtn/>
                         </div>
                     </div>
-                    <div>
-                        <div style={{marginBottom: "9px"}}>
-                            핸드폰번호
-                        </div>
-                        <div
-                            style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
-                        >
-                            <JoinInput/>
-                        </div>
-                    </div>
                     <div style={{
                         marginTop:"36px",
                         display: "flex",
                         gap:"107px"
                     }}>
                         <JoinBtn/>
-                        <CancelBtn/>
+                        <CancelBtn onClick={cancelClick}/>
                     </div>
                 </JoinFrame>
             </JoinFrameWrapper>

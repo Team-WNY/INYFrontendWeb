@@ -1,6 +1,8 @@
 import React from "react";
 import Router from "./router/router";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
+import {RootState} from "./saga/store/rootStore";
 
 const RootSection = styled.section`
   //width: device-width;
@@ -14,6 +16,7 @@ const RootSection = styled.section`
   }
   width: 100vw;
   height: 100vh;
+  z-index: 1;
   //max-width: 1920px;
   //max-height: 1032px;
   //min-width: 1280px;
@@ -21,9 +24,9 @@ const RootSection = styled.section`
   background-color: #fff;
   //margin: 0 auto;
 `
+//background-color: ${(props) => props.isModalShow ? 'rgba(0, 0, 0, 0.75)' : '#fff'};
 
 const Root: React.FC = () => {
-
 
     return (
         <>

@@ -4,7 +4,7 @@
 
 
 
-const HomePage = () => {
+const HomePage = (props:{currentPage:string}) => {
 
     return (
         <>
