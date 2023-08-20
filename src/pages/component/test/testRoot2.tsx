@@ -4,7 +4,7 @@ import {updateBtnNumberActive, updateBtnNumberValue} from "../../saga/store/view
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
-const MainRoot = (props:{stringType:string}) => {
+const TestRoot2 = (props:{stringType:string}) => {
 
     const dispatch = useDispatch()
     const btnNumberActive = useSelector((state: RootState) => state.view.test.btnNumberActive as boolean)
@@ -58,4 +58,4 @@ const MainRoot = (props:{stringType:string}) => {
     )
 }
 
-export default MainRoot
+export default TestRoot2

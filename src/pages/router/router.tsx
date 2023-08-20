@@ -8,6 +8,7 @@ import HomePage from "../component/home/HomePage";
 import {isDev} from "../../data/config/config";
 import LoginPage from "../component/login/LoginPage";
 import JoinPage from "../component/join/JoinPage";
+import NeedYouMainPage from "../component/needYou/NeedYouMainPage";
 
 const Router: React.FC = () => {
 
@@ -32,6 +33,10 @@ const Router: React.FC = () => {
                 {
                     isDev &&
                     <Route path="/join" element={<JoinPage currentPage={"join"}/>}/>
+                }
+                {
+                    isDev &&
+                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"}/>}/>
                 }
             </Routes>
         </BrowserRouter>

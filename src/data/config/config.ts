@@ -9,11 +9,21 @@ const URL_MAIN = {
     MAIN : `${API_URL}/main`
 }
 
+const URL_NEED_YOU = {
+    LIST : `${API_URL}/need-you`
+}
+
 const API = {
     URL: {
         TEST: {
             URL_TEST
-        }
+        },
+        MAIN: {
+            URL_MAIN
+        },
+        NEED_YOU: {
+            URL_NEED_YOU
+        },
     }
 }
 
