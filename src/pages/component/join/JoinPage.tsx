@@ -7,8 +7,8 @@ import joinCertifiedBtnImgSrc from "../../../public/static/images/button/join/bt
 import {useDispatch} from "react-redux";
 import CommonModal from "../modal/CommonModal";
 import React from "react";
-import {updateModalStatus} from "../../saga/store/view/modal/modalViewStore";
-import {ModalInterface} from "../../../data/interface/modal/modalInterface";
+import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {ModalConst} from "../../../data/const/modalConst";
 
 const JoinFrameWrapper = styled.div`
@@ -108,14 +108,14 @@ const JoinPage = (props:{currentPage:string}) => {
     const cancelClick = () => {
         console.log("cancel btn clicked !! ")
         const btn :string = "cancel"
-        const payload: ModalInterface = {
+        const payload: CommonModalInterface = {
             title: ModalConst[props.currentPage][btn].title,
             content: ModalConst[props.currentPage][btn].content,
             isConfirm: ModalConst[props.currentPage][btn].isConfirm,
             isOpen: true,
             currentPage: props.currentPage,
         }
-        dispatch(updateModalStatus(payload))
+        dispatch(updateCommonModalStatus(payload))
     }
 
     return (

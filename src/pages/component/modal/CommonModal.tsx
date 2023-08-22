@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import styled, {css, keyframes} from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../saga/store/rootStore";
-import {updateModalStatus} from "../../saga/store/view/modal/modalViewStore";
-import {ModalInterface} from "../../../data/interface/modal/modalInterface";
+import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import btnModalDeleteImgSrc from "../../../public/static/images/button/modal/btn_modal_delete.png"
 import btnModalBackImgSrc from "../../../public/static/images/button/modal/btn_modal_back.png"
 
@@ -121,26 +121,26 @@ const GoBackButton = styled.button`
   background-image: url("${btnModalBackImgSrc}");
 `
 
-const CommonModal = (props: { pageStr?: string, purpose?: string }) => {
+const CommonModal = (
+    // props: { pageStr?: string, purpose?: string }
+) => {
 
     const dispatch = useDispatch()
-    const modalStatus: ModalInterface = useSelector((state: RootState) => state.view.modal.modalStatus)
+    const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
     const [isShow, setIsShow] = useState<boolean>(false)
-    const [status, setStatus] = useState<any>(null)
-
 
     useEffect(() => {
-        if (modalStatus.isOpen) {
+        if (commonModalStatus.isOpen) {
             setIsShow(true)
         } else {
             setIsShow(false)
         }
-    }, [modalStatus.isOpen])
+    }, [commonModalStatus.isOpen])
 
     const closeBtnClick = () => {
         if (isShow) {
             setIsShow(false)
-            dispatch(updateModalStatus({isOpen: false}))
+            dispatch(updateCommonModalStatus({isOpen: false}))
         }
     }
 
@@ -163,13 +163,13 @@ const CommonModal = (props: { pageStr?: string, purpose?: string }) => {
                     <Background visible={isShow}/>
                     <ModalSection visible={isShow}>
                         <Title>
-                            {modalStatus.title}
+                            {commonModalStatus.title}
                         </Title>
                         <Content>
-                            <Item text={modalStatus.content}/>
+                            <Item text={commonModalStatus.content}/>
                         </Content>
                         {
-                            modalStatus.isConfirm ?
+                            commonModalStatus.isConfirm ?
                                 <div style={{display: "flex", gap: "17px"}}>
                                     <CancelButton/>
                                     <GoBackButton onClick={closeBtnClick}/>

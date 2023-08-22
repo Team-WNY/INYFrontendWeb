@@ -1,27 +1,33 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ModalInterface} from "../../../../../data/interface/modal/modalInterface";
+import {CommonModalInterface, RegModalInterface} from "../../../../../data/interface/modal/commonModalInterface";
 
 
 interface Props {
-    modalStatus: ModalInterface,
+    commonModalStatus: CommonModalInterface,
+    regModalStatus: RegModalInterface,
 }
 
 const initialState = {
-    modalStatus: {isOpen:false},
+    commonModalStatus: {isOpen:false},
+    regModalStatus: {isOpen:false},
 }
 
 const modalViewStore = createSlice({
     name: 'modalViewStore',
     initialState,
     reducers: {
-        updateModalStatus: (state: Props, action: PayloadAction<ModalInterface>) => {
-            state.modalStatus = action.payload
+        updateCommonModalStatus: (state: Props, action: PayloadAction<CommonModalInterface>) => {
+            state.commonModalStatus = action.payload
+        },
+        updateRegModalStatus: (state: Props, action: PayloadAction<RegModalInterface>) => {
+            state.regModalStatus = action.payload
         },
     }
 })
 
 export const {
-    updateModalStatus,
+    updateCommonModalStatus,
+    updateRegModalStatus,
 } = modalViewStore.actions
 
 export default modalViewStore.reducer
