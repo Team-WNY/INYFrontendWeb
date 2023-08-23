@@ -9,14 +9,14 @@ const NeedYouItemWrapper = styled.div`
   background: var(--color-whiter, #FFF);
 `
 
-const NeedYouImg = styled.img<{ needYou: string }>`
+const NeedYouImg = styled.img<{ needyouimg: string }>`
   width: 90px;
   height: 90px;
   margin: 11px 0 11px 21px;
   border-radius: 5px;
   border: 0.4px solid var(--color-black, #000);
   background: var(--color-whiter, #FFF);
-  ${(props) => props.needYou ? `background: url(${logo});` : `background: url(${logo});`};
+  ${(props) => props.needyouimg ? `background: url(${logo});` : `background: url(${logo});`};
 `
 // ${({isNormal}) => isNormal ? `background: url(${gisPopupNormalTitleImg});` : `background: url(${gisPopupRouteTitleImg});`}
 
@@ -92,7 +92,7 @@ const NeedYouItem = (props?: { item: NeedYou }) => {
                     <div>
                         {
                             props.item.needYouImg !== null ?
-                                <NeedYouImg src={imgSrc} needYou={props.item.needYouImg}
+                                <NeedYouImg src={imgSrc} needyouimg={props.item.needYouImg}
                                             onError={() => setImgSrc("")}/>
                                 :
                                 null

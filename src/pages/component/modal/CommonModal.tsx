@@ -97,18 +97,16 @@ const CancelButton = styled.button`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  background-color: rgba(29, 255, 255, 0.57);
-  &::before {
-    color: #000;
-    /* Head/Header */
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.08px;
-    text-transform: uppercase;
-    content: "삭제하기";
+  border-radius: 10px;
+  background: var(--color-base, rgba(29, 255, 255, 0.57));  color: #000;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
 `
 
 const GoBackButton = styled.button`
@@ -118,7 +116,17 @@ const GoBackButton = styled.button`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  background-image: url("${btnModalBackImgSrc}");
+  border-radius: 10px;
+  background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
+  color: #000;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
 `
 
 const CommonModal = (
@@ -171,8 +179,8 @@ const CommonModal = (
                         {
                             commonModalStatus.isConfirm ?
                                 <div style={{display: "flex", gap: "17px"}}>
-                                    <CancelButton/>
-                                    <GoBackButton onClick={closeBtnClick}/>
+                                    <CancelButton>삭제하기</CancelButton>
+                                    <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>
                                 </div>
                                 :
                                 <GoBackButton onClick={closeBtnClick}/>

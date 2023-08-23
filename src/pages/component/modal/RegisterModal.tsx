@@ -4,8 +4,10 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RegModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {RootState} from "../../saga/store/rootStore";
-import cancelImg from "../../../public/static/images/button/main/register/btn_main_register_cancel.png";
-import {updateCommonModalStatus, updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import uploadImg from "../../../public/static/images/button/modal/register/btn_modal_register_uploadImg.png";
+import {updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import DaumPostcodeEmbed, {useDaumPostcodePopup} from "react-daum-postcode";
+import {postcodeScriptUrl} from "react-daum-postcode/lib/loadPostcode";
 
 const fadeIn = keyframes`
   0% {
@@ -59,24 +61,7 @@ const RegisterModalWrapper = styled.div<{ visible: boolean }>`
 
 
 // background-image: url("${cancelImg}");
-const CloseBtn = styled.button`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  margin: 12.6px 0 0 20px;
-  background-color: #fff;
-  /* shadow */
-  box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
-  &:after{
-    display: inline-block;
-    content: "\\00d7";
-    font-size: 17pt;
-  }
-`
-
-const Title = styled.div<{test:string}>`
+const Title = styled.div`
   width: 42px;
   height: 21.797px;
   margin: 21.8px 159px 0 159px;
@@ -85,6 +70,13 @@ const Title = styled.div<{test:string}>`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
 
   &::before {
     color: #000;
@@ -97,13 +89,123 @@ const Title = styled.div<{test:string}>`
     line-height: normal;
     letter-spacing: 0.08px;
     text-transform: uppercase;
-    content: ${(props) => props.test && props.test} 
   }
 `
-    // ${(props) => props.text && `content: ${props.text};`}
+
+const CloseBtn = styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  margin: 12.6px 0 0 20px;
+  background-color: #fff;
+  /* shadow */
+  box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
+
+  &:after {
+    display: inline-block;
+    content: "\\00d7";
+    font-size: 17pt;
+  }
+`
+
+const Line = styled.line`
+  width: 318px;
+  height: 1px;
+  background: #000;
+  position: absolute;
+  margin: 56.9px 21px 0 21px;
+`
+
+const UploadImgBtn = styled.button`
+  display: flex;
+  width: 45px;
+  height: 49px;
+  gap: 10px;
+  position: absolute;
+  margin: 75px 295px 0 20px;
+  background: #fff;
+`
+
+const RegisterInfoFrame = styled.div`
+  width: 318px;
+  height: 366px;
+  position: absolute;
+  margin: 97px 21px 94px 21px;
+  gap: 9px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const InputTitleStr = styled.div`
+  width: auto;
+  height: 19px;
+  position: relative;
+  color: var(--color-black, #000);
+
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+`
+
+const RegisterSubjectInput = styled.input`
+  width: 318px;
+  height: 48px;
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+`
+
+const RegisterContentTextArea = styled.textarea`
+  width: 318px;
+  height: 148px;
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+`
 
 
-// right: ${(props) => props.isOpen ? '0' : '-25.15vw'};
+const RegisterAddressInput = styled.input`
+  width: 318px;
+  height: 48px;
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+`
+
+const RegisterSubmit = styled.button`
+  width: 239px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
+  position: absolute;
+  margin: 485px 57px 22px 57px;
+  color: var(--color-black, #000);
+
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+`
 
 const RegisterModal = () => {
 
@@ -111,7 +213,12 @@ const RegisterModal = () => {
     // const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
     const regModalStatus: RegModalInterface = useSelector((state: RootState) => state.view.modal.regModalStatus)
 
+    const [isInit, setIsInit] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
+    const [isSearchAddress, setIsSearchAddress] = useState<boolean>(false)
+    const [addressInputValue, setAddressInputValue] = useState<string>("")
+
+    const daumPostSearchOpen = useDaumPostcodePopup(postcodeScriptUrl);
 
     // useEffect(() => {
     //     if (commonModalStatus.isOpen) {
@@ -121,40 +228,101 @@ const RegisterModal = () => {
     //     }
     // }, [commonModalStatus.isOpen])
 
+    const postSearchBtnClick = () => {
+        daumPostSearchOpen({onComplete: searchComplete})
+    }
+
     useEffect(() => {
-        console.log("regModalStatus " , regModalStatus)
+        console.log("regModalStatus ", regModalStatus)
         if (regModalStatus.isOpen) {
+            setIsInit(true)
             setIsShow(true)
         } else {
-            setIsShow(false)
+            setIsInit(false)
         }
     }, [regModalStatus.isOpen])
 
     const closeClick = () => {
         if (isShow) {
-            setIsShow(false)
+            setIsInit(false)
             dispatch(updateRegModalStatus({isOpen: false}))
         }
     }
 
-    useEffect(()=> {
-        console.log('regModalStatus.title ' , regModalStatus.title)
-    },[regModalStatus])
+    const addressInputClick = () => {
+        console.log("addressInputClick clicked !! ")
+        setIsShow(false)
+        if (!isSearchAddress) {
+            setIsSearchAddress(true)
+        }
+    }
+
+    const searchComplete = (data) => {
+        console.log("data ", data)
+        setIsShow(true)
+        setIsSearchAddress(false)
+        setAddressInputValue(data.address)
+    }
 
     return (
         <>
             {
-                isShow &&
+                isInit &&
                 <>
                     <CommonModal/>
                     <Background visible={isShow}/>
                     <RegisterModalWrapper visible={isShow}>
-                        <div style={{display:"flex"}}>
+                        <div style={{display: "flex"}}>
                             <CloseBtn onClick={() => closeClick()}/>
-                            <Title test={regModalStatus.title}/>
+                            <Title>{regModalStatus.title}</Title>
+                            <Line/>
+                            <UploadImgBtn>
+                                <img src={uploadImg}
+                                     style={{
+                                         width: "24px",
+                                         height: "24px",
+                                         position: "absolute",
+                                         left: "10px",
+                                         bottom: "10.5px",
+                                     }}/>
+                            </UploadImgBtn>
                         </div>
 
+                        <RegisterInfoFrame>
+
+                            <InputTitleStr>제목</InputTitleStr>
+                            <RegisterSubjectInput/>
+
+                            <InputTitleStr>설명</InputTitleStr>
+                            <RegisterContentTextArea/>
+
+                            <InputTitleStr>주소</InputTitleStr>
+                            <RegisterAddressInput
+                                value={addressInputValue}
+                                onClick={() => postSearchBtnClick()}
+                            />
+
+                            <InputTitleStr>상세 주소</InputTitleStr>
+                            <RegisterAddressInput/>
+
+                        </RegisterInfoFrame>
+
+                        <RegisterSubmit>작성완료</RegisterSubmit>
                     </RegisterModalWrapper>
+                    {
+                        isSearchAddress &&
+                        <>
+                            <DaumPostcodeEmbed
+                                style={{
+                                    width: '400px',
+                                    height: '400px',
+                                    display: isSearchAddress ? "block" : "none",
+                                    zIndex: 16,
+                                }}
+                                onComplete={searchComplete}
+                            />
+                        </>
+                    }
                 </>
             }
         </>

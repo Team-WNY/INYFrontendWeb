@@ -87,6 +87,11 @@ const RegisterOption = styled.button`
   border-radius: 7px;
   animation: all 0.3s ease-out;
   transition: all 0.3s ease-out;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 
   &::before {
     color: #000;

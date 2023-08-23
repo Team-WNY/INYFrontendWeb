@@ -19,7 +19,11 @@ export const ModalConst = {
             isConfirm: true,
         },
     },
-    "check" : {
-
+    "main" : {
+        "cancel" : {
+            title: "작성취소",
+            content: "작성을 취소합니다\n취소할 경우 작성한 내용은 삭제됩니다.\n삭제하시겠습니까?",
+            isConfirm: true,
+        },
     }
 }
