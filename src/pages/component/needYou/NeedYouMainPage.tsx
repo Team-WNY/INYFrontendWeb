@@ -124,7 +124,7 @@ const RegisterCloseBtn = styled.button`
 
 `
 
-const NeedYouMainPage = (props: { currentPage: string }) => {
+const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
 
     const dispatch = useDispatch()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)

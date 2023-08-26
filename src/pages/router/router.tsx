@@ -35,9 +35,20 @@ const Router: React.FC = () => {
                     <Route path="/join" element={<JoinPage currentPage={"join"}/>}/>
                 }
                 {
+                    // 없음
                     isDev &&
-                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"}/>}/>
+                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"} />}/>
                 }
+                {
+                    // 없음
+                    isDev &&
+                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"} testStr={"test"}/>}/>
+                }
+                {/*{*/}
+                {/*    // 있음*/}
+                {/*    isDev &&*/}
+                {/*    <Route path="/main" element={<AmIMainPage currentPage={"main"}/>}/>*/}
+                {/*}*/}
             </Routes>
         </BrowserRouter>
     )
