@@ -22,7 +22,7 @@ const Logo = styled.img`
   background-size: 100%;
 `
 
-const Settings = styled.button`
+const Settings = styled.div`
   width: 20px;
   height: 20px;
   flex-shrink: 0;
