@@ -207,7 +207,7 @@ const RegisterSubmit = styled.button`
   letter-spacing: 0.08px;
 `
 
-const RegisterModal = () => {
+const RegisterModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
     // const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
@@ -269,7 +269,7 @@ const RegisterModal = () => {
             {
                 isInit &&
                 <>
-                    <CommonModal/>
+                    <CommonModal currentPage={props.currentPage}/>
                     <Background isVisible={isShow}/>
                     <RegisterModalWrapper isVisible={isShow}>
                         <div style={{display: "flex"}}>

@@ -129,9 +129,7 @@ const GoBackButton = styled.button`
   text-transform: uppercase;
 `
 
-const CommonModal = (
-    // props: { pageStr?: string, purpose?: string }
-) => {
+const CommonModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -187,7 +185,7 @@ const CommonModal = (
                         <div style={{display: "flex", gap: "17px"}}>
                             {
                                 commonModalStatus?.isConfirm ?
-                                    <CancelButton onClick={() => cancelBtnClick()}>삭제하기</CancelButton>
+                                    <CancelButton onClick={() => cancelBtnClick()}>취소하기</CancelButton>
                                     : null
                             }
                             <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>

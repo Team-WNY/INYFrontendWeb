@@ -120,7 +120,7 @@ const JoinPage = (props:{currentPage:string}) => {
 
     return (
         <>
-            <CommonModal/>
+            <CommonModal currentPage={props.currentPage}/>
             <img src={imgSrc} style={{width: "20px", height: "10px", margin: "10px"}}/>
             <JoinTextBox/>
             <JoinFrameWrapper>

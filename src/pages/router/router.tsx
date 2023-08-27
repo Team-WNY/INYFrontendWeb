@@ -42,7 +42,7 @@ const Router: React.FC = () => {
                 {
                     // 없음
                     isDev &&
-                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"} testStr={"test"}/>}/>
+                    <Route path="/main" element={<NeedYouMainPage currentPage={"main"}/>}/>
                 }
                 {/*{*/}
                 {/*    // 있음*/}

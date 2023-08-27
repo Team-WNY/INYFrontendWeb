@@ -124,11 +124,12 @@ const RegisterCloseBtn = styled.button`
 
 `
 
-const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
+const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
     const [isRegister, setIsRegister] = useState<boolean>(false)
+    const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
 
     useEffect(() => {
         if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
@@ -157,7 +158,7 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
         let payload: RegModalInterface = {
             isOpen: true
         }
-        if(optionValue!! === "needYou") {
+        if (optionValue!! === "needYou") {
             payload = {
                 ...payload,
                 title: "HELP"
@@ -171,17 +172,27 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
         dispatch(updateRegModalStatus(payload))
     }
 
+    const needYouItemClick = (item: NeedYou) => {
+        console.log("item ", item)
+        setIsShowNeedYouList(false)
+    }
+
     return (
         <>
-            <Header/>
-            <RegisterModal/>
+            <Header isShowNeedYouList={isShowNeedYouList} setIsShowNeedYouList={setIsShowNeedYouList}/>
+            <RegisterModal currentPage={props.currentPage}/>
             <MainWrapper>
+
+                {/*needYouList*/}
                 {
                     needYouList !== null &&
                     //     needYouList.length !== 0 ?
                     needYouList.map((item: NeedYou, index: number) => {
                         return (
-                            <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
+                            <div onClick={() => needYouItemClick(item)}
+                                 style={{display: `${isShowNeedYouList ? 'block' : 'none'}`}}>
+                                <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
+                            </div>
                         )
                     })
 
@@ -196,6 +207,14 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
                     //
                     // </>
                 }
+
+                {/*needYouItem*/}
+                {
+
+                }
+
+
+                {/*글쓰기*/}
                 {
                     isRegister ?
                         <>
