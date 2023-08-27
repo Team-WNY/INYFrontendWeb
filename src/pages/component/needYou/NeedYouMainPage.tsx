@@ -133,7 +133,7 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
     useEffect(() => {
         if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
             console.log("this page is NeedYouMainPage !! ")
-            dispatch(needYouActions.requestStatisticsData(props.currentPage))
+            dispatch(needYouActions.requestNeedYouList(props.currentPage))
         }
     }, [props.currentPage])
 

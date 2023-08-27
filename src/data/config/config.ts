@@ -13,6 +13,11 @@ const URL_NEED_YOU = {
     LIST : `${API_URL}/need-you`
 }
 
+const URL_LOGIN = {
+    LOGIN : `${API_URL}/login`,
+    LOGOUT : `${API_URL}/logout`,
+}
+
 const API = {
     URL: {
         TEST: {
@@ -23,6 +28,9 @@ const API = {
         },
         NEED_YOU: {
             URL_NEED_YOU
+        },
+        LOGIN: {
+            URL_LOGIN
         },
     }
 }
