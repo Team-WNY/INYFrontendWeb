@@ -19,12 +19,10 @@ const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
         ) {
             yield put(updateIsLogin(true))
         } else {
-            console.log("찌기?? ")
             yield put(updateIsLogin(false))
             const payload: CommonModalInterface = {
                 title: ModalConst["login"]["login"].title,
                 content: ModalConst["login"]["login"].content,
-                isConfirm: ModalConst["login"]["login"].isConfirm,
                 isOpen: true,
                 currentPage: "login",
             }
@@ -41,7 +39,6 @@ const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
                 const payload: CommonModalInterface = {
                     title: ModalConst["login"]["login"].title,
                     content: ModalConst["login"]["login"].content,
-                    isConfirm: ModalConst["login"]["login"].isConfirm,
                     isOpen: true,
                     currentPage: "login",
                 }

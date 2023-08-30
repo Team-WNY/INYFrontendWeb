@@ -1,3 +1,5 @@
+import {UserInfo} from "../user/userInterface";
+
 export interface NeedYou {
     idx?: string,
     subject?: string,
@@ -6,6 +8,7 @@ export interface NeedYou {
     needYouImg?: string,
     address?: string,
     comment?: Array<Comment>,
+    userInfo?: UserInfo
 }
 
 export interface Comment {

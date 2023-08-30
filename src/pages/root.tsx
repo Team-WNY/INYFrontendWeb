@@ -1,8 +1,6 @@
 import React from "react";
 import Router from "./router/router";
 import styled from "styled-components";
-import {useSelector} from "react-redux";
-import {RootState} from "./saga/store/rootStore";
 
 const RootSection = styled.section`
   //width: device-width;

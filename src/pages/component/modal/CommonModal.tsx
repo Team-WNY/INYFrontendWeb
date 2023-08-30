@@ -45,9 +45,9 @@ const ModalSection = styled.div<{ visible: boolean }>`
   width: 218px;
   height: 150px;
   border-radius: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 1);
   padding: 18px 13px;
@@ -184,8 +184,8 @@ const CommonModal = (props:{currentPage:string}) => {
                         </Content>
                         <div style={{display: "flex", gap: "17px"}}>
                             {
-                                commonModalStatus?.isConfirm ?
-                                    <CancelButton onClick={() => cancelBtnClick()}>취소하기</CancelButton>
+                                commonModalStatus?.isConfirmMsg ?
+                                    <CancelButton onClick={() => cancelBtnClick()}>{commonModalStatus?.isConfirmMsg}</CancelButton>
                                     : null
                             }
                             <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>

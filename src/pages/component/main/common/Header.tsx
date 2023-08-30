@@ -3,6 +3,8 @@ import logo from "../../../../public/static/images/logo/INY.png"
 import settingsImg from "../../../../public/static/images/button/main/header/btn_main_header_settings.png"
 import backImg from "../../../../public/static/images/button/main/header/btn_main_header_back.png"
 import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {updateNeedYouSelect} from "../../../saga/store/server/needYou/needYouServerStore";
 
 
 const TopBarWrapper = styled.div`
@@ -10,6 +12,7 @@ const TopBarWrapper = styled.div`
   height: 40px;
   top: 0;
   flex-shrink: 0;
+  z-index: 100;
   position: fixed;
   border-bottom: 0.5px solid #000;
   background: var(--color-whiter, #FFF);
@@ -35,13 +38,16 @@ const Settings = styled.div`
 
 const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Function }) => {
 
+    const dispatch = useDispatch()
     const [isShowLogo, setIsShowLogo] = useState<boolean>(true)
     const [logoImgStyle, setLogoImgStyle] = useState<any>({backgroundImage: `${logo}`})
 
     const logoOnClickHandler = () => {
         console.log("logo clicked !! ")
         if(!isShowLogo) {
+            // 뒤로가기 버튼 클릭시
             props.setIsShowNeedYouList(true)
+            dispatch(updateNeedYouSelect(null)) // 선택 아이템 초기화
         }
     }
 

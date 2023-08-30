@@ -111,7 +111,7 @@ const JoinPage = (props:{currentPage:string}) => {
         const payload: CommonModalInterface = {
             title: ModalConst[props.currentPage][btn].title,
             content: ModalConst[props.currentPage][btn].content,
-            isConfirm: ModalConst[props.currentPage][btn].isConfirm,
+            isConfirmMsg: ModalConst[props.currentPage][btn].isConfirmMsg,
             isOpen: true,
             currentPage: props.currentPage,
         }
