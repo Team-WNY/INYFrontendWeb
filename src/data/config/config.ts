@@ -13,6 +13,10 @@ const URL_NEED_YOU = {
     LIST : `${API_URL}/need-you`
 }
 
+const URL_JOIN = {
+    ID_CHECK : `${API_URL}/id-check`
+}
+
 const API = {
     URL: {
         TEST: {
@@ -24,6 +28,9 @@ const API = {
         NEED_YOU: {
             URL_NEED_YOU
         },
+        JOIN: {
+            URL_JOIN
+        }
     }
 }
 

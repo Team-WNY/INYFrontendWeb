@@ -1,0 +1,40 @@
+import {PayloadAction} from "@reduxjs/toolkit";
+import {all, call, put, takeLatest} from "@redux-saga/core/effects";
+import {ApiResponse} from "../../../data/interface/testInterface";
+import {needYouTypes} from "../action/needYou/needYouActions";
+import {updateNeedYouList} from "../store/server/needYou/needYouServerStore";
+import {getNeedYouList} from "../apis/needYouApi/needYouApis";
+import {isDev} from "../../../data/config/config";
+import {needYouMockList} from "../../../data/const/testConst";
+import {joinTypes} from "../action/join/joinActions";
+import {getAccountIdDupChk} from "../apis/joinApi/joinApis";
+import {updateIsAccountIdDupCheck} from "../store/server/join/joinServerStore";
+
+const requestAccountIdDupChk = function* (action: PayloadAction<string>) {
+    const payload = action.payload
+    console.log(payload);
+
+    if (isDev) {
+        yield put(updateIsAccountIdDupCheck(true))
+    } else {
+        try {
+            const data: ApiResponse = yield call(getAccountIdDupChk, payload)
+
+            if (data.data) {
+                yield put(updateIsAccountIdDupCheck(true))
+            } else {
+                yield put(updateIsAccountIdDupCheck(false))
+            }
+        } catch (e) {
+            console.log("updateIsAccountIdDupCheck error !!")
+        }
+    }
+}
+
+function* watchRoot() {
+    yield takeLatest(joinTypes.REQUEST_ACCOUNT_ID_DUP_CHK, requestAccountIdDupChk)
+}
+
+export default function* JoinSaga() {
+    yield all([watchRoot()])
+}
