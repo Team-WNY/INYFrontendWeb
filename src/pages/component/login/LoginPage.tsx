@@ -116,7 +116,7 @@ const LoginPage = (props: { currentPage: string }) => {
         console.log("loginInfo", loginInfo)
     }, [loginInfo])
 
-    const login = (target) => {
+    const login = () => {
         console.log("login btn clicked !! ")
         if (loginInfo &&
             loginInfo.accountId.length !== 0 && loginInfo.accountId.length > 0 &&
@@ -144,15 +144,15 @@ const LoginPage = (props: { currentPage: string }) => {
                         <div style={{marginBottom: "9px"}}>
                             ID
                         </div>
-                        <LoginInput onChange={(e) => inputChange(e.target.value, true)}/>
+                        <LoginInput onBlur={(e) => inputChange(e.target.value, true)}/>
                     </div>
                     <div>
                         <div style={{marginBottom: "9px"}}>
                             PW
                         </div>
-                        <LoginInput type={"password"} onChange={(e) => inputChange(e.target.value, false)}/>
+                        <LoginInput type={"password"} onBlur={(e) => inputChange(e.target.value, false)}/>
                     </div>
-                    <LoginBtn title={"login"} onClick={(e) => login(e.target)}/>
+                    <LoginBtn title={"login"} onClick={() => login()}/>
                     <div>
                         <JoinBtn style={{marginRight: "9px"}} onClick={() => navigate("/join")}>회원가입</JoinBtn>
                         <FindBtn>ID/PW 찾기</FindBtn>

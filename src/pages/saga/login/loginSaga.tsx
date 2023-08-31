@@ -14,7 +14,7 @@ const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
     const payload = action.payload
     console.log("paylaod ", payload)
     if (isDev) {
-        if (payload.accountId === "admin" &&
+        if (payload.accountId === "tester" &&
             payload.password === "1234"
         ) {
             yield put(updateIsLogin(true))
