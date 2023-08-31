@@ -124,6 +124,7 @@ const JoinPage = (props:{currentPage:string}) => {
     // },[])
 
     const duplicatesCheck = () => {
+        console.log("clicked !! ")
         if(userIdValue.length===0)
             console.log('아이디를 입력해 주세요');
         else if(userIdValue.length<=8)
@@ -226,7 +227,7 @@ const JoinPage = (props:{currentPage:string}) => {
            const payload: CommonModalInterface = {
                title: ModalConst[props.currentPage][value].title,
                content: ModalConst[props.currentPage][value].content,
-               isConfirm: ModalConst[props.currentPage][value].isConfirm,
+               isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
                isOpen: true,
                currentPage: props.currentPage,
            }
