@@ -240,7 +240,7 @@ const JoinPage = (props:{currentPage:string}) => {
         const payload: CommonModalInterface = {
             title: ModalConst[props.currentPage][btn].title,
             content: ModalConst[props.currentPage][btn].content,
-            isConfirm: ModalConst[props.currentPage][btn].isConfirm,
+            isConfirmMsg: ModalConst[props.currentPage][btn].isConfirmMsg,
             isOpen: true,
             currentPage: props.currentPage,
         }
@@ -250,7 +250,7 @@ const JoinPage = (props:{currentPage:string}) => {
     return (
 
         <>
-            <CommonModal/>
+            <CommonModal currentPage={props.currentPage}/>
             <img src={imgSrc} style={{width: "20px", height: "10px", margin: "10px"}}/>
             <JoinTextBox/>
             <JoinFrameWrapper>

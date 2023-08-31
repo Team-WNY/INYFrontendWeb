@@ -4,8 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../saga/store/rootStore";
 import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
-import btnModalDeleteImgSrc from "../../../public/static/images/button/modal/btn_modal_delete.png"
-import btnModalBackImgSrc from "../../../public/static/images/button/modal/btn_modal_back.png"
+import {useNavigate} from "react-router";
 
 const fadeIn = keyframes`
   0% {
@@ -47,8 +46,8 @@ const ModalSection = styled.div<{ visible: boolean }>`
   height: 150px;
   border-radius: 20px;
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 50vh;
+  left: 50vw;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 1);
   padding: 18px 13px;
@@ -98,7 +97,8 @@ const CancelButton = styled.button`
   align-items: center;
   flex-shrink: 0;
   border-radius: 10px;
-  background: var(--color-base, rgba(29, 255, 255, 0.57));  color: #000;
+  background: var(--color-base, rgba(29, 255, 255, 0.57));
+  color: #000;
   /* Head/Header */
   font-family: Inter;
   font-size: 12px;
@@ -129,15 +129,16 @@ const GoBackButton = styled.button`
   text-transform: uppercase;
 `
 
-const CommonModal = (
-    // props: { pageStr?: string, purpose?: string }
-) => {
+const CommonModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
-    const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
+    const navigate = useNavigate()
+    const commonModalStatus = useSelector((state: RootState) => state.view.modal.commonModalStatus as CommonModalInterface)
+    const isLogin = useSelector((state: RootState) => state.server.login.isLogin as boolean)
     const [isShow, setIsShow] = useState<boolean>(false)
 
     useEffect(() => {
+        console.log("commonModalStatus ", commonModalStatus)
         if (commonModalStatus.isOpen) {
             setIsShow(true)
         } else {
@@ -152,8 +153,12 @@ const CommonModal = (
         }
     }
 
+    const cancelBtnClick = () => {
+        navigate(-1)
+    }
+
     const Item = (props: { text: string }) => {
-        return <p>
+        return <p key={props?.text}>
             {props.text.split("\n").map((txt) => (
                 <>
                     {txt}
@@ -171,20 +176,20 @@ const CommonModal = (
                     <Background visible={isShow}/>
                     <ModalSection visible={isShow}>
                         <Title>
-                            {commonModalStatus.title}
+                            {commonModalStatus?.title}
                         </Title>
                         <Content>
-                            <Item text={commonModalStatus.content}/>
+                            <Item text={commonModalStatus?.content}
+                                  key={commonModalStatus.currentPage + "_" + commonModalStatus?.content}/>
                         </Content>
-                        {
-                            commonModalStatus.isConfirm ?
-                                <div style={{display: "flex", gap: "17px"}}>
-                                    <CancelButton>삭제하기</CancelButton>
-                                    <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>
-                                </div>
-                                :
-                                <GoBackButton onClick={closeBtnClick}/>
-                        }
+                        <div style={{display: "flex", gap: "17px"}}>
+                            {
+                                commonModalStatus?.isConfirmMsg ?
+                                    <CancelButton onClick={() => cancelBtnClick()}>{commonModalStatus?.isConfirmMsg}</CancelButton>
+                                    : null
+                            }
+                            <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>
+                        </div>
                     </ModalSection>
                 </>
             }
@@ -193,3 +198,10 @@ const CommonModal = (
 }
 
 export default CommonModal
+
+Background.defaultProps = {
+    visible: false
+}
+ModalSection.defaultProps = {
+    visible: false
+}

@@ -2,6 +2,13 @@ import styled from "styled-components";
 import {isDev} from "../../../data/config/config";
 import imgSrc from "../../../public/static/images/logo/INY.png"
 import loginBtnImgSrc from "../../../public/static/images/button/login/btn_login_login.png"
+import React, {useEffect, useState} from "react";
+import {LoginInfo} from "../../../data/interface/login/loginInterface";
+import {useDispatch, useSelector} from "react-redux";
+import {loginActions} from "../../saga/action/login/loginActions";
+import {RootState} from "../../saga/store/rootStore";
+import CommonModal from "../modal/CommonModal";
+import {useNavigate} from "react-router";
 
 const LoginFrameWrapper = styled.div`
   display: flex;
@@ -58,6 +65,7 @@ const LoginInput = styled.input`
   width: 159px;
   height: 48px;
   border: 1px solid #000;
+  font-size: 20px;
   background: var(--color-whiter, #FFF)
 `
 
@@ -83,35 +91,70 @@ const LoginBtn = styled.button`
   background-image: url('${loginBtnImgSrc}')
 `
 
-const LoginPage = (props:{currentPage:string}) => {
+const LoginPage = (props: { currentPage: string }) => {
 
-    // const [imgSrc, setImgSrc] = useState<string>("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [loginInfo, setLoginInfo] = useState<LoginInfo>({accountId: "", password: ""})
+    const isLogin = useSelector((state: RootState) => state.server.login.isLogin)
 
-    const joinClickHandler = () => {
-        window.location.href = "/wny/join"
+    const inputChange = (typingValue: string, isAccountTyping: boolean) => {
+        if (isAccountTyping) {
+            setLoginInfo({
+                ...loginInfo,
+                accountId: typingValue
+            })
+        } else {
+            setLoginInfo({
+                ...loginInfo,
+                password: typingValue
+            })
+        }
     }
+
+    useEffect(() => {
+        console.log("loginInfo", loginInfo)
+    }, [loginInfo])
+
+    const login = (target) => {
+        console.log("login btn clicked !! ")
+        if (loginInfo &&
+            loginInfo.accountId.length !== 0 && loginInfo.accountId.length > 0 &&
+            loginInfo.password.length !== 0 && loginInfo.password.length > 0
+        ) {
+            dispatch(loginActions.requestLoginUser(loginInfo))
+        }
+    }
+
+    useEffect(() => {
+        console.log("isLogin ", isLogin)
+        if (isLogin) {
+            window.location.href = "/wny/main"
+        }
+    }, [isLogin])
 
     return (
         <>
+            <CommonModal currentPage={props.currentPage}/>
             {/*<StyledImg isDev={isDev}></StyledImg>*/}
-            <img src={imgSrc} style={{width:"20px", height: "10px", margin:"10px"}}/>
+            <img src={imgSrc} style={{width: "20px", height: "10px", margin: "10px"}}/>
             <LoginFrameWrapper>
                 <LoginFrame>
                     <div>
-                        <div style={{marginBottom:"9px"}}>
+                        <div style={{marginBottom: "9px"}}>
                             ID
                         </div>
-                        <LoginInput/>
+                        <LoginInput onChange={(e) => inputChange(e.target.value, true)}/>
                     </div>
                     <div>
-                        <div style={{marginBottom:"9px"}}>
+                        <div style={{marginBottom: "9px"}}>
                             PW
                         </div>
-                        <LoginInput/>
+                        <LoginInput type={"password"} onChange={(e) => inputChange(e.target.value, false)}/>
                     </div>
-                    <LoginBtn/>
+                    <LoginBtn title={"login"} onClick={(e) => login(e.target)}/>
                     <div>
-                        <JoinBtn style={{marginRight:"9px"}} onClick={() => joinClickHandler()}>회원가입</JoinBtn>
+                        <JoinBtn style={{marginRight: "9px"}} onClick={() => navigate("/join")}>회원가입</JoinBtn>
                         <FindBtn>ID/PW 찾기</FindBtn>
                     </div>
                 </LoginFrame>

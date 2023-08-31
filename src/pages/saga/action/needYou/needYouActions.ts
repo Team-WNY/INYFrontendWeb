@@ -9,7 +9,7 @@ const needYouTypes = {
 
 const needYouActions = {
 
-    requestStatisticsData: createAction<string>(needYouTypes.REQUEST_NEED_YOU_LIST)
+    requestNeedYouList: createAction<string>(needYouTypes.REQUEST_NEED_YOU_LIST)
 }
 
 export {needYouTypes, needYouActions}

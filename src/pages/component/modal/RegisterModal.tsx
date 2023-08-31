@@ -34,29 +34,29 @@ const modalSettings = (visible: boolean) => css`
   transition: visibility 0.15s ease-out;
 `;
 
-const Background = styled.div<{ visible: boolean }>`
+const Background = styled.div<{ isVisible: boolean }>`
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
-  ${(props) => modalSettings(props.visible)}
+  ${(props) => modalSettings(props.isVisible)}
 `;
 
 
-const RegisterModalWrapper = styled.div<{ visible: boolean }>`
+const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
   width: 360px;
   height: 600px;
   border-radius: 7px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  z-index: 301;
   transform: translate(-50%, -50%);
   box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
-  z-index: 10;
   background: var(--color-whiter, #FFF);
-  ${(props) => modalSettings(props.visible)}
+  ${(props) => modalSettings(props.isVisible)}
 `
 
 
@@ -207,7 +207,7 @@ const RegisterSubmit = styled.button`
   letter-spacing: 0.08px;
 `
 
-const RegisterModal = () => {
+const RegisterModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
     // const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
@@ -229,7 +229,7 @@ const RegisterModal = () => {
     // }, [commonModalStatus.isOpen])
 
     const postSearchBtnClick = () => {
-        daumPostSearchOpen({onComplete: searchComplete})
+        daumPostSearchOpen({onComplete: searchComplete}).then(result => console.log("result", result))
     }
 
     useEffect(() => {
@@ -269,9 +269,9 @@ const RegisterModal = () => {
             {
                 isInit &&
                 <>
-                    <CommonModal/>
-                    <Background visible={isShow}/>
-                    <RegisterModalWrapper visible={isShow}>
+                    <CommonModal currentPage={props.currentPage}/>
+                    <Background isVisible={isShow}/>
+                    <RegisterModalWrapper isVisible={isShow}>
                         <div style={{display: "flex"}}>
                             <CloseBtn onClick={() => closeClick()}/>
                             <Title>{regModalStatus.title}</Title>
@@ -330,3 +330,10 @@ const RegisterModal = () => {
 }
 
 export default RegisterModal
+
+Background.defaultProps = {
+    isVisible: false
+}
+RegisterModalWrapper.defaultProps = {
+    isVisible: false
+}
