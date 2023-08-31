@@ -1,5 +1,5 @@
 export const isDev: boolean = process.env.NODE_ENV !== 'production'
-const API_URL: string = isDev ? "http://localhost:8080/wny" : "/wny";
+const API_URL: string = isDev ? "http://localhost:8080" : "/wny";
 
 const URL_TEST = {
     TEST : `${API_URL}/test`
@@ -14,7 +14,7 @@ const URL_NEED_YOU = {
 }
 
 const URL_JOIN = {
-    ID_CHECK : `${API_URL}/id-check`
+    ID_CHECK : `${API_URL}/api/v1/account/nt/check/accountId`
 }
 
 const API = {

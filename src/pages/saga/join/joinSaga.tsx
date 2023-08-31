@@ -12,22 +12,18 @@ import {updateIsAccountIdDupCheck} from "../store/server/join/joinServerStore";
 
 const requestAccountIdDupChk = function* (action: PayloadAction<string>) {
     const payload = action.payload
-    console.log(payload);
-
-    if (isDev) {
-        yield put(updateIsAccountIdDupCheck(true))
-    } else {
-        try {
-            const data: ApiResponse = yield call(getAccountIdDupChk, payload)
-
-            if (data.data) {
-                yield put(updateIsAccountIdDupCheck(true))
-            } else {
-                yield put(updateIsAccountIdDupCheck(false))
-            }
-        } catch (e) {
-            console.log("updateIsAccountIdDupCheck error !!")
+    console.log("Wlrgla?")
+    try {
+        const data: ApiResponse = yield call(getAccountIdDupChk, payload)
+        console.log("data  ", data)
+        if (!data.payload.Duplication) {
+            console.log("data.payload.Duplication  ", data.payload.Duplication)
+            yield put(updateIsAccountIdDupCheck(true))
+        } else {
+            yield put(updateIsAccountIdDupCheck(false))
         }
+    } catch (e) {
+        console.log("updateIsAccountIdDupCheck error !!")
     }
 }
 

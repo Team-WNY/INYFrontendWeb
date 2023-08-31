@@ -2,11 +2,11 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {NeedYou} from "../../../../../data/interface/needYou/needYouInterface";
 
 interface Props {
-    isAccountIdDupCheck : boolean
+    isAccountIdDupCheck : boolean | null
 }
 
 const initialState = {
-    isAccountIdDupCheck: false,
+    isAccountIdDupCheck: null,
 }
 
 const joinServerStore = createSlice({

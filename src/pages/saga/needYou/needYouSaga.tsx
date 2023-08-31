@@ -17,7 +17,7 @@ const requestNeedYouList = function* (action: PayloadAction<string>) {
             const data: ApiResponse = yield call(getNeedYouList, payload)
 
             if (data) {
-                yield put(updateNeedYouList(data.data))
+                yield put(updateNeedYouList(data.payload))
             } else {
                 yield put(updateNeedYouList(null))
             }

@@ -2,11 +2,11 @@ import axios from "axios";
 import conf from "../../../../data/config/config";
 
 
-export const getAccountIdDupChk= async (params: string) => {
+export const getAccountIdDupChk = async (params: string) => {
 
-    const {data} = await axios.get(conf.API.URL.JOIN.URL_JOIN.ID_CHECK, {
+    const {data} = await axios.post(conf.API.URL.JOIN.URL_JOIN.ID_CHECK, null,{
         params: {
-            checkId:params,
+            accountId: params,
         }
     })
 

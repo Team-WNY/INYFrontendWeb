@@ -216,6 +216,22 @@ const JoinPage = (props:{currentPage:string}) => {
 
    useEffect(()=> {
         console.log("join" , isAccountIdDupCheck)
+       let value :string = ""
+       if(isAccountIdDupCheck !== null) {
+           if(isAccountIdDupCheck) {
+               value = "duplicatesCheck_true"
+           } else {
+               value = "duplicatesCheck_false"
+           }
+           const payload: CommonModalInterface = {
+               title: ModalConst[props.currentPage][value].title,
+               content: ModalConst[props.currentPage][value].content,
+               isConfirm: ModalConst[props.currentPage][value].isConfirm,
+               isOpen: true,
+               currentPage: props.currentPage,
+           }
+           dispatch(updateCommonModalStatus(payload))
+       }
     },[isAccountIdDupCheck])
 
     const cancelClick = () => {
@@ -245,7 +261,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         </div>
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}>
-                            <JoinInput onInput={(e) => typing(e)}/>
+                            <JoinInput onBlur={(e) => typing(e)}/>
                             <DuplicatesCheckBtn onClick={() => duplicatesCheck()}/>
                         </div>
                     </div>

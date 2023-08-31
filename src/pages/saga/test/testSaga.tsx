@@ -12,7 +12,7 @@ const getTestString = function* (action: PayloadAction<boolean>) {
         const data: ApiResponse = yield call(requestTestString, payload)
 
         if(data) {
-            yield put(updateTestString(data.data))
+            yield put(updateTestString(data.payload))
         } else {
             yield put(updateTestString(null))
         }
