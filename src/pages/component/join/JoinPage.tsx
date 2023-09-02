@@ -101,7 +101,7 @@ const CancelBtn = styled.button`
 `
 
 
-const JoinPage = (props:{currentPage:string}) => {
+const JoinPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const [userIdValue, setUserIdValue] = useState<any>("")
@@ -125,9 +125,9 @@ const JoinPage = (props:{currentPage:string}) => {
 
     const duplicatesCheck = () => {
         console.log("clicked !! ")
-        if(userIdValue.length===0)
+        if (userIdValue.length === 0)
             console.log('아이디를 입력해 주세요');
-        else if(userIdValue.length<=8)
+        else if (userIdValue.length <= 8)
             dispatch(joinActions.requestAccountIdDupChk(userIdValue));
         // const payload:UserInfo = {
         // }
@@ -156,7 +156,7 @@ const JoinPage = (props:{currentPage:string}) => {
                 }
             }
         }
-        if(count===10){
+        if (count === 10) {
             console.log('전 항목 입력완료');
         }
     }
@@ -211,33 +211,33 @@ const JoinPage = (props:{currentPage:string}) => {
         setAdd_detail(add_Detail);
     };
 
-    useEffect(()=> {
-        console.log("user" , userIdValue)
-    },[userIdValue])
+    useEffect(() => {
+        console.log("user", userIdValue)
+    }, [userIdValue])
 
-   useEffect(()=> {
-        console.log("join" , isAccountIdDupCheck)
-       let value :string = ""
-       if(isAccountIdDupCheck !== null) {
-           if(isAccountIdDupCheck) {
-               value = "duplicatesCheck_true"
-           } else {
-               value = "duplicatesCheck_false"
-           }
-           const payload: CommonModalInterface = {
-               title: ModalConst[props.currentPage][value].title,
-               content: ModalConst[props.currentPage][value].content,
-               isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
-               isOpen: true,
-               currentPage: props.currentPage,
-           }
-           dispatch(updateCommonModalStatus(payload))
-       }
-    },[isAccountIdDupCheck])
+    useEffect(() => {
+        console.log("join", isAccountIdDupCheck)
+        let value: string = ""
+        if (isAccountIdDupCheck !== null) {
+            if (isAccountIdDupCheck) {
+                value = "duplicatesCheck_true"
+            } else {
+                value = "duplicatesCheck_false"
+            }
+            const payload: CommonModalInterface = {
+                title: ModalConst[props.currentPage][value].title,
+                content: ModalConst[props.currentPage][value].content,
+                isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+                isOpen: true,
+                currentPage: props.currentPage,
+            }
+            dispatch(updateCommonModalStatus(payload))
+        }
+    }, [isAccountIdDupCheck])
 
     const cancelClick = () => {
         console.log("cancel btn clicked !! ")
-        const btn :string = "cancel"
+        const btn: string = "cancel"
         const payload: CommonModalInterface = {
             title: ModalConst[props.currentPage][btn].title,
             content: ModalConst[props.currentPage][btn].content,
@@ -273,7 +273,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         </div>
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}>
-                            <JoinInput type="password" onBlur={pwType1} />
+                            <JoinInput type="password" onBlur={pwType1}/>
                         </div>
                     </div>
                     <div>
@@ -283,7 +283,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="password" onBlur={pwType2} />
+                            <JoinInput type="password" onBlur={pwType2}/>
                         </div>
                     </div>
                     <div>
@@ -293,7 +293,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userName" onBlur={userEmail} />
+                            <JoinInput type="userName" onBlur={userEmail}/>
                             <CertifiedBtn/>
                         </div>
                     </div>
@@ -304,7 +304,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userName" onBlur={userName} />
+                            <JoinInput type="userName" onBlur={userName}/>
                         </div>
                     </div>
                     <div>
@@ -314,7 +314,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userNick" onBlur={userNick} />
+                            <JoinInput type="userNick" onBlur={userNick}/>
                         </div>
                     </div>
                     <div>
@@ -324,7 +324,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userBirth" onBlur={userBirth} />
+                            <JoinInput type="userBirth" onBlur={userBirth}/>
                         </div>
                     </div>
                     <div>
@@ -334,7 +334,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userMobile" onBlur={userMobile} />
+                            <JoinInput type="userMobile" onBlur={userMobile}/>
                         </div>
                     </div>
                     <div>
@@ -344,7 +344,7 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="userAddress" onBlur={userAddress} />
+                            <JoinInput type="userAddress" onBlur={userAddress}/>
                         </div>
                     </div>
                     <div>
@@ -354,13 +354,13 @@ const JoinPage = (props:{currentPage:string}) => {
                         <div
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
-                            <JoinInput type="addressDetail" onBlur={addressDetail} />
+                            <JoinInput type="addressDetail" onBlur={addressDetail}/>
                         </div>
                     </div>
                     <div style={{
-                        marginTop:"36px",
+                        marginTop: "36px",
                         display: "flex",
-                        gap:"107px"
+                        gap: "107px"
                     }}>
                         <JoinBtn onClick={valiToJoin}/>
                         <CancelBtn onClick={cancelClick}/>

@@ -12,7 +12,7 @@ import {updateIsAccountIdDupCheck} from "../store/server/join/joinServerStore";
 
 const requestAccountIdDupChk = function* (action: PayloadAction<string>) {
     const payload = action.payload
-    console.log("Wlrgla?")
+
     try {
         const data: ApiResponse = yield call(getAccountIdDupChk, payload)
         console.log("data  ", data)
