@@ -4,7 +4,7 @@ export interface CommonModalInterface {
     isOpen: boolean,
     title?: string,
     content?: string,
-    isConfirm?: boolean,
+    isConfirmMsg?: string,
     currentPage?: string,
     nextPage?: string,
 }

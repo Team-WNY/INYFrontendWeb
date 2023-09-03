@@ -1,6 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/testInterface";
+import {ApiResponse} from "../../../data/interface/commonInterface/commonInterface";
 import {needYouTypes} from "../action/needYou/needYouActions";
 import {updateNeedYouList} from "../store/server/needYou/needYouServerStore";
 import {getNeedYouList} from "../apis/needYouApi/needYouApis";
@@ -17,7 +17,7 @@ const requestNeedYouList = function* (action: PayloadAction<string>) {
             const data: ApiResponse = yield call(getNeedYouList, payload)
 
             if (data) {
-                yield put(updateNeedYouList(data.data))
+                yield put(updateNeedYouList(data.payload))
             } else {
                 yield put(updateNeedYouList(null))
             }

@@ -1,9 +1,6 @@
 export const isDev: boolean = process.env.NODE_ENV !== 'production'
-const API_URL: string = isDev ? "http://localhost:8080/wny" : "/wny";
+const API_URL: string = isDev ? "http://localhost:8080" : "/wny";
 
-const URL_TEST = {
-    TEST : `${API_URL}/test`
-}
 
 const URL_MAIN = {
     MAIN : `${API_URL}/main`
@@ -14,15 +11,16 @@ const URL_NEED_YOU = {
 }
 
 const URL_LOGIN = {
-    LOGIN : `${API_URL}/login`,
+    LOGIN : `${API_URL}/api/v1/auth/login`,
     LOGOUT : `${API_URL}/logout`,
+}
+
+const URL_JOIN = {
+    ID_CHECK : `${API_URL}/api/v1/account/nt/check/accountId`
 }
 
 const API = {
     URL: {
-        TEST: {
-            URL_TEST
-        },
         MAIN: {
             URL_MAIN
         },
@@ -32,6 +30,9 @@ const API = {
         LOGIN: {
             URL_LOGIN
         },
+        JOIN: {
+            URL_JOIN
+        }
     }
 }
 

@@ -135,7 +135,7 @@ const LoginPage = (props: { currentPage: string }) => {
 
     return (
         <>
-            <CommonModal/>
+            <CommonModal currentPage={props.currentPage}/>
             {/*<StyledImg isDev={isDev}></StyledImg>*/}
             <img src={imgSrc} style={{width: "20px", height: "10px", margin: "10px"}}/>
             <LoginFrameWrapper>

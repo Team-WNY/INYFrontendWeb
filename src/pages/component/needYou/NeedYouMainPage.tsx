@@ -6,20 +6,28 @@ import {RootState} from "../../saga/store/rootStore";
 import {useEffect, useState} from "react";
 import {CurrentPage} from "../../../data/const/commonConst";
 import {needYouActions} from "../../saga/action/needYou/needYouActions";
-import {NeedYou} from "../../../data/interface/needYou/needYouInterface";
+import {Comment, NeedYou} from "../../../data/interface/needYou/needYouInterface";
 import NeedYouItem from "./NeedYouItem";
 import cancelImg from "../../../public/static/images/button/main/register/btn_main_register_cancel.png";
+import logoImg from "../../../public/static/images/logo/INY.png";
+import sampleImg from "../../../public/static/images/sample/sampleImg.png";
 import RegisterModal from "../modal/RegisterModal";
-import {updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
-import {RegModalInterface} from "../../../data/interface/modal/commonModalInterface";
+import {updateCommonModalStatus, updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {CommonModalInterface, RegModalInterface} from "../../../data/interface/modal/commonModalInterface";
+import {updateNeedYouSelect} from "../../saga/store/server/needYou/needYouServerStore";
+import {ModalConst} from "../../../data/const/modalConst";
+import CommonModal from "../modal/CommonModal";
 
 const MainWrapper = styled.div`
   height: auto;
   min-height: 100%;
-  padding-top: 50px;
+  //padding-top: 50px;
+
   //padding-bottom: 40px;
   overflow: auto;
   //background-color: red;
+  transition: all 0.2s ease-in-out;
+
 `
 
 const RegisterBtn = styled.button`
@@ -36,8 +44,8 @@ const RegisterBtn = styled.button`
 
   /* shadow */
   box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
-  animation: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
+  animation: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 
   &::before {
     color: #000;
@@ -119,16 +127,222 @@ const RegisterCloseBtn = styled.button`
   z-index: 10;
   fill: var(--color-whiter, #FFF);
   background-image: url("${cancelImg}");
-  animation: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-
+  animation: all 0.8s ease-out;
+  transition: all 0.8s ease-in-out;
 `
 
-const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
+const NeedYouSelectFrame = styled.div`
+  width: 100vw;
+  height: 1110px;
+  background: var(--color-whiter, #FFF);
+`
+
+const NeedYouItemImg = styled.div<{ itemImg?: string }>`
+  width: 100vw; // 360px
+  //width: 360px;
+
+  height: 320px;
+  flex-shrink: 0;
+  //position: fixed;
+
+  display: flex;
+  position: relative;
+  top: 40px;
+  ${(props) => !props.itemImg ? `background-image: url(${props.itemImg})` : `background-image: url(${sampleImg})`};
+  background-repeat: no-repeat;
+  display: block;
+  text-align: center;
+  justify-content: center;
+  //background-color: skyblue;
+  background-size: 100%;
+`
+
+// ${(props) => props.itemImg && `background-size: 100%`};
+
+const UploadUserFrame = styled.div`
+  width: 100%;
+  height: 61px;
+  top: 40px;
+  display: flex;
+  position: relative;
+  background-color: #FFF;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.11);
+`
+
+const UploadUserImgBox = styled.div<{ itemImg?: string }>`
+  width: 45px;
+  height: 49.018px;
+  margin-top: 6px;
+  margin-left: 21px;
+  display: block;
+  position: relative;
+  border-radius: 5px;
+  border: 0.4px solid var(--color-black, #000);
+  background: var(--color-whiter, #FFF);
+  ${(props) => props.itemImg && `background-image: url(${props.itemImg})`};
+  background-repeat: no-repeat;
+`
+
+const UploadUserInfoArea = styled.div<{ itemImg?: string }>`
+  width: 121px;
+  height: 31px;
+  margin: 12px 9px 18px 9px;
+  display: inline-flex;
+  height: 31px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+`
+
+const UploadUserNickName = styled.div`
+  display: flex;
+  height: 15px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  color: var(--color-black, #000);
+
+  /* Body/Header */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.06px;
+  text-transform: capitalize;
+`
+
+const NeedYouSelectInfoArea = styled.div`
+  width: 318px;
+  height: auto;
+  display: block;
+  margin-top: 30px;
+  margin-left: 21px;
+  margin-bottom: 300px;
+  //background-color: skyblue;
+`
+
+const NeedYouSelectInfoTitle = styled.div`
+  display: flex;
+  width: 318px;
+  height: 19px;
+  padding: 14px 1px;
+  margin-top: 60px;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+`
+
+const NeedYouSelectInfoUploadTime = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 15px 0px;
+  color: rgba(0, 0, 0, 0.34);
+
+  /* Head/body */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.06px;
+  text-transform: uppercase;
+  gap: 15px;
+`
+
+const NeedYouSelectInfoContent = styled.div`
+  display: flex;
+  width: 317px;
+  height: 168px;
+  align-items: flex-start;
+  resize: none;
+  gap: 10px;
+  color: var(--color-black, #000);
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+
+  /* Head/body */
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.06px;
+  text-transform: uppercase;
+`
+
+const NeedYouSelectInfoAddress = styled.div`
+  display: flex;
+  width: 318px;
+  height: 47px;
+  margin-top: 15px;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid #000;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  background: var(--color-whiter, #FFF);
+`
+
+const NeedYouSelectCommentFrame = styled.div`
+  display: flex;
+  width: 317px;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+  border: 1px solid #000;
+  background: var(--color-whiter, #FFF);
+`
+
+const NeedYouSelectHelpComment = styled.div`
+  width: 317px;
+  height: 47px;
+  color: var(--color-black, #000);
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+`
+
+const NeedYouSelectHelpYesBtn = styled.button`
+  width: 60px;
+  height: 36px;
+  margin: 6px 5px 5px 0;
+  border-radius: 20px;
+  background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
+  position: relative;
+  right: 0;
+`
+
+const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
+    const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
     const [isRegister, setIsRegister] = useState<boolean>(false)
+    const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
+    const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
 
     useEffect(() => {
         if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
@@ -157,7 +371,7 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
         let payload: RegModalInterface = {
             isOpen: true
         }
-        if(optionValue!! === "needYou") {
+        if (optionValue!! === "needYou") {
             payload = {
                 ...payload,
                 title: "HELP"
@@ -171,17 +385,51 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
         dispatch(updateRegModalStatus(payload))
     }
 
+    const needYouItemClick = (item: NeedYou) => {
+        setIsShowNeedYouList(false)
+        dispatch(updateNeedYouSelect(item))
+    }
+
+    useEffect(() => {
+        console.log("needYouSelect ", needYouSelect)
+    }, [needYouSelect])
+
+    useEffect(() => {
+        if (isShowNeedYouList) {
+            setMainWrapperStyle({paddingTop: "50px"})
+        } else {
+            setMainWrapperStyle({paddingTop: "0px"})
+        }
+    }, [isShowNeedYouList])
+
+    const helpYesBtnClick = (item: Comment) => {
+        console.log("props.currentPage  ", props.currentPage )
+        const payload: CommonModalInterface = {
+            title: ModalConst[props.currentPage]["call"].title,
+            content: ModalConst[props.currentPage]["call"].content,
+            isConfirmMsg: ModalConst[props.currentPage]["call"].isConfirmMsg,
+            isOpen: true,
+            currentPage: props.currentPage,
+        }
+        dispatch(updateCommonModalStatus(payload))
+    }
+
     return (
         <>
-            <Header/>
-            <RegisterModal/>
-            <MainWrapper>
+            <CommonModal currentPage={props.currentPage}/>
+            <Header isShowNeedYouList={isShowNeedYouList} setIsShowNeedYouList={setIsShowNeedYouList}/>
+            <RegisterModal currentPage={props.currentPage}/>
+            <MainWrapper style={mainWrapperStyle}>
+                {/*needYouList*/}
                 {
                     needYouList !== null &&
                     //     needYouList.length !== 0 ?
                     needYouList.map((item: NeedYou, index: number) => {
                         return (
-                            <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
+                            <div onClick={() => needYouItemClick(item)}
+                                 style={{display: `${isShowNeedYouList ? 'block' : 'none'}`}}>
+                                <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
+                            </div>
                         )
                     })
 
@@ -196,6 +444,84 @@ const NeedYouMainPage = (props: { currentPage: string , testStr?:string}) => {
                     //
                     // </>
                 }
+
+                {/*needYouSelect*/}
+                {
+                    needYouSelect &&
+                    <>
+                        <NeedYouSelectFrame>
+                            <NeedYouItemImg itemImg={needYouSelect?.needYouImg}/>
+                            <UploadUserFrame>
+                                <UploadUserImgBox>
+                                    <img src={logoImg}
+                                         style={{
+                                             width: "20px",
+                                             height: "10px",
+                                             display: "flex",
+                                             alignItems: "center",
+                                             justifyContent: "center"
+                                         }}/>
+                                </UploadUserImgBox>
+                                <UploadUserInfoArea>
+                                    <UploadUserNickName>
+                                        {needYouSelect?.userInfo?.nickName}
+                                    </UploadUserNickName>
+                                    <UploadUserNickName>
+                                        {needYouSelect?.userInfo?.nickName}
+                                    </UploadUserNickName>
+                                </UploadUserInfoArea>
+                            </UploadUserFrame>
+
+                            <NeedYouSelectInfoArea>
+                                {/*제목*/}
+                                <NeedYouSelectInfoTitle>
+                                    {needYouSelect.subject}
+                                </NeedYouSelectInfoTitle>
+
+                                {/*/!*업로드 시간*!/*/}
+                                <NeedYouSelectInfoUploadTime>
+                                    업로드 시간 : {needYouSelect.uploadDtm}
+                                </NeedYouSelectInfoUploadTime>
+
+                                {/*/!*내용*!/*/}
+                                <NeedYouSelectInfoContent>
+                                    {needYouSelect.content}
+                                </NeedYouSelectInfoContent>
+
+                                {/*/!*주소*!/*/}
+                                <NeedYouSelectInfoAddress>
+                                    {needYouSelect.address}
+                                </NeedYouSelectInfoAddress>
+
+                                {/*/!*댓글*!/*/}
+                                {
+                                    needYouSelect.comment && needYouSelect.comment.length > 0 ?
+                                        needYouSelect.comment.map((item: Comment) => {
+                                            return (
+                                                <NeedYouSelectCommentFrame>
+                                                    <NeedYouSelectHelpComment>{item.comment}</NeedYouSelectHelpComment>
+                                                    <NeedYouSelectHelpYesBtn
+                                                        onClick={() => helpYesBtnClick(item)}>YES</NeedYouSelectHelpYesBtn>
+                                                </NeedYouSelectCommentFrame>
+                                            )
+                                        })
+                                        :
+                                        <>
+                                            니가 도우세요
+                                        </>
+                                }
+                                {/*<NeedYouSelectInfoComment>*/}
+
+                                {/*</NeedYouSelectInfoComment>*/}
+
+
+                            </NeedYouSelectInfoArea>
+                        </NeedYouSelectFrame>
+                    </>
+                }
+
+
+                {/*글쓰기*/}
                 {
                     isRegister ?
                         <>

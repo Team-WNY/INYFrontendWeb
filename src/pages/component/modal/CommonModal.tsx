@@ -45,9 +45,9 @@ const ModalSection = styled.div<{ visible: boolean }>`
   width: 218px;
   height: 150px;
   border-radius: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
   transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, 1);
   padding: 18px 13px;
@@ -89,7 +89,7 @@ const Content = styled.div`
   letter-spacing: 0.06px;
 `;
 
-const CancelButton = styled.button`
+const PositiveButton = styled.button`
   display: flex;
   width: 75px;
   height: 30px;
@@ -129,9 +129,7 @@ const GoBackButton = styled.button`
   text-transform: uppercase;
 `
 
-const CommonModal = (
-    // props: { pageStr?: string, purpose?: string }
-) => {
+const CommonModal = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -141,22 +139,20 @@ const CommonModal = (
 
     useEffect(() => {
         console.log("commonModalStatus ", commonModalStatus)
-        if (commonModalStatus.isOpen) {
-            setIsShow(true)
-        } else {
-            setIsShow(false)
-        }
     }, [commonModalStatus.isOpen])
 
-    const closeBtnClick = () => {
-        if (isShow) {
-            setIsShow(false)
+    const goBackBtnClick = () => {
+        if (commonModalStatus.isOpen) {
             dispatch(updateCommonModalStatus({isOpen: false}))
         }
     }
 
-    const cancelBtnClick = () => {
-        navigate(-1)
+    const positiveBtnClick = () => {
+        // setIsShow(false)
+        dispatch(updateCommonModalStatus({isOpen: false}))
+        if (props.currentPage !== "join") {
+            navigate(-1)
+        }
     }
 
     const Item = (props: { text: string }) => {
@@ -173,10 +169,10 @@ const CommonModal = (
     return (
         <>
             {
-                isShow &&
+                commonModalStatus.isOpen &&
                 <>
-                    <Background visible={isShow}/>
-                    <ModalSection visible={isShow}>
+                    <Background visible={commonModalStatus.isOpen}/>
+                    <ModalSection visible={commonModalStatus.isOpen}>
                         <Title>
                             {commonModalStatus?.title}
                         </Title>
@@ -186,11 +182,12 @@ const CommonModal = (
                         </Content>
                         <div style={{display: "flex", gap: "17px"}}>
                             {
-                                commonModalStatus?.isConfirm ?
-                                    <CancelButton onClick={() => cancelBtnClick()}>삭제하기</CancelButton>
+                                commonModalStatus?.isConfirmMsg ?
+                                    <PositiveButton
+                                        onClick={() => positiveBtnClick()}>{commonModalStatus?.isConfirmMsg}</PositiveButton>
                                     : null
                             }
-                            <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>
+                            <GoBackButton onClick={goBackBtnClick}>돌아가기</GoBackButton>
                         </div>
                     </ModalSection>
                 </>
