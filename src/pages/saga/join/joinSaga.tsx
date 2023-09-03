@@ -1,11 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/testInterface";
-import {needYouTypes} from "../action/needYou/needYouActions";
-import {updateNeedYouList} from "../store/server/needYou/needYouServerStore";
-import {getNeedYouList} from "../apis/needYouApi/needYouApis";
-import {isDev} from "../../../data/config/config";
-import {needYouMockList} from "../../../data/const/testConst";
+import {ApiResponse} from "../../../data/interface/commonInterface/commonInterface";
 import {joinTypes} from "../action/join/joinActions";
 import {getAccountIdDupChk} from "../apis/joinApi/joinApis";
 import {updateIsAccountIdDupCheck} from "../store/server/join/joinServerStore";
