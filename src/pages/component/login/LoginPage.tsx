@@ -9,6 +9,7 @@ import {loginActions} from "../../saga/action/login/loginActions";
 import {RootState} from "../../saga/store/rootStore";
 import CommonModal from "../modal/CommonModal";
 import {useNavigate} from "react-router";
+import {UserInfo} from "../../../data/interface/user/userInterface";
 
 const LoginFrameWrapper = styled.div`
   display: flex;
@@ -97,6 +98,11 @@ const LoginPage = (props: { currentPage: string }) => {
     const navigate = useNavigate()
     const [loginInfo, setLoginInfo] = useState<LoginInfo>({accountId: "", password: ""})
     const isLogin = useSelector((state: RootState) => state.server.login.isLogin)
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
+
+    useEffect(() => {
+        console.log("userInfo", userInfo)
+    }, [userInfo])
 
     const inputChange = (typingValue: string, isAccountTyping: boolean) => {
         if (isAccountTyping) {
@@ -111,10 +117,6 @@ const LoginPage = (props: { currentPage: string }) => {
             })
         }
     }
-
-    useEffect(() => {
-        console.log("loginInfo", loginInfo)
-    }, [loginInfo])
 
     const login = () => {
         console.log("login btn clicked !! ")

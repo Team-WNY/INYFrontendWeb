@@ -27,7 +27,9 @@ export const needYouMockList: Array<NeedYou> = [
         ],
         userInfo: {
             accountId: "tester_1",
-            nickName: "tester_1",
+            profile: {
+                nickName: "tester_1",
+            }
         }
     },
     {
@@ -38,7 +40,9 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_2",
-            nickName: "tester_2",
+            profile: {
+                nickName: "tester_2",
+            }
         }
     },
     {
@@ -49,7 +53,9 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_3",
-            nickName: "tester_3",
+            profile: {
+                nickName: "tester_3",
+            }
         }
     },
     {
@@ -60,7 +66,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_4",
-            nickName: "tester_4",
+            profile: {
+                nickName: "tester_4",
+            }
+
         }
     },
     {
@@ -71,7 +80,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_5",
-            nickName: "tester_5",
+            profile: {
+                nickName: "tester_5",
+            }
+
         }
     },
     {
@@ -82,7 +94,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_6",
-            nickName: "tester_6",
+            profile: {
+                nickName: "tester_6",
+            }
+
         }
     },
     {
@@ -93,7 +108,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_7",
-            nickName: "tester_7",
+            profile: {
+                nickName: "tester_7",
+            }
+
         }
     },
     {
@@ -104,7 +122,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_8",
-            nickName: "tester_8",
+            profile: {
+                nickName: "tester_8",
+            }
+
         }
     },
     {
@@ -115,7 +136,10 @@ export const needYouMockList: Array<NeedYou> = [
         address: "경기 성남시 분당구 판교역로 166 (카카오 판교 아지트)",
         userInfo: {
             accountId: "tester_9",
-            nickName: "tester_9",
+            profile: {
+                nickName: "tester_9",
+            }
+
         }
     },
 

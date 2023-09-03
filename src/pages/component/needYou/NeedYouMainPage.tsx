@@ -17,6 +17,7 @@ import {CommonModalInterface, RegModalInterface} from "../../../data/interface/m
 import {updateNeedYouSelect} from "../../saga/store/server/needYou/needYouServerStore";
 import {ModalConst} from "../../../data/const/modalConst";
 import CommonModal from "../modal/CommonModal";
+import {UserInfo} from "../../../data/interface/user/userInterface";
 
 const MainWrapper = styled.div`
   height: auto;
@@ -340,9 +341,16 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     const dispatch = useDispatch()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
     const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
+
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
+
     const [isRegister, setIsRegister] = useState<boolean>(false)
     const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
     const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
+
+    useEffect(() => {
+        console.log("userInfo", userInfo)
+    }, [userInfo])
 
     useEffect(() => {
         if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
@@ -464,10 +472,10 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
                                 </UploadUserImgBox>
                                 <UploadUserInfoArea>
                                     <UploadUserNickName>
-                                        {needYouSelect?.userInfo?.nickName}
+                                        {needYouSelect?.userInfo?.profile?.nickName}
                                     </UploadUserNickName>
                                     <UploadUserNickName>
-                                        {needYouSelect?.userInfo?.nickName}
+                                        {needYouSelect?.userInfo?.profile?.nickName}
                                     </UploadUserNickName>
                                 </UploadUserInfoArea>
                             </UploadUserFrame>
