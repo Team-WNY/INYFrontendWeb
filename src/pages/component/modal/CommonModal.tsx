@@ -89,7 +89,7 @@ const Content = styled.div`
   letter-spacing: 0.06px;
 `;
 
-const CancelButton = styled.button`
+const PositiveButton = styled.button`
   display: flex;
   width: 75px;
   height: 30px;
@@ -129,7 +129,7 @@ const GoBackButton = styled.button`
   text-transform: uppercase;
 `
 
-const CommonModal = (props:{currentPage:string}) => {
+const CommonModal = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -139,22 +139,20 @@ const CommonModal = (props:{currentPage:string}) => {
 
     useEffect(() => {
         console.log("commonModalStatus ", commonModalStatus)
-        if (commonModalStatus.isOpen) {
-            setIsShow(true)
-        } else {
-            setIsShow(false)
-        }
     }, [commonModalStatus.isOpen])
 
-    const closeBtnClick = () => {
-        if (isShow) {
-            setIsShow(false)
+    const goBackBtnClick = () => {
+        if (commonModalStatus.isOpen) {
             dispatch(updateCommonModalStatus({isOpen: false}))
         }
     }
 
-    const cancelBtnClick = () => {
-        navigate(-1)
+    const positiveBtnClick = () => {
+        // setIsShow(false)
+        dispatch(updateCommonModalStatus({isOpen: false}))
+        if (props.currentPage !== "join") {
+            navigate(-1)
+        }
     }
 
     const Item = (props: { text: string }) => {
@@ -171,10 +169,10 @@ const CommonModal = (props:{currentPage:string}) => {
     return (
         <>
             {
-                isShow &&
+                commonModalStatus.isOpen &&
                 <>
-                    <Background visible={isShow}/>
-                    <ModalSection visible={isShow}>
+                    <Background visible={commonModalStatus.isOpen}/>
+                    <ModalSection visible={commonModalStatus.isOpen}>
                         <Title>
                             {commonModalStatus?.title}
                         </Title>
@@ -185,10 +183,11 @@ const CommonModal = (props:{currentPage:string}) => {
                         <div style={{display: "flex", gap: "17px"}}>
                             {
                                 commonModalStatus?.isConfirmMsg ?
-                                    <CancelButton onClick={() => cancelBtnClick()}>{commonModalStatus?.isConfirmMsg}</CancelButton>
+                                    <PositiveButton
+                                        onClick={() => positiveBtnClick()}>{commonModalStatus?.isConfirmMsg}</PositiveButton>
                                     : null
                             }
-                            <GoBackButton onClick={closeBtnClick}>돌아가기</GoBackButton>
+                            <GoBackButton onClick={goBackBtnClick}>돌아가기</GoBackButton>
                         </div>
                     </ModalSection>
                 </>

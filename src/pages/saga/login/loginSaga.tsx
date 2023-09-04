@@ -1,52 +1,37 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/testInterface";
-import {isDev} from "../../../data/config/config";
+import {ApiResponse} from "../../../data/interface/commonInterface";
 import {loginTypes} from "../action/login/loginActions";
 import {LoginInfo} from "../../../data/interface/login/loginInterface";
 import {updateIsLogin} from "../store/server/login/loginServerStore";
-import {postLoginUser} from "../apis/login/loginApis";
+import {postGetUserInfo, postLoginUser} from "../apis/login/loginApis";
 import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {ModalConst} from "../../../data/const/modalConst";
 import {updateCommonModalStatus} from "../store/view/modal/modalViewStore";
+import {updateUserInfo} from "../store/server/user/userServerStore";
 
 const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
     const payload = action.payload
-    console.log("paylaod ", payload)
-    if (isDev) {
-        if (payload.accountId === "admin" &&
-            payload.password === "1234"
-        ) {
-            yield put(updateIsLogin(true))
-        } else {
-            yield put(updateIsLogin(false))
-            const payload: CommonModalInterface = {
-                title: ModalConst["login"]["login"].title,
-                content: ModalConst["login"]["login"].content,
-                isOpen: true,
-                currentPage: "login",
-            }
-            yield put(updateCommonModalStatus(payload))
-        }
-    } else {
-        try {
-            const data: ApiResponse = yield call(postLoginUser, payload)
-
-            if (data) {
+    try {
+        const data: ApiResponse = yield call(postLoginUser, payload)
+        if (data.accessToken) {
+            localStorage.setItem("Authorization", "Bearer " + data.accessToken);
+            const userData: ApiResponse = yield call(postGetUserInfo, payload.accountId)
+            if (userData.status === 200) {
+                yield put(updateUserInfo(userData.payload))
                 yield put(updateIsLogin(true))
-            } else {
-                yield put(updateIsLogin(false))
-                const payload: CommonModalInterface = {
-                    title: ModalConst["login"]["login"].title,
-                    content: ModalConst["login"]["login"].content,
-                    isOpen: true,
-                    currentPage: "login",
-                }
-                yield put(updateCommonModalStatus(payload))
             }
-        } catch (e) {
-            console.log("requestLoginUser error !!")
         }
+    } catch (e) {
+        yield put(updateIsLogin(false))
+        const payload: CommonModalInterface = {
+            title: ModalConst["login"]["login"].title,
+            content: ModalConst["login"]["login"].content,
+            isOpen: true,
+            currentPage: "login",
+        }
+        yield put(updateCommonModalStatus(payload))
+        console.log("requestLoginUser error !!")
     }
 }
 
