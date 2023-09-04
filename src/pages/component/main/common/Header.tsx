@@ -36,7 +36,7 @@ const Settings = styled.div`
   background-size: 100%;
 `
 
-const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Function }) => {
+const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Function, setIsHelperRegisterComment:Function }) => {
 
     const dispatch = useDispatch()
     const [isShowLogo, setIsShowLogo] = useState<boolean>(true)
@@ -48,6 +48,7 @@ const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Functi
             // 뒤로가기 버튼 클릭시
             props.setIsShowNeedYouList(true)
             dispatch(updateNeedYouSelect(null)) // 선택 아이템 초기화
+            props.setIsHelperRegisterComment(false)
         }
     }
 
@@ -70,10 +71,6 @@ const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Functi
             setLogoImgStyle({width: "18.29px", height: "18.5px", backgroundImage: `url(${backImg})`})
         }
     }, [isShowLogo])
-
-    useEffect(() => {
-        console.log("logoImgStyle ", logoImgStyle)
-    }, [logoImgStyle])
 
     return (
         <>

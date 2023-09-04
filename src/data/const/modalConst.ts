@@ -29,6 +29,11 @@ export const ModalConst = {
             content: "해당 helper의 도움에\n응하시겠습니까?",
             isConfirmMsg: "call",
         },
+        "register" : {
+            title: "댓글 작성",
+            content: "댓글을 작성하시겠습니까?",
+            isConfirmMsg: "작성하기",
+        },
     },
     "login" : {
         "login" : {

@@ -6,7 +6,7 @@ export interface CommonModalInterface {
     content?: string,
     isConfirmMsg?: string,
     currentPage?: string,
-    nextPage?: string,
+    subPage?: string,
 }
 
 export interface RegModalInterface {

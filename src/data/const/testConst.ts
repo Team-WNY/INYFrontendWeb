@@ -17,12 +17,12 @@ export const needYouMockList: Array<NeedYou> = [
             {
                 userId: 10,
                 nickName: "tester",
-                comment: "놉 저 개쩜 제가 함"
+                comment: "제가 돕겠습니다"
             },
             {
                 userId: 3,
                 nickName: "ㅇㅇ",
-                comment: "시러여 제가 할래여"
+                comment: "저도 돕겠습니다"
             },
         ],
         userInfo: {

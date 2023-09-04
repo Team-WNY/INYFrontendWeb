@@ -305,7 +305,7 @@ const NeedYouSelectCommentFrame = styled.div`
   align-items: center;
   margin-top: 15px;
   gap: 10px;
-  border: 1px solid #000;
+  //border: 1px solid #000;
   background: var(--color-whiter, #FFF);
 `
 
@@ -313,6 +313,7 @@ const NeedYouSelectHelpComment = styled.div`
   width: 317px;
   height: 47px;
   color: var(--color-black, #000);
+  border: 1px solid #000;
   position: relative;
   display: flex;
   align-items: center;
@@ -354,6 +355,16 @@ const NeedYouSelectHelpYesBtn = styled.button`
   right: 0;
 `
 
+const HelperRegisterCommentYesBtn = styled.button`
+  width: 60px;
+  height: 36px;
+  margin: 6px 0 5px 0;
+  border-radius: 20px;
+  background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
+  position: relative;
+  right: 0;
+`
+
 const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
@@ -365,6 +376,12 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const [isRegister, setIsRegister] = useState<boolean>(false)
     const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
+    const [isHelperRegisterComment, setIsHelperRegisterComment] = useState<boolean>(false)
+    const [helperRegisterCommentStr, setHelperRegisterCommentStr] = useState<string>("")
+    // const [helperRegisterComment, setHelperRegisterComment] = useState<HelperRegisterComment>({
+    //     isShowCommentYesBtn: false,
+    //     helperComment: ""
+    // })
     const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
 
     useEffect(() => {
@@ -418,10 +435,6 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     useEffect(() => {
-        console.log("needYouSelect ", needYouSelect)
-    }, [needYouSelect])
-
-    useEffect(() => {
         if (isShowNeedYouList) {
             setMainWrapperStyle({paddingTop: "50px"})
         } else {
@@ -430,13 +443,41 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }, [isShowNeedYouList])
 
     const helpYesBtnClick = (item: Comment) => {
-        console.log("props.currentPage  ", props.currentPage )
+        console.log("props.currentPage  ", props.currentPage)
+        const subPgae: string = "call"
         const payload: CommonModalInterface = {
-            title: ModalConst[props.currentPage]["call"].title,
-            content: ModalConst[props.currentPage]["call"].content,
-            isConfirmMsg: ModalConst[props.currentPage]["call"].isConfirmMsg,
+            title: ModalConst[props.currentPage][subPgae].title,
+            content: ModalConst[props.currentPage][subPgae].content,
+            isConfirmMsg: ModalConst[props.currentPage][subPgae].isConfirmMsg,
             isOpen: true,
             currentPage: props.currentPage,
+            subPage: subPgae
+        }
+        dispatch(updateCommonModalStatus(payload))
+    }
+
+    useEffect(() => {
+        console.log("isHelperRegisterComment ", isHelperRegisterComment)
+    }, [isHelperRegisterComment])
+
+    const typingChk = (e) => {
+        if (e.target.value.length > 0) {
+            setIsHelperRegisterComment(true)
+        } else {
+            setIsHelperRegisterComment(false)
+        }
+    }
+
+    const helperCommentYesBtnClick = () => {
+
+        const value = "register"
+        const payload: CommonModalInterface = {
+            title: ModalConst[props.currentPage][value].title,
+            content: ModalConst[props.currentPage][value].content,
+            isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+            isOpen: true,
+            currentPage: props.currentPage,
+            subPage: value
         }
         dispatch(updateCommonModalStatus(payload))
     }
@@ -444,7 +485,10 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     return (
         <>
             <CommonModal currentPage={props.currentPage}/>
-            <Header isShowNeedYouList={isShowNeedYouList} setIsShowNeedYouList={setIsShowNeedYouList}/>
+            <Header isShowNeedYouList={isShowNeedYouList}
+                    setIsShowNeedYouList={setIsShowNeedYouList}
+                    setIsHelperRegisterComment={setIsHelperRegisterComment}
+            />
             <RegisterModal currentPage={props.currentPage}/>
             <MainWrapper style={mainWrapperStyle}>
                 {/*needYouList*/}
@@ -535,9 +579,15 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
                                         :
                                         <>
                                             <NeedYouSelectCommentFrame>
-                                                <NeedYouSelectHelpCommentInput style={{alignItems:"center"}} placeholder={"아직 작성된 도움 댓글이 없습니다!"}>
-
-                                                </NeedYouSelectHelpCommentInput>
+                                                <NeedYouSelectHelpCommentInput placeholder={"아직 작성된 도움 댓글이 없습니다!"}
+                                                                               onKeyUp={(e) => typingChk(e)}
+                                                                               onBlur={(e)=> setHelperRegisterCommentStr(e.target.value)}
+                                                />
+                                                {
+                                                    isHelperRegisterComment &&
+                                                    <HelperRegisterCommentYesBtn
+                                                        onClick={() => helperCommentYesBtnClick()}>YES</HelperRegisterCommentYesBtn>
+                                                }
                                             </NeedYouSelectCommentFrame>
                                         </>
                                 }
