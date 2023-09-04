@@ -325,6 +325,23 @@ const NeedYouSelectHelpComment = styled.div`
   text-transform: uppercase;
 `
 
+const NeedYouSelectHelpCommentInput = styled.input`
+  width: 317px;
+  height: 47px;
+  color: var(--color-black, #000);
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+`
+
 const NeedYouSelectHelpYesBtn = styled.button`
   width: 60px;
   height: 36px;
@@ -507,7 +524,11 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
                                         })
                                         :
                                         <>
-                                            니가 도우세요
+                                            <NeedYouSelectCommentFrame>
+                                                <NeedYouSelectHelpCommentInput style={{alignItems:"center"}} placeholder={"아직 작성된 도움 댓글이 없습니다!"}>
+
+                                                </NeedYouSelectHelpCommentInput>
+                                            </NeedYouSelectCommentFrame>
                                         </>
                                 }
                                 {/*<NeedYouSelectInfoComment>*/}
