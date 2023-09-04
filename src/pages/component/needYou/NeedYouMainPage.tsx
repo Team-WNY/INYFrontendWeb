@@ -18,7 +18,7 @@ import {updateNeedYouSelect} from "../../saga/store/server/needYou/needYouServer
 import {ModalConst} from "../../../data/const/modalConst";
 import CommonModal from "../modal/CommonModal";
 import {UserInfo} from "../../../data/interface/user/userInterface";
-import {useLocation} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 
 const MainWrapper = styled.div`
   height: auto;
@@ -369,10 +369,11 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     const location = useLocation()
+    const navigate = useNavigate()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
     const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
 
-    // const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
 
     const [isRegister, setIsRegister] = useState<boolean>(false)
     const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
@@ -404,6 +405,25 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
         console.log("RegisterCloseBtn clicked !! ", isRegister)
         setIsRegister(false)
     }
+
+    useEffect(() => {
+        if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
+            const subPage = "error"
+            const payload: CommonModalInterface = {
+                title: ModalConst[props.currentPage][subPage].title,
+                content: ModalConst[props.currentPage][subPage].content,
+                isOpen: true,
+                currentPage: props.currentPage,
+                subPage: subPage,
+            }
+            dispatch(updateCommonModalStatus(payload))
+            setTimeout(() => {
+                dispatch(updateCommonModalStatus({isOpen:false}))
+                navigate("/login", {replace: true})
+            }, 3000)
+        }
+    }, [props.currentPage])
+
 
     const calBottomSize = (indexNum: number) => {
         const resStr: string = 100 + (indexNum * 30) + "px"

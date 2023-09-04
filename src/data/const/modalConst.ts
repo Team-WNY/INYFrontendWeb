@@ -34,6 +34,10 @@ export const ModalConst = {
             content: "댓글을 작성하시겠습니까?",
             isConfirmMsg: "작성하기",
         },
+        "error" : {
+            title: "비정상접근",
+            content: "유효한 유저 정보가 없습니다\n로그인 화면으로 이동합니다.",
+        },
     },
     "login" : {
         "login" : {
