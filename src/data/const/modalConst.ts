@@ -12,6 +12,11 @@ export const ModalConst = {
             content: "입력하신 ID는 사용 가능한 ID입니다.\n사용하시겠습니까?",
             isConfirmMsg: "사용하기",
         },
+        "emailCheck_true" : {
+            title: "",
+            content: "",
+            isConfirmMsg: "",
+        },
         "cancel" : {
             title: "회원가입 취소",
             content: "회원가입을 취소합니다\n취소할 경우 작성한 내용은\n삭제됩니다.\n삭제하시겠습니까?",

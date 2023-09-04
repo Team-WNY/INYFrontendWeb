@@ -117,6 +117,7 @@ const JoinPage = (props: { currentPage: string }) => {
     const [count, setCount] = useState(0);
     const passwordRef = useRef('');
     const isAccountIdDupCheck = useSelector((state: RootState) => state.server.join.isAccountIdDupCheck);
+    const isUpdateIsEmailCheck = useSelector((state: RootState) => state.server.join.isUpdateIsEmailCheck);
     // useDispatch()
     // useState() // 해당 컴포넌트 내에서 상태값 핸들링할때 주로 쓰임
     // useEffect(()=> {
@@ -129,6 +130,15 @@ const JoinPage = (props: { currentPage: string }) => {
             console.log('아이디를 입력해 주세요');
         else if (userIdValue.length <= 8)
             dispatch(joinActions.requestAccountIdDupChk(userIdValue));
+        // const payload:UserInfo = {
+        // }
+    }
+    const certifiedBtn = () => {
+        console.log("emailDup_clicked !! ")
+        if (email.length === 0)
+            console.log('이메일을 입력해 주세요');
+        else if (email.length <= 20)
+            dispatch(joinActions.requestEmailChk(email));
         // const payload:UserInfo = {
         // }
     }
@@ -235,6 +245,26 @@ const JoinPage = (props: { currentPage: string }) => {
         }
     }, [isAccountIdDupCheck])
 
+    useEffect(() => {
+        console.log("updateEmailCheck ", isUpdateIsEmailCheck)
+        let value: string = ""
+        if (isUpdateIsEmailCheck !== null) {
+            if (isUpdateIsEmailCheck) {
+                value = "emailCheck_true"
+            } else {
+                value = "emailCheck_true"
+            }
+            const payload: CommonModalInterface = {
+                title: ModalConst[props.currentPage][value].title,
+                content: ModalConst[props.currentPage][value].content,
+                isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+                isOpen: true,
+                currentPage: props.currentPage,
+            }
+            dispatch(updateCommonModalStatus(payload))
+        }
+    }, [isUpdateIsEmailCheck])
+
     const cancelClick = () => {
         console.log("cancel btn clicked !! ")
         const btn: string = "cancel"
@@ -294,7 +324,7 @@ const JoinPage = (props: { currentPage: string }) => {
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
                             <JoinInput type="userName" onBlur={userEmail}/>
-                            <CertifiedBtn/>
+                            <CertifiedBtn onClick={() => certifiedBtn()}/>
                         </div>
                     </div>
                     <div>

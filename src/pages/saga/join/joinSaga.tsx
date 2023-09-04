@@ -8,6 +8,7 @@ import {isDev} from "../../../data/config/config";
 import {needYouMockList} from "../../../data/const/testConst";
 import {joinTypes} from "../action/join/joinActions";
 import {getAccountIdDupChk} from "../apis/joinApi/joinApis";
+import {getEmailChk} from "../apis/joinApi/joinApis";
 import {updateIsAccountIdDupCheck} from "../store/server/join/joinServerStore";
 
 const requestAccountIdDupChk = function* (action: PayloadAction<string>) {
@@ -27,8 +28,19 @@ const requestAccountIdDupChk = function* (action: PayloadAction<string>) {
     }
 }
 
+const requestEmailChk = function* (action: PayloadAction<string>) {
+    const payload = action.payload
+    try {
+        const data: ApiResponse = yield call(getEmailChk, payload)
+        console.log("data  ", data)
+    } catch (e) {
+        console.log("updateIsAccountEmailCheck error !!")
+    }
+}
+
 function* watchRoot() {
     yield takeLatest(joinTypes.REQUEST_ACCOUNT_ID_DUP_CHK, requestAccountIdDupChk)
+    yield takeLatest(joinTypes.REQUEST_EMAIL_CHK, requestEmailChk)
 }
 
 export default function* JoinSaga() {

@@ -19,7 +19,8 @@ const URL_LOGIN = {
 }
 
 const URL_JOIN = {
-    ID_CHECK : `${API_URL}/api/v1/account/nt/check/accountId`
+    ID_CHECK : `${API_URL}/api/v1/account/nt/check/accountId`,
+    EMAIL_CHECK : `${API_URL}/api/v1/account/nt/auth/code-request`
 }
 
 const API = {

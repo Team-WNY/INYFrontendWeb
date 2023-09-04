@@ -9,6 +9,17 @@ export const getAccountIdDupChk = async (params: string) => {
             accountId: params,
         }
     })
+console.log('data '+ data);
+    return data
+}
+
+export const getEmailChk = async (params: string) => {
+    const {data} = await axios.post(conf.API.URL.JOIN.URL_JOIN.EMAIL_CHECK, null,{
+        params: {
+            email: params,
+        }
+    })
 
     return data
 }
+
