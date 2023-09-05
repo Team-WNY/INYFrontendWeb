@@ -1,6 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/testInterface";
+import {ApiResponse} from "../../../data/interface/commonInterface/commonInterface";
 import {isDev} from "../../../data/config/config";
 import {loginTypes} from "../action/login/loginActions";
 import {LoginInfo} from "../../../data/interface/login/loginInterface";
@@ -13,40 +13,22 @@ import {updateCommonModalStatus} from "../store/view/modal/modalViewStore";
 const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
     const payload = action.payload
     console.log("paylaod ", payload)
-    if (isDev) {
-        if (payload.accountId === "admin" &&
-            payload.password === "1234"
-        ) {
-            yield put(updateIsLogin(true))
-        } else {
-            yield put(updateIsLogin(false))
-            const payload: CommonModalInterface = {
-                title: ModalConst["login"]["login"].title,
-                content: ModalConst["login"]["login"].content,
-                isOpen: true,
-                currentPage: "login",
-            }
-            yield put(updateCommonModalStatus(payload))
-        }
-    } else {
-        try {
-            const data: ApiResponse = yield call(postLoginUser, payload)
+    try {
+        const data: ApiResponse = yield call(postLoginUser, payload)
 
-            if (data) {
-                yield put(updateIsLogin(true))
-            } else {
-                yield put(updateIsLogin(false))
-                const payload: CommonModalInterface = {
-                    title: ModalConst["login"]["login"].title,
-                    content: ModalConst["login"]["login"].content,
-                    isOpen: true,
-                    currentPage: "login",
-                }
-                yield put(updateCommonModalStatus(payload))
-            }
-        } catch (e) {
-            console.log("requestLoginUser error !!")
+        if (data.accessToken) {
+            yield put(updateIsLogin(true))
         }
+    } catch (e) {
+        yield put(updateIsLogin(false))
+        const payload: CommonModalInterface = {
+            title: ModalConst["login"]["login"].title,
+            content: ModalConst["login"]["login"].content,
+            isOpen: true,
+            currentPage: "login",
+        }
+        yield put(updateCommonModalStatus(payload))
+        console.log("requestLoginUser error !!")
     }
 }
 
