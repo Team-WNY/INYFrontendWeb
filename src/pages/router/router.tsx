@@ -10,12 +10,6 @@ import NeedYouMainPage from "../component/needYou/NeedYouMainPage";
 
 const Router: React.FC = () => {
 
-    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
-
-    useEffect(() => {
-        console.log("userInfo", userInfo)
-    }, [userInfo])
-
     return (
         <BrowserRouter basename={"/wny"}>
             <Routes>

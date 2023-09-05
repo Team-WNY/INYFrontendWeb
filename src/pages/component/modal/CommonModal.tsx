@@ -150,8 +150,8 @@ const CommonModal = (props: { currentPage: string }) => {
     const positiveBtnClick = () => {
         // setIsShow(false)
         dispatch(updateCommonModalStatus({isOpen: false}))
-        if (props.currentPage !== "join") {
-            navigate(-1)
+        if (props.currentPage !== "main") {
+            navigate(0)
         }
     }
 

@@ -1,6 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/commonInterface/commonInterface";
+import {ApiResponse} from "../../../data/interface/commonInterface";
 import {joinTypes} from "../action/join/joinActions";
 import {getAccountIdDupChk, getMberChk} from "../apis/joinApi/joinApis";
 import {getEmailChk} from "../apis/joinApi/joinApis";

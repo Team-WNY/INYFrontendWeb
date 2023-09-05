@@ -12,6 +12,7 @@ const URL_NEED_YOU = {
 
 const URL_LOGIN = {
     LOGIN : `${API_URL}/api/v1/auth/login`,
+    GET_INFO : `${API_URL}/api/v1/account/getinfo`,
     LOGOUT : `${API_URL}/logout`,
 }
 

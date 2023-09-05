@@ -9,6 +9,7 @@ import {loginActions} from "../../saga/action/login/loginActions";
 import {RootState} from "../../saga/store/rootStore";
 import CommonModal from "../modal/CommonModal";
 import {useNavigate} from "react-router";
+import {UserInfo} from "../../../data/interface/user/userInterface";
 
 const LoginFrameWrapper = styled.div`
   display: flex;
@@ -97,6 +98,7 @@ const LoginPage = (props: { currentPage: string }) => {
     const navigate = useNavigate()
     const [loginInfo, setLoginInfo] = useState<LoginInfo>({accountId: "", password: ""})
     const isLogin = useSelector((state: RootState) => state.server.login.isLogin)
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
 
     const inputChange = (typingValue: string, isAccountTyping: boolean) => {
         if (isAccountTyping) {
@@ -112,11 +114,7 @@ const LoginPage = (props: { currentPage: string }) => {
         }
     }
 
-    useEffect(() => {
-        console.log("loginInfo", loginInfo)
-    }, [loginInfo])
-
-    const login = (target) => {
+    const login = () => {
         console.log("login btn clicked !! ")
         if (loginInfo &&
             loginInfo.accountId.length !== 0 && loginInfo.accountId.length > 0 &&
@@ -127,11 +125,17 @@ const LoginPage = (props: { currentPage: string }) => {
     }
 
     useEffect(() => {
-        console.log("isLogin ", isLogin)
-        if (isLogin) {
-            window.location.href = "/wny/main"
+        if (props.currentPage === "login" && localStorage.getItem("Authorization")) {
+            navigate("/main", {replace: true, state: userInfo})
         }
-    }, [isLogin])
+    }, [userInfo, props.currentPage])
+
+    // useEffect(() => {
+    //     console.log("isLogin ", isLogin)
+    //     if (props.currentPage === "login" && isLogin) {
+    //         navigate("/main", {replace: true, state: userInfo})
+    //     }
+    // }, [isLogin, props.currentPage])
 
     return (
         <>
@@ -144,15 +148,15 @@ const LoginPage = (props: { currentPage: string }) => {
                         <div style={{marginBottom: "9px"}}>
                             ID
                         </div>
-                        <LoginInput onChange={(e) => inputChange(e.target.value, true)}/>
+                        <LoginInput onBlur={(e) => inputChange(e.target.value, true)}/>
                     </div>
                     <div>
                         <div style={{marginBottom: "9px"}}>
                             PW
                         </div>
-                        <LoginInput type={"password"} onChange={(e) => inputChange(e.target.value, false)}/>
+                        <LoginInput type={"password"} onBlur={(e) => inputChange(e.target.value, false)}/>
                     </div>
-                    <LoginBtn title={"login"} onClick={(e) => login(e.target)}/>
+                    <LoginBtn title={"login"} onClick={() => login()}/>
                     <div>
                         <JoinBtn style={{marginRight: "9px"}} onClick={() => navigate("/join")}>회원가입</JoinBtn>
                         <FindBtn>ID/PW 찾기</FindBtn>

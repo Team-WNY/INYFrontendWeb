@@ -1,21 +1,25 @@
 export interface UserInfo {
     accountId: string,
-    userPw?: string,
-    pw?: string,
-    name?: string,
-    birth?: string,
-    email?: string,
-    phoneNumber?: string,
+    auth?: string,
+    follower?: number,
+    following?: number,
     heart?: Heart,
-    address?: string,
-    follower?: string,
-    following?: string,
-    amiCnt?: number,
-    userProfileImg?: string,
-    nickName:string,
+    // id?:string
+    // password?: string,
+    profile?: UserProfile,
+    uploadAmiCount?: number,
 }
 
 export interface Heart {
     blackHeart: number,
     redHeart: number,
+}
+
+export interface UserProfile {
+    address?: string,
+    birthDay?: string,
+    email?: string,
+    name?: string,
+    nickName: string,
+    phoneNumber?: string,
 }

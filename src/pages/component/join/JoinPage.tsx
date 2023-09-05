@@ -243,19 +243,20 @@ const JoinPage = (props: { currentPage: string }) => {
 
     useEffect(() => {
         console.log("join", isAccountIdDupCheck)
-        let value: string = ""
+        let subPage: string = ""
         if (isAccountIdDupCheck !== null) {
             if (isAccountIdDupCheck) {
-                value = "duplicatesCheck_true"
+                subPage = "duplicatesCheck_true"
             } else {
-                value = "duplicatesCheck_false"
+                subPage = "duplicatesCheck_false"
             }
             const payload: CommonModalInterface = {
-                title: ModalConst[props.currentPage][value].title,
-                content: ModalConst[props.currentPage][value].content,
-                isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+                title: ModalConst[props.currentPage][subPage].title,
+                content: ModalConst[props.currentPage][subPage].content,
+                isConfirmMsg: ModalConst[props.currentPage][subPage]?.isConfirmMsg,
                 isOpen: true,
                 currentPage: props.currentPage,
+                subPage: subPage,
             }
             dispatch(updateCommonModalStatus(payload))
         }
@@ -283,13 +284,14 @@ const JoinPage = (props: { currentPage: string }) => {
 
     const cancelClick = () => {
         console.log("cancel btn clicked !! ")
-        const btn: string = "cancel"
+        const subPage: string = "cancel"
         const payload: CommonModalInterface = {
-            title: ModalConst[props.currentPage][btn].title,
-            content: ModalConst[props.currentPage][btn].content,
-            isConfirmMsg: ModalConst[props.currentPage][btn].isConfirmMsg,
+            title: ModalConst[props.currentPage][subPage].title,
+            content: ModalConst[props.currentPage][subPage].content,
+            isConfirmMsg: ModalConst[props.currentPage][subPage].isConfirmMsg,
             isOpen: true,
             currentPage: props.currentPage,
+            subPage: subPage
         }
         dispatch(updateCommonModalStatus(payload))
     }

@@ -1,6 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {all, call, put, takeLatest} from "@redux-saga/core/effects";
-import {ApiResponse} from "../../../data/interface/commonInterface/commonInterface";
+import {ApiResponse} from "../../../data/interface/commonInterface";
 import {needYouTypes} from "../action/needYou/needYouActions";
 import {updateNeedYouList} from "../store/server/needYou/needYouServerStore";
 import {getNeedYouList} from "../apis/needYouApi/needYouApis";

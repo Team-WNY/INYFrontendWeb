@@ -18,5 +18,10 @@ export interface Comment {
     userProfileImg?: string,
 }
 
+// export interface HelperRegisterComment {
+//     isShowCommentYesBtn: boolean
+//     helperComment: string
+// }
+
 // Array<NeedYou>
 
