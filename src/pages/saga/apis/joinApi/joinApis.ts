@@ -23,3 +23,9 @@ export const getEmailChk = async (params: string) => {
     return data
 }
 
+export const getMberChk = async (params: any) => {
+    console.log("params ",params)
+    const {data} = await axios.post(conf.API.URL.JOIN.URL_JOIN.MBER_CHECK,params)
+    return data
+}
+

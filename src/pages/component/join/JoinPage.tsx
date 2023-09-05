@@ -145,19 +145,20 @@ const JoinPage = (props: { currentPage: string }) => {
 
     const valiToJoin = () => {
         const vali_param = {
-            userIdValue: userIdValue,
+            accountId: userIdValue,
             password: password,
             password2: password2,
             email: email,
             name: name,
-            nick: nick,
-            birth: birth,
-            mobile: mobile,
+            nickName: nick,
+            birthDay: birth,
+            phoneNumber: mobile,
             address: address,
             add_detail: add_detail
         }
         setCount(10);
         for (const key in vali_param) {
+            console.log('key ',key)
             if (vali_param.hasOwnProperty(key)) {
                 const value = vali_param[key];
                 if (!value || value.trim() === '') {
@@ -166,8 +167,23 @@ const JoinPage = (props: { currentPage: string }) => {
                 }
             }
         }
+
+        const payload = {
+            accountId: userIdValue,
+            password: password,
+            // password2: password2,
+            email: email,
+            name: name,
+            nickName: nick,
+            birthDay: birth,
+            phoneNumber: mobile,
+            address: address,
+            // add_detail: add_detail
+        }
+
         if (count === 10) {
             console.log('전 항목 입력완료');
+            dispatch(joinActions.requestJoinInfo(payload));
         }
     }
 
@@ -392,7 +408,7 @@ const JoinPage = (props: { currentPage: string }) => {
                         display: "flex",
                         gap: "107px"
                     }}>
-                        <JoinBtn onClick={valiToJoin}/>
+                        <JoinBtn onClick={() => valiToJoin()}/>
                         <CancelBtn onClick={cancelClick}/>
                     </div>
                 </JoinFrame>

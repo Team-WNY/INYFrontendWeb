@@ -7,6 +7,7 @@ interface Props {
 }
 
 const initialState = {
+
     btnNumberValue : 0,
     btnNumberActive : true,
 }
