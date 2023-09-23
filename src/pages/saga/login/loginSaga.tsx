@@ -23,6 +23,7 @@ const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
             }
         }
     } catch (e) {
+        alert(e)
         yield put(updateIsLogin(false))
         const payload: CommonModalInterface = {
             title: ModalConst["login"]["login"].title,

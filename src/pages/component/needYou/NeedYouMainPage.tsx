@@ -407,21 +407,21 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     useEffect(() => {
-        if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
-            const subPage = "error"
-            const payload: CommonModalInterface = {
-                title: ModalConst[props.currentPage][subPage].title,
-                content: ModalConst[props.currentPage][subPage].content,
-                isOpen: true,
-                currentPage: props.currentPage,
-                subPage: subPage,
-            }
-            dispatch(updateCommonModalStatus(payload))
-            setTimeout(() => {
-                dispatch(updateCommonModalStatus({isOpen:false}))
-                navigate("/login", {replace: true})
-            }, 3000)
-        }
+        // if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
+        //     const subPage = "error"
+        //     const payload: CommonModalInterface = {
+        //         title: ModalConst[props.currentPage][subPage].title,
+        //         content: ModalConst[props.currentPage][subPage].content,
+        //         isOpen: true,
+        //         currentPage: props.currentPage,
+        //         subPage: subPage,
+        //     }
+        //     dispatch(updateCommonModalStatus(payload))
+        //     setTimeout(() => {
+        //         dispatch(updateCommonModalStatus({isOpen:false}))
+        //         navigate("/login", {replace: true})
+        //     }, 3000)
+        // }
     }, [props.currentPage])
 
 
@@ -431,10 +431,13 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     const optionClick = (e) => {
+        console.log("e ", e)
         const optionValue = e.target.value
+
         let payload: RegModalInterface = {
-            isOpen: true
+            isOpen: true,
         }
+
         if (optionValue!! === "needYou") {
             payload = {
                 ...payload,

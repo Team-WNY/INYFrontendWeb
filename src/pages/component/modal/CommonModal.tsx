@@ -139,19 +139,19 @@ const CommonModal = (props: { currentPage: string }) => {
 
     useEffect(() => {
         console.log("commonModalStatus ", commonModalStatus)
+        setIsShow(true)
     }, [commonModalStatus.isOpen])
+
+    const positiveBtnClick = () => {
+        setIsShow(false)
+        if (props.currentPage !== "main") {
+            navigate(0)
+        }
+    }
 
     const goBackBtnClick = () => {
         if (commonModalStatus.isOpen) {
             dispatch(updateCommonModalStatus({isOpen: false}))
-        }
-    }
-
-    const positiveBtnClick = () => {
-        // setIsShow(false)
-        dispatch(updateCommonModalStatus({isOpen: false}))
-        if (props.currentPage !== "main") {
-            navigate(0)
         }
     }
 
@@ -171,25 +171,27 @@ const CommonModal = (props: { currentPage: string }) => {
             {
                 commonModalStatus.isOpen &&
                 <>
-                    <Background visible={commonModalStatus.isOpen}/>
-                    <ModalSection visible={commonModalStatus.isOpen}>
-                        <Title>
-                            {commonModalStatus?.title}
-                        </Title>
-                        <Content>
-                            <Item text={commonModalStatus?.content}
-                                  key={commonModalStatus.currentPage + "_" + commonModalStatus?.content}/>
-                        </Content>
-                        <div style={{display: "flex", gap: "17px"}}>
-                            {
-                                commonModalStatus?.isConfirmMsg ?
-                                    <PositiveButton
-                                        onClick={() => positiveBtnClick()}>{commonModalStatus?.isConfirmMsg}</PositiveButton>
-                                    : null
-                            }
-                            <GoBackButton onClick={goBackBtnClick}>돌아가기</GoBackButton>
-                        </div>
-                    </ModalSection>
+                    <div style={{display: `${isShow}` ? 'block' : 'none'}}>
+                        <Background visible={commonModalStatus.isOpen}/>
+                        <ModalSection visible={commonModalStatus.isOpen}>
+                            <Title>
+                                {commonModalStatus?.title}
+                            </Title>
+                            <Content>
+                                <Item text={commonModalStatus?.content}
+                                      key={commonModalStatus.currentPage + "_" + commonModalStatus?.content}/>
+                            </Content>
+                            <div style={{display: "flex", gap: "17px"}}>
+                                {
+                                    commonModalStatus?.isConfirmMsg &&
+                                    <PositiveButton onClick={() => positiveBtnClick()}>
+                                        {commonModalStatus?.isConfirmMsg}
+                                    </PositiveButton>
+                                }
+                                <GoBackButton onClick={goBackBtnClick}>돌아가기</GoBackButton>
+                            </div>
+                        </ModalSection>
+                    </div>
                 </>
             }
         </>

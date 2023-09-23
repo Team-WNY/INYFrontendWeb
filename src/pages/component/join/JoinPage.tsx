@@ -192,7 +192,6 @@ const JoinPage = (props: { currentPage: string }) => {
     const userNick = (e) => {
         const nick = e.target.value;
         setNick(nick);
-
     };
     const userBirth = (e) => {
         const birth = e.target.value;

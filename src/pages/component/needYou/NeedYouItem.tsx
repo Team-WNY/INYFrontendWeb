@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {NeedYou} from "../../../data/interface/needYou/needYouInterface";
 import logo from "../../../public/static/images/logo/INY.png"
 import {useEffect, useState} from "react";
+import {parseTimeForToday} from "../../util/commonUtil";
 
 const NeedYouItemWrapper = styled.div`
   width: 360px;
@@ -102,7 +103,7 @@ const NeedYouItem = (props?: { item: NeedYou }) => {
                             {props.item.subject}
                         </NeedYouInfoSubject>
                         <NeedYouInfoUploadDtm>
-                            {props.item.uploadDtm}
+                            {parseTimeForToday(new Date(props.item.uploadDtm))}
                         </NeedYouInfoUploadDtm>
                         <NeedYouInfoContent>
                             {props.item.content}

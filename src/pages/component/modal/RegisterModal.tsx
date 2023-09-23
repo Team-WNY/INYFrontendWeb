@@ -118,7 +118,7 @@ const Line = styled.line`
   margin: 56.9px 21px 0 21px;
 `
 
-const UploadImgBtn = styled.button`
+const UploadImgBtn = styled.input`
   display: flex;
   width: 45px;
   height: 49px;
@@ -276,15 +276,15 @@ const RegisterModal = (props:{currentPage:string}) => {
                             <CloseBtn onClick={() => closeClick()}/>
                             <Title>{regModalStatus.title}</Title>
                             <Line/>
-                            <UploadImgBtn>
-                                <img src={uploadImg}
-                                     style={{
-                                         width: "24px",
-                                         height: "24px",
-                                         position: "absolute",
-                                         left: "10px",
-                                         bottom: "10.5px",
-                                     }}/>
+                            <UploadImgBtn type={"file"}>
+                                {/*<img src={uploadImg}*/}
+                                {/*     style={{*/}
+                                {/*         width: "24px",*/}
+                                {/*         height: "24px",*/}
+                                {/*         position: "absolute",*/}
+                                {/*         left: "10px",*/}
+                                {/*         bottom: "10.5px",*/}
+                                {/*     }}/>*/}
                             </UploadImgBtn>
                         </div>
 

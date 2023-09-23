@@ -16,3 +16,10 @@ export interface RegModalInterface {
     address?: string,
 }
 
+export interface JOinInterface {
+    isOpen: boolean,
+    title?: string,
+    content?: string,
+    address?: string,
+}
+
