@@ -1,15 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {CommonModalInterface, RegModalInterface} from "../../../../../data/interface/modal/commonModalInterface";
+import {CommonModalInterface, RegModalInterface, SettingsModalInterface} from "../../../../../data/interface/modal/commonModalInterface";
 
 
 interface Props {
     commonModalStatus: CommonModalInterface,
     regModalStatus: RegModalInterface,
+    settingsModalStatus: SettingsModalInterface,
 }
 
 const initialState = {
     commonModalStatus: {isOpen:false},
     regModalStatus: {isOpen:false},
+    settingsModalStatus: {isOpen:false, title:"환경설정"},
 }
 
 const modalViewStore = createSlice({
@@ -22,12 +24,16 @@ const modalViewStore = createSlice({
         updateRegModalStatus: (state: Props, action: PayloadAction<RegModalInterface>) => {
             state.regModalStatus = action.payload
         },
+        updateSettingsModalStatus: (state: Props, action: PayloadAction<SettingsModalInterface>) => {
+            state.settingsModalStatus = action.payload
+       },
     }
 })
 
 export const {
     updateCommonModalStatus,
     updateRegModalStatus,
+    updateSettingsModalStatus,
 } = modalViewStore.actions
 
 export default modalViewStore.reducer

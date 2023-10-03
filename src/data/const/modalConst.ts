@@ -36,4 +36,11 @@ export const ModalConst = {
             content: "입력하신 아이디와 패스워드가\n회원정보에 일치하지 않습니다.",
         },
     },
+    "settings" : {
+        "logOut" : {
+            title: "로그아웃",
+            content: "로그아웃 하시겠습니까?\n현재 작성중인 모든 내용은 취소됩니다.",
+            isConfirmMsg: "로그아웃",
+        },
+    },
 }
