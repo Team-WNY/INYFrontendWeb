@@ -18,8 +18,8 @@ const TopBarWrapper = styled.div`
 `
 
 const BackBtn = styled.img`
-  width: 21px;
-  height: 21px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   position: absolute;
   left: 0;
@@ -49,10 +49,23 @@ const SettingsHeader = () => {
 
     const backBtnOnClick = () => {
         console.log("backBtnOnClick!!")
-        if (settingsModalStatus.title!! === "환경설정") {
-            navigate("/main")
+        if ((settingsModalStatus.title!! === "계정 / 정보 관리") ||
+            (settingsModalStatus.title!! === "작성 이력") ||
+            (settingsModalStatus.title!! === "NOTICE")){
+            navigate("/settings")
+            dispatch(updateSettingsModalStatus({isOpen:false, title:"환경설정"}))
+        } else if ((settingsModalStatus.title!! === "비밀번호 변경하기") ||
+                   (settingsModalStatus.title!! === "이메일 인증확인") ||
+                   (settingsModalStatus.title!! === "연락처 입력하기")){
+            dispatch(updateSettingsModalStatus({isOpen:true, title:"계정 / 정보 관리"}))
+        } else if ((settingsModalStatus.title!! === "HELP") ||
+                   (settingsModalStatus.title!! === "HELPER") ||
+                   (settingsModalStatus.title!! === "GOOD")){
+            dispatch(updateSettingsModalStatus({isOpen:true, title:"작성 이력"}))
+        } else {
+             navigate("/main")
+             dispatch(updateSettingsModalStatus({isOpen:false, title:"환경설정"}))
         }
-        dispatch(updateSettingsModalStatus({isOpen:false, title:"환경설정"}))
     }
 
     return(

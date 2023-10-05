@@ -43,6 +43,33 @@ const WrittenModalWrapper = styled.div<{ isVisible: boolean }>`
   ${(props) => modalSettings(props.isVisible)}
 `
 
+const HelpWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
+const HelperWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
+const GoodWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
 const WrittenOption = styled.option`
   width: 150px;
   height: 15px;
@@ -59,16 +86,26 @@ const WrittenModal = (props:{currentPage:string}) => {
 
     const [isInit, setIsInit] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
+    const [isHelp, setIsHelp] = useState<boolean>(false)
+    const [isHelper, setIsHelper] = useState<boolean>(false)
+    const [isGood, setIsGood] = useState<boolean>(false)
 
     useEffect(() => {
         console.log("settingsModalStatus", settingsModalStatus)
         if (settingsModalStatus.isOpen && settingsModalStatus.title!! === "작성 이력") {
             setIsInit(true)
             setIsShow(true)
+            setIsHelp(false)
+            setIsHelper(false)
+            setIsGood(false)
+        } else if ((settingsModalStatus.title!! === "HELP") ||
+                   (settingsModalStatus.title!! === "HELPER") ||
+                   (settingsModalStatus.title!! === "GOOD")) {
+            setIsInit(true)
         } else {
             setIsInit(false)
         }
-    }, [settingsModalStatus.isOpen])
+    }, [settingsModalStatus])
 
     const writtenOptionClick = (e) => {
         const writtenOptionValue = e.target.value;
@@ -81,18 +118,21 @@ const WrittenModal = (props:{currentPage:string}) => {
                    ...payload,
                    title: "HELP"
                 }
+                setIsHelp(true)
             break;
             case "HELPER" :
                 payload = {
                    ...payload,
                    title: "HELPER"
                 }
+                setIsHelper(true)
             break;
             case "GOOD" :
                 payload = {
                    ...payload,
                    title: "GOOD"
                 }
+                setIsGood(true)
             break;
             default :
                 payload = {
@@ -106,6 +146,7 @@ const WrittenModal = (props:{currentPage:string}) => {
 
     return(
         <>
+            {/*작성 이력*/}
             {
                 isInit &&
                 <>
@@ -122,6 +163,30 @@ const WrittenModal = (props:{currentPage:string}) => {
                     </WrittenModalWrapper>
                 </>
             }
+
+            {/*HELP*/}
+            {
+                <>
+                    <HelpWrapper isVisible={isHelp}>
+                    </HelpWrapper>
+                </>
+            }
+
+            {/*HELPER*/}
+            {
+                <>
+                    <HelperWrapper isVisible={isHelper}>
+                    </HelperWrapper>
+                </>
+            }
+
+            {/*GOOD*/}
+            {
+                <>
+                    <GoodWrapper isVisible={isGood}>
+                    </GoodWrapper>
+                </>
+            }
         </>
     )
 }
@@ -129,5 +194,17 @@ const WrittenModal = (props:{currentPage:string}) => {
 export default WrittenModal
 
 WrittenModalWrapper.defaultProps = {
+    isVisible: false
+}
+
+HelpWrapper.defaultProps = {
+    isVisible: false
+}
+
+HelperWrapper.defaultProps = {
+    isVisible: false
+}
+
+GoodWrapper.defaultProps = {
     isVisible: false
 }

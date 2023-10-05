@@ -42,5 +42,10 @@ export const ModalConst = {
             content: "로그아웃 하시겠습니까?\n현재 작성중인 모든 내용은 취소됩니다.",
             isConfirmMsg: "로그아웃",
         },
+        "ChangePassword" : {
+            title: "변경하기",
+            content: "비밀번호를 변경합니다.\n계속 진행하시겠습니까?",
+            isConfirmMsg: "변경하기",
+        },
     },
 }

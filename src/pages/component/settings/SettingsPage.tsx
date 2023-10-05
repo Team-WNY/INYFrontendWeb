@@ -9,6 +9,7 @@ import {updateSettingsModalStatus} from "../../saga/store/view/modal/modalViewSt
 import CommonModal from "../modal/CommonModal";
 import AccountModal from "../settings/modal/AccountModal";
 import WrittenModal from "../settings/modal/WrittenModal";
+import NoticeModal from "../settings/modal/NoticeModal";
 
 const SettingsWrapper = styled.div`
   height: auto;
@@ -79,12 +80,6 @@ const SettingsPage = (props: { currentPage: string }) => {
                        title: "NOTICE"
                 }
             break;
-            case "회원탈퇴" :
-                payload = {
-                       ...payload,
-                       title: "회원탈퇴"
-                }
-            break;
             default :
                 payload = {
                        ...payload,
@@ -114,6 +109,7 @@ const SettingsPage = (props: { currentPage: string }) => {
             <CommonModal currentPage={props.currentPage}/>
             <AccountModal currentPage={props.currentPage}/>
             <WrittenModal currentPage={props.currentPage}/>
+            <NoticeModal currentPage={props.currentPage}/>
             <SettingsWrapper>
                 <UserSetting>
                     사용자설정
@@ -130,10 +126,10 @@ const SettingsPage = (props: { currentPage: string }) => {
                     <SettingsOption value="공지사항" onClick={(e) => settingsOptionClick(e)}>
                         공지사항
                     </SettingsOption>
-                    <SÏettingsOption onClick={() => logOutClick()}>
+                    <SettingsOption onClick={() => logOutClick()}>
                         로그아웃
                     </SettingsOption>
-                    <SettingsOption value="회원탈퇴" onClick={(e) => settingsOptionClick(e)}>
+                    <SettingsOption>
                         회원탈퇴
                     </SettingsOption>
                 </AndWhatNot>
