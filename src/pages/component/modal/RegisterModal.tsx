@@ -8,6 +8,8 @@ import uploadImg from "../../../public/static/images/button/modal/register/btn_m
 import {updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import DaumPostcodeEmbed, {useDaumPostcodePopup} from "react-daum-postcode";
 import {postcodeScriptUrl} from "react-daum-postcode/lib/loadPostcode";
+import {Swiper} from "swiper/swiper-react";
+import {Navigation} from "swiper/types/modules";
 
 const fadeIn = keyframes`
   0% {
@@ -28,10 +30,9 @@ const fadeOut = keyframes`
 `;
 
 const modalSettings = (visible: boolean) => css`
-  visibility: ${visible ? 'visible' : 'hidden'};
-  z-index: 15;
-  animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
-  transition: visibility 0.15s ease-out;
+  z-index: 100;
+  animation: ${visible ? fadeIn : fadeOut} 0.4s ease-out;
+  transition: visibility 0.4s ease-out;
 `;
 
 const Background = styled.div<{ isVisible: boolean }>`
@@ -44,10 +45,9 @@ const Background = styled.div<{ isVisible: boolean }>`
   ${(props) => modalSettings(props.isVisible)}
 `;
 
-
 const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
-  width: 360px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
   border-radius: 7px;
   position: fixed;
   top: 50vh;
@@ -59,6 +59,28 @@ const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
   ${(props) => modalSettings(props.isVisible)}
 `
 
+const RegisterModalHeader = styled.div`
+  width: 100%;
+  height: 64.5px;
+  top: 0;
+  padding-top: 1px;
+`
+
+const Line = styled.line`
+  width: 318px;
+  height: 1px;
+  top: 64.5px;
+  background: #000;
+  position: absolute;
+  margin: 0px 21px 0 21px;
+`
+
+const RegisterModalImageArea = styled.div`
+  width: 100%;
+  height: 52px;
+  top: 71px;
+  padding-top: 1px;
+`
 
 // background-image: url("${cancelImg}");
 const Title = styled.div`
@@ -110,29 +132,29 @@ const CloseBtn = styled.button`
   }
 `
 
-const Line = styled.line`
-  width: 318px;
-  height: 1px;
-  background: #000;
-  position: absolute;
-  margin: 56.9px 21px 0 21px;
-`
-
 const UploadImgBtn = styled.button`
+  top: 75px;
   display: flex;
   width: 45px;
   height: 49px;
   gap: 10px;
   position: absolute;
-  margin: 75px 295px 0 20px;
+  margin-left: 20px;
   background: #fff;
 `
 
+const SlideImage = styled.div`
+  width: 45px;
+  height: 45px;
+  border: 1px solid var(--color-74, #70FFFF);
+  background: #D9D9D9;`
+
 const RegisterInfoFrame = styled.div`
+  top: 140px;
   width: 318px;
-  height: 366px;
+  height: 403px;
   position: absolute;
-  margin: 97px 21px 94px 21px;
+  margin: 0 21px;
   gap: 9px;
   display: inline-flex;
   flex-direction: column;
@@ -168,7 +190,7 @@ const RegisterSubjectInput = styled.input`
 
 const RegisterContentTextArea = styled.textarea`
   width: 318px;
-  height: 148px;
+  height: 120px;
   border: 1px solid #000;
   font-family: Inter;
   font-size: 13px;
@@ -176,7 +198,6 @@ const RegisterContentTextArea = styled.textarea`
   font-weight: 600;
   background: var(--color-whiter, #FFF);
 `
-
 
 const RegisterAddressInput = styled.input`
   width: 318px;
@@ -190,12 +211,13 @@ const RegisterAddressInput = styled.input`
 `
 
 const RegisterSubmit = styled.button`
+  top: 0;
   width: 239px;
   height: 48px;
   border-radius: 10px;
   background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
   position: absolute;
-  margin: 485px 57px 22px 57px;
+  margin: 567px 60.5px 0 60.5px;
   color: var(--color-black, #000);
 
   /* Head/Header */
@@ -207,7 +229,7 @@ const RegisterSubmit = styled.button`
   letter-spacing: 0.08px;
 `
 
-const RegisterModal = (props:{currentPage:string}) => {
+const RegisterModal = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
     // const commonModalStatus: CommonModalInterface = useSelector((state: RootState) => state.view.modal.commonModalStatus)
@@ -272,10 +294,12 @@ const RegisterModal = (props:{currentPage:string}) => {
                     <CommonModal currentPage={props.currentPage}/>
                     <Background isVisible={isShow}/>
                     <RegisterModalWrapper isVisible={isShow}>
-                        <div style={{display: "flex"}}>
+                        <RegisterModalHeader>
                             <CloseBtn onClick={() => closeClick()}/>
                             <Title>{regModalStatus.title}</Title>
-                            <Line/>
+                        </RegisterModalHeader>
+                        <Line/>
+                        <RegisterModalImageArea>
                             <UploadImgBtn>
                                 <img src={uploadImg}
                                      style={{
@@ -285,11 +309,24 @@ const RegisterModal = (props:{currentPage:string}) => {
                                          left: "10px",
                                          bottom: "10.5px",
                                      }}/>
+                                {/*<Swiper*/}
+                                {/*    // install Swiper modules*/}
+                                {/*    // modules={[Navigation,*/}
+                                {/*    //     // Pagination, Scrollbar, A11y*/}
+                                {/*    // ]}*/}
+                                {/*    spaceBetween={50}*/}
+                                {/*    slidesPerView={3}*/}
+                                {/*    navigation*/}
+                                {/*    pagination={{ clickable: true }}*/}
+                                {/*    scrollbar={{ draggable: true }}*/}
+                                {/*    onSwiper={(swiper) => console.log(swiper)}*/}
+                                {/*    onSlideChange={() => console.log('slide change')}*/}
+                                {/*>*/}
+                                {/*    <SlideImage>Slide 1</SlideImage>*/}
+                                {/*</Swiper>*/}
                             </UploadImgBtn>
-                        </div>
-
+                        </RegisterModalImageArea>
                         <RegisterInfoFrame>
-
                             <InputTitleStr>제목</InputTitleStr>
                             <RegisterSubjectInput/>
 
@@ -306,8 +343,9 @@ const RegisterModal = (props:{currentPage:string}) => {
                             <RegisterAddressInput/>
 
                         </RegisterInfoFrame>
-
                         <RegisterSubmit>작성완료</RegisterSubmit>
+
+
                     </RegisterModalWrapper>
                     {
                         isSearchAddress &&
