@@ -11,7 +11,7 @@ import NeedYouItem from "./NeedYouItem";
 import cancelImg from "../../../public/static/images/button/main/register/btn_main_register_cancel.png";
 import logoImg from "../../../public/static/images/logo/INY.png";
 import sampleImg from "../../../public/static/images/sample/sampleImg.png";
-import RegisterModal from "../modal/RegisterModal";
+import RegisterModal from "../modal/registerModal/RegisterModal";
 import {updateCommonModalStatus, updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {CommonModalInterface, RegModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {updateNeedYouSelect} from "../../saga/store/server/needYou/needYouServerStore";
@@ -489,7 +489,6 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     const helperCommentYesBtnClick = () => {
-
         const value = "register"
         const payload: CommonModalInterface = {
             title: ModalConst[props.currentPage][value].title,
