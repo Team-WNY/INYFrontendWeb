@@ -1,13 +1,8 @@
 import uploadImg from "../../../../public/static/images/button/modal/register/btn_modal_register_uploadImg.png";
 import React from "react";
 import styled from "styled-components";
-import {RootState} from "../../../saga/store/rootStore";
-import {useSelector} from "react-redux";
-
 
 const uploadImageArea = () => {
-
-    // const isModal = useSelector((state: RootState) => state.view.modal.isModalOpen)
 
     return (
         <>
@@ -106,22 +101,4 @@ const UploadImgArea = styled.div`
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-`
-
-// const ImgFileInput = styled.input`
-//   position: absolute;
-//   width: 0;
-//   height: 0;
-//   padding: 0;
-//   overflow: hidden;
-//   border: 0;
-//   z-index: 100;
-// `
-
-const UploadCameraImg = styled.img`
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 10px;
-  bottom: 10.5px;
 `

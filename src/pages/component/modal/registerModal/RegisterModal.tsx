@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RegModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import {RootState} from "../../../saga/store/rootStore";
-import uploadImg from "../../../public/static/images/button/modal/register/btn_modal_register_uploadImg.png";
 import {updateRegModalStatus} from "../../../saga/store/view/modal/modalViewStore";
 import DaumPostcodeEmbed, {useDaumPostcodePopup} from "react-daum-postcode";
 import {postcodeScriptUrl} from "react-daum-postcode/lib/loadPostcode";
