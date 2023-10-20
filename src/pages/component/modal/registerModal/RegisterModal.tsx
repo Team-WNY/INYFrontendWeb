@@ -1,13 +1,14 @@
+import styled, {css, keyframes} from "styled-components";
 import CommonModal from "../CommonModal";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RegModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import {RootState} from "../../../saga/store/rootStore";
+import uploadImg from "../../../public/static/images/button/modal/register/btn_modal_register_uploadImg.png";
 import {updateRegModalStatus} from "../../../saga/store/view/modal/modalViewStore";
 import DaumPostcodeEmbed, {useDaumPostcodePopup} from "react-daum-postcode";
 import {postcodeScriptUrl} from "react-daum-postcode/lib/loadPostcode";
 import UploadImageArea from "./UploadImageArea";
-import styled, {css, keyframes} from "styled-components";
 // import {Swiper} from "swiper/swiper-react";
 // import {Keyboard, Mousewheel, Navigation, Pagination} from "swiper/types/modules";
 
@@ -251,7 +252,19 @@ const SlideImage = styled.div`
   width: 45px;
   height: 45px;
   border: 1px solid var(--color-74, #70FFFF);
-  background: #D9D9D9;`
+  background: #D9D9D9;
+`
+
+const UploadImgBtn = styled.input`
+  top: 75px;
+  display: flex;
+  width: 45px;
+  height: 49px;
+  gap: 10px;
+  position: absolute;
+  margin: 75px 295px 0 20px;
+  background: #fff;
+`
 
 const RegisterInfoFrame = styled.div`
   top: 140px;
@@ -333,14 +346,9 @@ const RegisterSubmit = styled.button`
   letter-spacing: 0.08px;
 `
 
-
-
 Background.defaultProps = {
     isVisible: false
 }
 RegisterModalWrapper.defaultProps = {
     isVisible: false
 }
-
-
-

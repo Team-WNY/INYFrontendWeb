@@ -431,10 +431,13 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     const optionClick = (e) => {
+        console.log("e ", e)
         const optionValue = e.target.value
+
         let payload: RegModalInterface = {
-            isOpen: true
+            isOpen: true,
         }
+
         if (optionValue!! === "needYou") {
             payload = {
                 ...payload,
