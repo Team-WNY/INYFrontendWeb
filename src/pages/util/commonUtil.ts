@@ -38,11 +38,8 @@ export const parseTimeForToday = (target: Date) => {
             const resMin = minutes.length < 2 ? "0" + minutes : minutes
             result = `${resHour}:${resMin}`
         } else {
-            console.log(target)
             const year = target.getFullYear()
             const month = target.getMonth()
-            console.log(year)
-            console.log(month)
             const day = target.getDate()
             result = `${year}년 ${month}월 ${day}일`
         }
