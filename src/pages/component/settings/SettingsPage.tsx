@@ -2,14 +2,13 @@ import styled from "styled-components";
 import SettingsHeader from "./SettingsHeader";
 import {useDispatch} from "react-redux";
 import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
-import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {updateCommonModalStatus, updateSettingsModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {ModalConst} from "../../../data/const/modalConst";
-import {SettingsModalInterface} from "../../../data/interface/modal/commonModalInterface";
-import {updateSettingsModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import CommonModal from "../modal/CommonModal";
 import AccountModal from "../settings/modal/AccountModal";
 import WrittenModal from "../settings/modal/WrittenModal";
 import NoticeModal from "../settings/modal/NoticeModal";
+import {SETTINGS_MODAL_STATUS} from "../../../data/const/settingsConst";
 
 const SettingsWrapper = styled.div`
   height: auto;
@@ -55,38 +54,10 @@ const SettingsPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
 
-    const settingsOptionClick = (e) => {
-        const settingsOptionValue = e.target.value;
-        console.log("settingsOptionClick!!", settingsOptionValue)
-        let payload: SettingsModalInterface = {
-            isOpen: true
-        }
-        switch (settingsOptionValue) {
-            case "계정 / 정보 관리" :
-                payload = {
-                       ...payload,
-                       title: "계정 / 정보 관리"
-                }
-            break;
-            case "작성한 글 이력" :
-                payload = {
-                       ...payload,
-                       title: "작성 이력"
-                }
-            break;
-            case "공지사항" :
-                payload = {
-                       ...payload,
-                       title: "NOTICE"
-                }
-            break;
-            default :
-                payload = {
-                       ...payload,
-                       title: "환경설정"
-                }
-            break;
-        }
+    const settingsOptionClick = (clickedValue:string) => {
+        console.log("clickedValue  ", clickedValue )
+        const payload = SETTINGS_MODAL_STATUS.find(status => status.title === clickedValue)
+        console.log("payload  ", payload )
         dispatch(updateSettingsModalStatus(payload))
     }
 
@@ -110,20 +81,21 @@ const SettingsPage = (props: { currentPage: string }) => {
             <AccountModal currentPage={props.currentPage}/>
             <WrittenModal currentPage={props.currentPage}/>
             <NoticeModal currentPage={props.currentPage}/>
+            {/*기존에 태그에 value 속성에 상수로 박힌 값을 즉시 상수값으로 함수의 파라미터로 줬음 */}
             <SettingsWrapper>
                 <UserSetting>
                     사용자설정
-                    <SettingsOption value="계정 / 정보 관리" onClick={(e) => settingsOptionClick(e)}>
+                    <SettingsOption onClick={() => settingsOptionClick("계정 / 정보 관리")}>
                         계정 / 정보 관리
                     </SettingsOption>
-                    <SettingsOption value="작성한 글 이력" onClick={(e) => settingsOptionClick(e)}>
+                    <SettingsOption onClick={() => settingsOptionClick("작성 이력")}>
                         작성한 글 이력
                     </SettingsOption>
                 </UserSetting>
                 <Line/>
                 <AndWhatNot>
                     기타
-                    <SettingsOption value="공지사항" onClick={(e) => settingsOptionClick(e)}>
+                    <SettingsOption onClick={() => settingsOptionClick("NOTICE")}>
                         공지사항
                     </SettingsOption>
                     <SettingsOption onClick={() => logOutClick()}>

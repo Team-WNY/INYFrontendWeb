@@ -1,8 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import React, {useEffect} from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../saga/store/rootStore";
-import {UserInfo} from "../../data/interface/user/userInterface";
+import React from "react";
 import {isDev} from "../../data/config/config";
 import LoginPage from "../component/login/LoginPage";
 import JoinPage from "../component/join/JoinPage";
