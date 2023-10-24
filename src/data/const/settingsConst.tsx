@@ -7,12 +7,18 @@ import {SettingsModalInterface} from "../interface/modal/commonModalInterface";
  */
 export const SETTINGS_MODAL_STATUS: Array<SettingsModalInterface> = [
     {
-        isOpen: true,
-        title: "계정 / 정보 관리"
+        isOpen: false,
+        title: "환경설정"
     },
     {
         isOpen: true,
-        title: "작성 이력"
+        title: "계정 / 정보 관리",
+        settingsOptionList: ["비밀번호 변경하기", "이메일 인증확인", "연락처 입력하기"]
+    },
+    {
+        isOpen: true,
+        title: "작성 이력",
+        settingsOptionList: ["HELP", "HELPER", "GOOD"]
     },
     {
         isOpen: true,
@@ -20,6 +26,26 @@ export const SETTINGS_MODAL_STATUS: Array<SettingsModalInterface> = [
     },
     {
         isOpen: true,
-        title: "환경설정"
+        title: "비밀번호 변경하기"
+    },
+    {
+        isOpen: true,
+        title: "이메일 인증확인"
+    },
+    {
+        isOpen: true,
+        title: "연락처 입력하기"
+    },
+    {
+        isOpen: true,
+        title: "HELP"
+    },
+    {
+        isOpen: true,
+        title: "HELPER"
+    },
+    {
+        isOpen: true,
+        title: "GOOD"
     },
 ]

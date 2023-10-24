@@ -50,14 +50,13 @@ const NoticeModal = (props:{currentPage:string}) => {
      const [isShow, setIsShow] = useState<boolean>(false)
 
      useEffect(() => {
-            console.log("settingsModalStatus", settingsModalStatus)
-            if (settingsModalStatus.isOpen && settingsModalStatus.title!! === "NOTICE") {
+            if (settingsModalStatus.title === "NOTICE") {
                 setIsInit(true)
                 setIsShow(true)
             } else {
                 setIsInit(false)
             }
-        }, [settingsModalStatus])
+        }, [settingsModalStatus.title])
 
      return(
         <>

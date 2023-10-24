@@ -1,9 +1,9 @@
 import styled, {css, keyframes} from "styled-components";
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {RootState} from "../../../saga/store/rootStore";
 import {SettingsModalInterface} from "../../../../data/interface/modal/commonModalInterface";
-import {updateSettingsModalStatus} from "../../../saga/store/view/modal/modalViewStore";
+import SettingsOption from  "../SettingsOption";
 
 const fadeIn = keyframes`
   0% {
@@ -70,18 +70,8 @@ const GoodWrapper = styled.div<{ isVisible: boolean }>`
   ${(props) => modalSettings(props.isVisible)}
 `
 
-const WrittenOption = styled.option`
-  width: 150px;
-  height: 15px;
-  flex-direction: column;
-  margin: 40px 30px;
-  font-size: 10pt;
-  font-weight: 650;
-`
-
 const WrittenModal = (props:{currentPage:string}) => {
 
-    const dispatch = useDispatch()
     const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
 
     const [isInit, setIsInit] = useState<boolean>(false)
@@ -91,58 +81,22 @@ const WrittenModal = (props:{currentPage:string}) => {
     const [isGood, setIsGood] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log("settingsModalStatus", settingsModalStatus)
-        if (settingsModalStatus.isOpen && settingsModalStatus.title!! === "작성 이력") {
+        if (settingsModalStatus.title === "작성 이력") {
             setIsInit(true)
             setIsShow(true)
             setIsHelp(false)
             setIsHelper(false)
             setIsGood(false)
-        } else if ((settingsModalStatus.title!! === "HELP") ||
-                   (settingsModalStatus.title!! === "HELPER") ||
-                   (settingsModalStatus.title!! === "GOOD")) {
-            setIsInit(true)
+        } else if (settingsModalStatus.title === "HELP") {
+            setIsHelp(true)
+        } else if (settingsModalStatus.title === "HELPER") {
+            setIsHelper(true)
+        } else if (settingsModalStatus.title === "GOOD") {
+            setIsGood(true)
         } else {
             setIsInit(false)
         }
-    }, [settingsModalStatus])
-
-    const writtenOptionClick = (e) => {
-        const writtenOptionValue = e.target.value;
-        let payload: SettingsModalInterface = {
-            isOpen: true
-        }
-        switch (writtenOptionValue) {
-            case "HELP" :
-                payload = {
-                   ...payload,
-                   title: "HELP"
-                }
-                setIsHelp(true)
-            break;
-            case "HELPER" :
-                payload = {
-                   ...payload,
-                   title: "HELPER"
-                }
-                setIsHelper(true)
-            break;
-            case "GOOD" :
-                payload = {
-                   ...payload,
-                   title: "GOOD"
-                }
-                setIsGood(true)
-            break;
-            default :
-                payload = {
-                   ...payload,
-                   title: "작성 이력"
-                }
-            break;
-        }
-        dispatch(updateSettingsModalStatus(payload))
-    }
+    }, [settingsModalStatus.title])
 
     return(
         <>
@@ -151,21 +105,21 @@ const WrittenModal = (props:{currentPage:string}) => {
                 isInit &&
                 <>
                     <WrittenModalWrapper isVisible={isShow}>
-                        <WrittenOption value="HELP" onClick={(e) => writtenOptionClick(e)}>
-                            HELP
-                        </WrittenOption>
-                        <WrittenOption value="HELPER" onClick={(e) => writtenOptionClick(e)}>
-                            HELPER
-                        </WrittenOption>
-                        <WrittenOption value="GOOD" onClick={(e) => writtenOptionClick(e)}>
-                            GOOD
-                        </WrittenOption>
+                        {
+                            settingsModalStatus.title === "작성 이력" &&
+                            settingsModalStatus.settingsOptionList.map((optionValue: string) => {
+                                return (
+                                    <SettingsOption optionValue={optionValue}/>
+                                 )
+                            })
+                        }
                     </WrittenModalWrapper>
                 </>
             }
 
             {/*HELP*/}
             {
+                isInit &&
                 <>
                     <HelpWrapper isVisible={isHelp}>
                     </HelpWrapper>
@@ -174,6 +128,7 @@ const WrittenModal = (props:{currentPage:string}) => {
 
             {/*HELPER*/}
             {
+                isInit &&
                 <>
                     <HelperWrapper isVisible={isHelper}>
                     </HelperWrapper>
@@ -182,6 +137,7 @@ const WrittenModal = (props:{currentPage:string}) => {
 
             {/*GOOD*/}
             {
+                isInit &&
                 <>
                     <GoodWrapper isVisible={isGood}>
                     </GoodWrapper>

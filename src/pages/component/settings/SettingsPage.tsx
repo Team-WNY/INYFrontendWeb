@@ -33,7 +33,7 @@ const AndWhatNot = styled.div`
   font-weight: 650;
 `
 
-const SettingsOption = styled.option`
+const SettingsOption = styled.div`
   width: 150px;
   height: 15px;
   flex-direction: column;

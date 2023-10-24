@@ -3,11 +3,11 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../saga/store/rootStore";
 import {SettingsModalInterface} from "../../../../data/interface/modal/commonModalInterface";
-import {updateSettingsModalStatus} from "../../../saga/store/view/modal/modalViewStore";
 import CommonModal from "../../modal/CommonModal";
 import {ModalConst} from "../../../../data/const/modalConst";
 import {CommonModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import {updateCommonModalStatus} from "../../../saga/store/view/modal/modalViewStore";
+import SettingsOption from  "../SettingsOption";
 
 const fadeIn = keyframes`
   0% {
@@ -225,15 +225,6 @@ const DeleteButton = styled.button`
   letter-spacing: 0.08px;
 `
 
-const AccountOption = styled.option`
-  width: 150px;
-  height: 15px;
-  flex-direction: column;
-  margin: 40px 30px;
-  font-size: 10pt;
-  font-weight: 650;
-`
-
 const AccountModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
@@ -247,28 +238,46 @@ const AccountModal = (props:{currentPage:string}) => {
     const [isEnterNumber, setIsEnterNumber] = useState<boolean>(false)
 
     useEffect(() => {
-        if (settingsModalStatus.isOpen && settingsModalStatus.title!! === "계정 / 정보 관리") {
+        if (!isShow && settingsModalStatus.title === "계정 / 정보 관리") {
             setIsInit(true)
             setIsShow(true)
+            setIsConfirm(false)
+        } else if (isConfirm && settingsModalStatus.title === "계정 / 정보 관리") {
+            setIsShow(false)
             setIsChangePassword(false)
             setIsEmailCertified(false)
             setIsEnterNumber(false)
-        } else if (settingsModalStatus.title!! === "환경설정") {
-            setIsInit(false)
-            setIsConfirm(false)
+        } else if (settingsModalStatus.title === "비밀번호 변경하기") {
+            setIsChangePassword(true)
+        } else if (settingsModalStatus.title === "이메일 인증확인") {
+            setIsEmailCertified(true)
+        } else if (settingsModalStatus.title === "연락처 입력하기") {
+            setIsEnterNumber(true)
         } else {
             setIsInit(false)
         }
-    }, [settingsModalStatus])
+    }, [settingsModalStatus.title])
 
     const confirmButtonClick = () => {
         console.log("confirmButtonClick!!")
-        setIsConfirm(true)
+        if(true){
+            setIsConfirm(true)
+        } else {
+            let value: string = "confirmPassword"
+            const payload: CommonModalInterface = {
+                  title: ModalConst[props.currentPage][value].title,
+                  content: ModalConst[props.currentPage][value].content,
+                  isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+                  isOpen: true,
+                  currentPage: props.currentPage,
+            }
+            dispatch(updateCommonModalStatus(payload))
+        }
     }
 
-    const ChangePasswordButtonClick = () => {
-        console.log("ChangePasswordButtonClick")
-        let value: string = "ChangePassword"
+    const changePasswordButtonClick = () => {
+        console.log("changePasswordButtonClick")
+        let value: string = "changePassword"
         const payload: CommonModalInterface = {
               title: ModalConst[props.currentPage][value].title,
               content: ModalConst[props.currentPage][value].content,
@@ -279,50 +288,13 @@ const AccountModal = (props:{currentPage:string}) => {
         dispatch(updateCommonModalStatus(payload))
     }
 
-    const accountOptionClick = (e) => {
-        const accountOptionValue = e.target.value;
-        console.log("accountOptionClick!!", accountOptionValue)
-        let payload: SettingsModalInterface = {
-            isOpen: true
-        }
-        switch (accountOptionValue) {
-            case "비밀번호 변경하기" :
-                payload = {
-                   ...payload,
-                   title: "비밀번호 변경하기"
-                }
-                setIsChangePassword(true)
-            break;
-            case "이메일 인증확인" :
-                payload = {
-                   ...payload,
-                   title: "이메일 인증확인"
-                }
-                setIsEmailCertified(true)
-            break;
-            case "연락처 입력하기" :
-                payload = {
-                   ...payload,
-                   title: "연락처 입력하기"
-                }
-                setIsEnterNumber(true)
-            break;
-            default :
-                payload = {
-                   ...payload,
-                   title: "계정 / 정보 관리"
-                }
-            break;
-        }
-        dispatch(updateSettingsModalStatus(payload))
-    }
-
     return(
         <>
             {/*계정/정보 관리 비밀번호 입력*/}
             {
                 isInit &&
                 <>
+                    <CommonModal currentPage={props.currentPage}/>
                     <PasswordConfirmWrapper isVisible={isShow}>
                         <Guide>계정 정보를 변경하려면 비밀번호를 입력해주세요.</Guide>
                         <PasswordInput type="password"/>
@@ -333,32 +305,32 @@ const AccountModal = (props:{currentPage:string}) => {
 
             {/*계정/정보 관리 옵션 */}
             {
-               <>
-                    <AccountOptionWrapper  isVisible={isConfirm}>
-                        <AccountOption value="비밀번호 변경하기" onClick={(e) => accountOptionClick(e)}>
-                            비밀번호 변경하기
-                        </AccountOption>
-                        <AccountOption value="이메일 인증확인" onClick={(e) => accountOptionClick(e)}>
-                            이메일 인증확인
-                        </AccountOption>
-                        <AccountOption value="연락처 입력하기" onClick={(e) => accountOptionClick(e)}>
-                            연락처 입력하기
-                        </AccountOption>
+                isInit &&
+                <>
+                    <AccountOptionWrapper isVisible={isConfirm}>
+                        {
+                            settingsModalStatus.title === "계정 / 정보 관리" &&
+                            settingsModalStatus.settingsOptionList.map((optionValue: string) => {
+                                return (
+                                    <SettingsOption optionValue={optionValue}/>
+                                )
+                            })
+                        }
                     </AccountOptionWrapper>
                 </>
             }
 
             {/*비밀번호 변경하기*/}
             {
+                isInit &&
                 <>
-                    <CommonModal currentPage={props.currentPage}/>
                     <ChangePasswordWrapper isVisible={isChangePassword}>
                         <ChangePasswordFrame>
                            <div style={{fontSize: "18px", fontWeight: "650"}}>비밀번호</div>
                            <NewPasswordInput type="password"/>
                            <div style={{fontSize: "18px", fontWeight: "650", marginTop: "80px"}}>비밀번호 확인</div>
                            <CheckNewPasswordInput type="password"/>
-                           <ChangePasswordButton onClick={() => ChangePasswordButtonClick()}>변경하기</ChangePasswordButton>
+                           <ChangePasswordButton onClick={() => changePasswordButtonClick()}>변경하기</ChangePasswordButton>
                         </ChangePasswordFrame>
                     </ChangePasswordWrapper>
                 </>
@@ -366,6 +338,7 @@ const AccountModal = (props:{currentPage:string}) => {
 
             {/*이메일 인증확인*/}
             {
+                isInit &&
                 <>
                     <EmailCertifiedWrapper isVisible={isEmailCertified}>
                         <EmailCertifiedFrame>
@@ -378,6 +351,7 @@ const AccountModal = (props:{currentPage:string}) => {
 
             {/*연락처 입력하기*/}
             {
+                isInit &&
                 <>
                     <EnterNumberWrapper isVisible={isEnterNumber}>
                         <Guide>사용하시는 연락처를 입력해주세요.</Guide>

@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../saga/store/rootStore";
 import {SettingsModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {updateSettingsModalStatus} from "../../saga/store/view/modal/modalViewStore";
+import {SETTINGS_MODAL_STATUS} from "../../../data/const/settingsConst";
 
 const TopBarWrapper = styled.div`
   width: 100vw;
@@ -47,31 +48,30 @@ const SettingsHeader = () => {
     const navigate = useNavigate()
     const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
 
-    const backBtnOnClick = () => {
+    const backBtnOnClick = (title: string) => {
         console.log("backBtnOnClick!!")
-        if ((settingsModalStatus.title!! === "계정 / 정보 관리") ||
-            (settingsModalStatus.title!! === "작성 이력") ||
-            (settingsModalStatus.title!! === "NOTICE")){
+        let payload;
+        if ((title === "계정 / 정보 관리") || (title === "작성 이력") ||  (title === "NOTICE")){
+            payload = SETTINGS_MODAL_STATUS.find(status => status.title === "환경설정")
             navigate("/settings")
-            dispatch(updateSettingsModalStatus({isOpen:false, title:"환경설정"}))
-        } else if ((settingsModalStatus.title!! === "비밀번호 변경하기") ||
-                   (settingsModalStatus.title!! === "이메일 인증확인") ||
-                   (settingsModalStatus.title!! === "연락처 입력하기")){
-            dispatch(updateSettingsModalStatus({isOpen:true, title:"계정 / 정보 관리"}))
-        } else if ((settingsModalStatus.title!! === "HELP") ||
-                   (settingsModalStatus.title!! === "HELPER") ||
-                   (settingsModalStatus.title!! === "GOOD")){
-            dispatch(updateSettingsModalStatus({isOpen:true, title:"작성 이력"}))
+            dispatch(updateSettingsModalStatus(payload))
+        } else if ((title === "비밀번호 변경하기") || (title === "이메일 인증확인") || (title === "연락처 입력하기")){
+            payload = SETTINGS_MODAL_STATUS.find(status => status.title === "계정 / 정보 관리")
+            dispatch(updateSettingsModalStatus(payload))
+        } else if ((title === "HELP") || (title === "HELPER") || (title === "GOOD")){
+            payload = SETTINGS_MODAL_STATUS.find(status => status.title === "작성 이력")
+            dispatch(updateSettingsModalStatus(payload))
         } else {
-             navigate("/main")
-             dispatch(updateSettingsModalStatus({isOpen:false, title:"환경설정"}))
+            payload = SETTINGS_MODAL_STATUS.find(status => status.title === "환경설정")
+            navigate("/main")
+            dispatch(updateSettingsModalStatus(payload))
         }
     }
 
     return(
         <>
             <TopBarWrapper>
-                <BackBtn onClick={() => backBtnOnClick()}/>
+                <BackBtn onClick={() => backBtnOnClick(settingsModalStatus.title)}/>
                 <Title>{settingsModalStatus.title}</Title>
             </TopBarWrapper>
         </>
