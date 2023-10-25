@@ -100,10 +100,6 @@ const LoginPage = (props: { currentPage: string }) => {
     const isLogin = useSelector((state: RootState) => state.server.login.isLogin)
     const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
 
-    useEffect(() => {
-        console.log("userInfo", userInfo)
-    }, [userInfo])
-
     const inputChange = (typingValue: string, isAccountTyping: boolean) => {
         if (isAccountTyping) {
             setLoginInfo({
@@ -129,11 +125,17 @@ const LoginPage = (props: { currentPage: string }) => {
     }
 
     useEffect(() => {
-        console.log("isLogin ", isLogin)
-        if (isLogin) {
-            window.location.href = "/wny/main"
+        if (props.currentPage === "login" && localStorage.getItem("Authorization")) {
+            navigate("/main", {replace: true, state: userInfo})
         }
-    }, [isLogin])
+    }, [userInfo, props.currentPage])
+
+    // useEffect(() => {
+    //     console.log("isLogin ", isLogin)
+    //     if (props.currentPage === "login" && isLogin) {
+    //         navigate("/main", {replace: true, state: userInfo})
+    //     }
+    // }, [isLogin, props.currentPage])
 
     return (
         <>

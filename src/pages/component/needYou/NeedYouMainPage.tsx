@@ -11,13 +11,14 @@ import NeedYouItem from "./NeedYouItem";
 import cancelImg from "../../../public/static/images/button/main/register/btn_main_register_cancel.png";
 import logoImg from "../../../public/static/images/logo/INY.png";
 import sampleImg from "../../../public/static/images/sample/sampleImg.png";
-import RegisterModal from "../modal/RegisterModal";
+import RegisterModal from "../modal/registerModal/RegisterModal";
 import {updateCommonModalStatus, updateRegModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {CommonModalInterface, RegModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {updateNeedYouSelect} from "../../saga/store/server/needYou/needYouServerStore";
 import {ModalConst} from "../../../data/const/modalConst";
 import CommonModal from "../modal/CommonModal";
 import {UserInfo} from "../../../data/interface/user/userInterface";
+import {useLocation, useNavigate} from "react-router";
 
 const MainWrapper = styled.div`
   height: auto;
@@ -304,7 +305,7 @@ const NeedYouSelectCommentFrame = styled.div`
   align-items: center;
   margin-top: 15px;
   gap: 10px;
-  border: 1px solid #000;
+  //border: 1px solid #000;
   background: var(--color-whiter, #FFF);
 `
 
@@ -312,10 +313,28 @@ const NeedYouSelectHelpComment = styled.div`
   width: 317px;
   height: 47px;
   color: var(--color-black, #000);
+  border: 1px solid #000;
   position: relative;
   display: flex;
   align-items: center;
   margin-left: 10px;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+`
+
+const NeedYouSelectHelpCommentInput = styled.input`
+  width: 317px;
+  height: 47px;
+  color: var(--color-black, #000);
+  position: relative;
+  display: flex;
+  align-items: center;
   /* Head/Header */
   font-family: Inter;
   font-size: 16px;
@@ -336,9 +355,21 @@ const NeedYouSelectHelpYesBtn = styled.button`
   right: 0;
 `
 
+const HelperRegisterCommentYesBtn = styled.button`
+  width: 60px;
+  height: 36px;
+  margin: 6px 0 5px 0;
+  border-radius: 20px;
+  background: var(--color-74, linear-gradient(0deg, rgba(255, 255, 255, 0.74) 0%, rgba(255, 255, 255, 0.74) 100%), #70FFFF);
+  position: relative;
+  right: 0;
+`
+
 const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
     const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
     const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
 
@@ -346,11 +377,17 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
 
     const [isRegister, setIsRegister] = useState<boolean>(false)
     const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
+    const [isHelperRegisterComment, setIsHelperRegisterComment] = useState<boolean>(false)
+    const [helperRegisterCommentStr, setHelperRegisterCommentStr] = useState<string>("")
+    // const [helperRegisterComment, setHelperRegisterComment] = useState<HelperRegisterComment>({
+    //     isShowCommentYesBtn: false,
+    //     helperComment: ""
+    // })
     const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
 
     useEffect(() => {
-        console.log("userInfo", userInfo)
-    }, [userInfo])
+        console.log("state", location.state)
+    }, [location])
 
     useEffect(() => {
         if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
@@ -369,16 +406,38 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
         setIsRegister(false)
     }
 
+    useEffect(() => {
+        // if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
+        //     const subPage = "error"
+        //     const payload: CommonModalInterface = {
+        //         title: ModalConst[props.currentPage][subPage].title,
+        //         content: ModalConst[props.currentPage][subPage].content,
+        //         isOpen: true,
+        //         currentPage: props.currentPage,
+        //         subPage: subPage,
+        //     }
+        //     dispatch(updateCommonModalStatus(payload))
+        //     setTimeout(() => {
+        //         dispatch(updateCommonModalStatus({isOpen:false}))
+        //         navigate("/login", {replace: true})
+        //     }, 3000)
+        // }
+    }, [props.currentPage])
+
+
     const calBottomSize = (indexNum: number) => {
         const resStr: string = 100 + (indexNum * 30) + "px"
         return resStr
     }
 
     const optionClick = (e) => {
+        console.log("e ", e)
         const optionValue = e.target.value
+
         let payload: RegModalInterface = {
-            isOpen: true
+            isOpen: true,
         }
+
         if (optionValue!! === "needYou") {
             payload = {
                 ...payload,
@@ -399,10 +458,6 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }
 
     useEffect(() => {
-        console.log("needYouSelect ", needYouSelect)
-    }, [needYouSelect])
-
-    useEffect(() => {
         if (isShowNeedYouList) {
             setMainWrapperStyle({paddingTop: "50px"})
         } else {
@@ -411,13 +466,40 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     }, [isShowNeedYouList])
 
     const helpYesBtnClick = (item: Comment) => {
-        console.log("props.currentPage  ", props.currentPage )
+        console.log("props.currentPage  ", props.currentPage)
+        const subPgae: string = "call"
         const payload: CommonModalInterface = {
-            title: ModalConst[props.currentPage]["call"].title,
-            content: ModalConst[props.currentPage]["call"].content,
-            isConfirmMsg: ModalConst[props.currentPage]["call"].isConfirmMsg,
+            title: ModalConst[props.currentPage][subPgae].title,
+            content: ModalConst[props.currentPage][subPgae].content,
+            isConfirmMsg: ModalConst[props.currentPage][subPgae].isConfirmMsg,
             isOpen: true,
             currentPage: props.currentPage,
+            subPage: subPgae
+        }
+        dispatch(updateCommonModalStatus(payload))
+    }
+
+    useEffect(() => {
+        console.log("isHelperRegisterComment ", isHelperRegisterComment)
+    }, [isHelperRegisterComment])
+
+    const typingChk = (e) => {
+        if (e.target.value.length > 0) {
+            setIsHelperRegisterComment(true)
+        } else {
+            setIsHelperRegisterComment(false)
+        }
+    }
+
+    const helperCommentYesBtnClick = () => {
+        const value = "register"
+        const payload: CommonModalInterface = {
+            title: ModalConst[props.currentPage][value].title,
+            content: ModalConst[props.currentPage][value].content,
+            isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+            isOpen: true,
+            currentPage: props.currentPage,
+            subPage: value
         }
         dispatch(updateCommonModalStatus(payload))
     }
@@ -425,7 +507,10 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
     return (
         <>
             <CommonModal currentPage={props.currentPage}/>
-            <Header isShowNeedYouList={isShowNeedYouList} setIsShowNeedYouList={setIsShowNeedYouList}/>
+            <Header isShowNeedYouList={isShowNeedYouList}
+                    setIsShowNeedYouList={setIsShowNeedYouList}
+                    setIsHelperRegisterComment={setIsHelperRegisterComment}
+            />
             <RegisterModal currentPage={props.currentPage}/>
             <MainWrapper style={mainWrapperStyle}>
                 {/*needYouList*/}
@@ -515,7 +600,17 @@ const NeedYouMainPage = (props: { currentPage: string }) => {
                                         })
                                         :
                                         <>
-                                            니가 도우세요
+                                            <NeedYouSelectCommentFrame>
+                                                <NeedYouSelectHelpCommentInput placeholder={"아직 작성된 도움 댓글이 없습니다!"}
+                                                                               onKeyUp={(e) => typingChk(e)}
+                                                                               onBlur={(e)=> setHelperRegisterCommentStr(e.target.value)}
+                                                />
+                                                {
+                                                    isHelperRegisterComment &&
+                                                    <HelperRegisterCommentYesBtn
+                                                        onClick={() => helperCommentYesBtnClick()}>YES</HelperRegisterCommentYesBtn>
+                                                }
+                                            </NeedYouSelectCommentFrame>
                                         </>
                                 }
                                 {/*<NeedYouSelectInfoComment>*/}

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {NeedYou} from "../../../data/interface/needYou/needYouInterface";
 import logo from "../../../public/static/images/logo/INY.png"
 import {useEffect, useState} from "react";
+import {parseTimeForToday} from "../../util/commonUtil";
 
 const NeedYouItemWrapper = styled.div`
   width: 360px;
@@ -9,14 +10,14 @@ const NeedYouItemWrapper = styled.div`
   background: var(--color-whiter, #FFF);
 `
 
-const NeedYouImg = styled.img<{ needyouimg: string }>`
+const NeedYouImg = styled.img<{ needYouImg: string }>`
   width: 90px;
   height: 90px;
   margin: 11px 0 11px 21px;
   border-radius: 5px;
   border: 0.4px solid var(--color-black, #000);
   background: var(--color-whiter, #FFF);
-  ${(props) => props.needyouimg ? `background: url(${logo});` : `background: url(${logo});`};
+  ${(props) => props.needYouImg ? `background: url(${logo});` : `background: url(${logo});`};
 `
 // ${({isNormal}) => isNormal ? `background: url(${gisPopupNormalTitleImg});` : `background: url(${gisPopupRouteTitleImg});`}
 
@@ -84,6 +85,10 @@ const NeedYouItem = (props?: { item: NeedYou }) => {
 
     const [imgSrc, setImgSrc] = useState<string>("")
 
+    useEffect(()=> {
+        console.log("props., ", props.item.needYouImg)
+    },[props.item])
+
     return (
         <>
             <NeedYouItemWrapper>
@@ -91,7 +96,7 @@ const NeedYouItem = (props?: { item: NeedYou }) => {
                     <div>
                         {
                             props.item.needYouImg !== null ?
-                                <NeedYouImg src={imgSrc} needyouimg={props.item.needYouImg}
+                                <NeedYouImg src={imgSrc} needYouImg={props.item.needYouImg}
                                             onError={() => setImgSrc("")}/>
                                 :
                                 null
@@ -102,7 +107,7 @@ const NeedYouItem = (props?: { item: NeedYou }) => {
                             {props.item.subject}
                         </NeedYouInfoSubject>
                         <NeedYouInfoUploadDtm>
-                            {props.item.uploadDtm}
+                            {parseTimeForToday(new Date(props.item.uploadDtm))}
                         </NeedYouInfoUploadDtm>
                         <NeedYouInfoContent>
                             {props.item.content}

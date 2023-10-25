@@ -19,6 +19,7 @@ const requestLoginUser = function* (action: PayloadAction<LoginInfo>) {
             const userData: ApiResponse = yield call(postGetUserInfo, payload.accountId)
             if (userData.status === 200) {
                 yield put(updateUserInfo(userData.payload))
+                yield put(updateIsLogin(true))
             }
         }
     } catch (e) {
