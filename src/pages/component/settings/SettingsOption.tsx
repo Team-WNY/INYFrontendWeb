@@ -3,15 +3,6 @@ import {updateSettingsModalStatus} from "../../saga/store/view/modal/modalViewSt
 import {useDispatch} from "react-redux";
 import {SETTINGS_MODAL_STATUS} from "../../../data/const/settingsConst";
 
-const SettingsOptionList = styled.div`
-  width: 150px;
-  height: 15px;
-  flex-direction: column;
-  margin: 40px 30px;
-  font-size: 10pt;
-  font-weight: 650;
-`
-
 const SettingsOption = (props:{ optionValue: string }) => {
 
     const dispatch = useDispatch()
@@ -33,5 +24,14 @@ const SettingsOption = (props:{ optionValue: string }) => {
         </>
     )
 }
+
+const SettingsOptionList = styled.div`
+  width: 150px;
+  height: 15px;
+  flex-direction: column;
+  margin: 40px 30px;
+  font-size: 10pt;
+  font-weight: 650;
+`
 
 export default SettingsOption

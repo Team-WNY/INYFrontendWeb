@@ -5,71 +5,6 @@ import {RootState} from "../../../saga/store/rootStore";
 import {SettingsModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import SettingsOption from  "../SettingsOption";
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-    left: 100%;
-  }
-  100% {
-    opacity: 1;
-    left: 0%;
-  }
-`
-
-const fadeOut = keyframes`
-  0% {
-    opacity: 1;
-    left: 0%;
-  }
-  100% {
-    opacity: 0;
-    left: 100%;
-  }
-`
-
-const modalSettings = (visible: boolean) => css`
-  visibility: ${visible ? 'visible' : 'hidden'};
-  z-index: 15;
-  animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
-  transition: visibility 0.15s ease-out;
-`
-
-const WrittenModalWrapper = styled.div<{ isVisible: boolean }>`
-  width: 100%;
-  position: fixed;
-  min-height: 100%;
-  margin: 50px 0;
-  background-color: white;
-  ${(props) => modalSettings(props.isVisible)}
-`
-
-const HelpWrapper = styled.div<{ isVisible: boolean }>`
-  width: 100%;
-  position: fixed;
-  min-height: 100%;
-  margin: 50px 0;
-  background-color: white;
-  ${(props) => modalSettings(props.isVisible)}
-`
-
-const HelperWrapper = styled.div<{ isVisible: boolean }>`
-  width: 100%;
-  position: fixed;
-  min-height: 100%;
-  margin: 50px 0;
-  background-color: white;
-  ${(props) => modalSettings(props.isVisible)}
-`
-
-const GoodWrapper = styled.div<{ isVisible: boolean }>`
-  width: 100%;
-  position: fixed;
-  min-height: 100%;
-  margin: 50px 0;
-  background-color: white;
-  ${(props) => modalSettings(props.isVisible)}
-`
-
 const WrittenModal = (props:{currentPage:string}) => {
 
     const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
@@ -148,6 +83,71 @@ const WrittenModal = (props:{currentPage:string}) => {
 }
 
 export default WrittenModal
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    left: 100%;
+  }
+  100% {
+    opacity: 1;
+    left: 0%;
+  }
+`
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+    left: 0%;
+  }
+  100% {
+    opacity: 0;
+    left: 100%;
+  }
+`
+
+const modalSettings = (visible: boolean) => css`
+  visibility: ${visible ? 'visible' : 'hidden'};
+  z-index: 15;
+  animation: ${visible ? fadeIn : fadeOut} 0.15s ease-out;
+  transition: visibility 0.15s ease-out;
+`
+
+const WrittenModalWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
+const HelpWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
+const HelperWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
+
+const GoodWrapper = styled.div<{ isVisible: boolean }>`
+  width: 100%;
+  position: fixed;
+  min-height: 100%;
+  margin: 50px 0;
+  background-color: white;
+  ${(props) => modalSettings(props.isVisible)}
+`
 
 WrittenModalWrapper.defaultProps = {
     isVisible: false

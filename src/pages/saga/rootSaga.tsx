@@ -2,6 +2,7 @@ import {all, fork} from "@redux-saga/core/effects";
 import NeedYouSaga from "./needYou/needYouSaga";
 import LoginSaga from "./login/loginSaga";
 import JoinSaga from "./join/joinSaga";
+import SettingsSaga from "./settings/settingsSaga"
 
 
 export default function* rootSaga() {
@@ -10,5 +11,6 @@ export default function* rootSaga() {
         fork(JoinSaga),
         fork(NeedYouSaga),
         fork(LoginSaga),
+        fork(SettingsSaga),
     ])
 }

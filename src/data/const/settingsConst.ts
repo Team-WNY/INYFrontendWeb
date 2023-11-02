@@ -1,4 +1,5 @@
 import {SettingsModalInterface} from "../interface/modal/commonModalInterface";
+import {Notice} from "../interface/settings/settingsInterface";
 
 /**
  * 필요한 상수값을 Array<SettingsModalStatus>의 타입으로 정리함. (타입은 payload 형태로.)
@@ -47,5 +48,20 @@ export const SETTINGS_MODAL_STATUS: Array<SettingsModalInterface> = [
     {
         isOpen: true,
         title: "GOOD"
+    },
+]
+
+export const noticeList: Array<Notice> = [
+    {
+       subject: "INY 서비스 오픈 안내",
+       uploadDtm: "2023-11-01 21:23:42.224",
+    },
+    {
+       subject: "[11월 하트데이] 하트왕 TOP 10 선발 공지",
+       uploadDtm: "2023-11-15 12:33:05.214",
+    },
+    {
+       subject: "12월 25(월) INY 정기점검 안내",
+       uploadDtm: "2023-11-21 13:48:26.112",
     },
 ]

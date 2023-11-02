@@ -20,6 +20,10 @@ const URL_JOIN = {
     ID_CHECK : `${API_URL}/api/v1/account/nt/check/accountId`
 }
 
+const URL_NOTICE = {
+    LIST : `${API_URL}/settings`
+}
+
 const API = {
     URL: {
         MAIN: {
@@ -33,7 +37,10 @@ const API = {
         },
         JOIN: {
             URL_JOIN
-        }
+        },
+        NOTICE: {
+            URL_NOTICE
+        },
     }
 }
 
