@@ -5,7 +5,7 @@ import backImg from "../../../../public/static/images/button/main/header/btn_mai
 import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {updateNeedYouSelect} from "../../../saga/store/server/needYou/needYouServerStore";
-
+import {useNavigate} from "react-router";
 
 const TopBarWrapper = styled.div`
   width: 100vw;
@@ -39,6 +39,7 @@ const Settings = styled.div`
 const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Function, setIsHelperRegisterComment:Function }) => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [isShowLogo, setIsShowLogo] = useState<boolean>(true)
     const [logoImgStyle, setLogoImgStyle] = useState<any>({backgroundImage: `${logo}`})
 
@@ -52,9 +53,9 @@ const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Functi
         }
     }
 
-    const settingOnClickHandler = () => {
-        console.log("Settings btn clicked !! ")
-    }
+//     const settingOnClickHandler = () => {
+//         console.log("Settings btn clicked !! ")
+//     }
 
     useEffect(() => {
         if (props.isShowNeedYouList) {
@@ -76,7 +77,7 @@ const Header = (props: { isShowNeedYouList: boolean, setIsShowNeedYouList:Functi
         <>
             <TopBarWrapper>
                 <Logo onClick={() => logoOnClickHandler()} style={logoImgStyle}/>
-                <Settings onClick={() => settingOnClickHandler()}/>
+                <Settings onClick={() => navigate("/settings")}/>
             </TopBarWrapper>
         </>
     )

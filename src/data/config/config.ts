@@ -22,6 +22,10 @@ const URL_JOIN = {
     MBER_CHECK : `${API_URL}/api/v1/account/nt/signup`
 }
 
+const URL_NOTICE = {
+    LIST : `${API_URL}/settings`
+}
+
 const API = {
     URL: {
         MAIN: {
@@ -35,7 +39,10 @@ const API = {
         },
         JOIN: {
             URL_JOIN
-        }
+        },
+        NOTICE: {
+            URL_NOTICE
+        },
     }
 }
 

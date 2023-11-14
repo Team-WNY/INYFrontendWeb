@@ -16,3 +16,8 @@ export interface RegModalInterface {
     address?: string,
 }
 
+export interface SettingsModalInterface {
+    isOpen: boolean,
+    title?: string,
+    settingsOptionList?: Array<string>,
+}

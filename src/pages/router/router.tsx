@@ -1,12 +1,10 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import React, {useEffect} from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../saga/store/rootStore";
-import {UserInfo} from "../../data/interface/user/userInterface";
+import React from "react";
 import {isDev} from "../../data/config/config";
 import LoginPage from "../component/login/LoginPage";
 import JoinPage from "../component/join/JoinPage";
 import NeedYouMainPage from "../component/needYou/NeedYouMainPage";
+import SettingsPage from "../component/settings/SettingsPage";
 
 const Router: React.FC = () => {
 
@@ -24,6 +22,10 @@ const Router: React.FC = () => {
                 {
                     isDev &&
                     <Route path="/main" element={<NeedYouMainPage currentPage={"main"}/>}/>
+                }
+                {
+                    isDev &&
+                    <Route path="/settings" element={<SettingsPage currentPage={"settings"}/>}/>
                 }
             </Routes>
         </BrowserRouter>
