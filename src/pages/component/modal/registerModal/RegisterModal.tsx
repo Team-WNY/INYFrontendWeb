@@ -74,8 +74,8 @@ const RegisterModal = (props: { currentPage: string }) => {
                 isInit &&
                 <>
                     <CommonModal currentPage={props.currentPage}/>
-                    <Background isVisible={isShow}/>
-                    <RegisterModalWrapper isVisible={isShow}>
+                    <Background $isVisible={isShow}/>
+                    <RegisterModalWrapper $isVisible={isShow}>
                         <RegisterModalHeader>
                             <CloseBtn onClick={() => closeClick()}/>
                             <Title>{regModalStatus.title}</Title>
@@ -150,19 +150,20 @@ const modalSettings = (visible: boolean) => css`
   transition: visibility 0.4s ease-out;
 `;
 
-const Background = styled.div<{ isVisible: boolean }>`
+const Background = styled.div<{ $isVisible: boolean }>`
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
-  ${(props) => modalSettings(props.isVisible)}
+  ${(props) => modalSettings(props.$isVisible)}
 `;
 
-const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
-  width: 100%;
-  height: 100%;
+
+const RegisterModalWrapper = styled.div<{ $isVisible: boolean }>`
+  width: 360px;
+  height: 600px;
   border-radius: 7px;
   position: fixed;
   top: 50vh;
@@ -171,7 +172,7 @@ const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
   transform: translate(-50%, -50%);
   box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
   background: var(--color-whiter, #FFF);
-  ${(props) => modalSettings(props.isVisible)}
+  ${(props) => modalSettings(props.$isVisible)}
 `
 
 const RegisterModalHeader = styled.div`
@@ -245,13 +246,6 @@ const CloseBtn = styled.button`
     content: "\\00d7";
     font-size: 17pt;
   }
-`
-
-const SlideImage = styled.div`
-  width: 45px;
-  height: 45px;
-  border: 1px solid var(--color-74, #70FFFF);
-  background: #D9D9D9;
 `
 
 const UploadImgBtn = styled.input`
@@ -344,10 +338,3 @@ const RegisterSubmit = styled.button`
   line-height: normal;
   letter-spacing: 0.08px;
 `
-
-Background.defaultProps = {
-    isVisible: false
-}
-RegisterModalWrapper.defaultProps = {
-    isVisible: false
-}

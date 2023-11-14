@@ -10,96 +10,8 @@ import React, {useEffect, useRef, useState} from "react";
 import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {ModalConst} from "../../../data/const/modalConst";
-import {UserInfo} from "../../../data/interface/user/userInterface";
 import {joinActions} from "../../saga/action/join/joinActions";
 import {RootState} from "../../saga/store/rootStore";
-
-const JoinFrameWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  padding: 20px 60px 99px 60px;
-  align-items: flex-start;
-  gap: 36px;
-`
-
-const JoinTextBox = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  color: #000;
-  /* Head/Header */
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.08px;
-  text-transform: uppercase;
-
-  &::before {
-    color: #000;
-    /* Head/Header */
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.08px;
-    text-transform: uppercase;
-    content: "회원가입 하기";
-  }
-`
-
-const JoinFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 257px;
-  height: 500px;
-  gap: 9px;
-`
-
-const JoinInput = styled.input`
-  width: 159px;
-  height: 48px;
-  //border: 1px solid #000;
-  background: var(--color-whiter, #FFF)
-`
-
-const DuplicatesCheckBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  background-image: url('${joinDuplicatesBtnImgSrc}');
-`
-const CertifiedBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  background-image: url('${joinCertifiedBtnImgSrc}');
-`
-
-const JoinBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  background-image: url("${joinBtnImgSrc}");
-`
-const CancelBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  background-image: url("${joinCancelBtnImgSrc}");
-`
-
 
 const JoinPage = (props: { currentPage: string }) => {
 
@@ -117,6 +29,7 @@ const JoinPage = (props: { currentPage: string }) => {
     const [count, setCount] = useState(0);
     const passwordRef = useRef('');
     const isAccountIdDupCheck = useSelector((state: RootState) => state.server.join.isAccountIdDupCheck);
+    const isUpdateIsEmailCheck = useSelector((state: RootState) => state.server.join.isUpdateIsEmailCheck);
     // useDispatch()
     // useState() // 해당 컴포넌트 내에서 상태값 핸들링할때 주로 쓰임
     // useEffect(()=> {
@@ -132,22 +45,32 @@ const JoinPage = (props: { currentPage: string }) => {
         // const payload:UserInfo = {
         // }
     }
+    const certifiedBtn = () => {
+        console.log("emailDup_clicked !! ")
+        if (email.length === 0)
+            console.log('이메일을 입력해 주세요');
+        else if (email.length <= 20)
+            dispatch(joinActions.requestEmailChk(email));
+        // const payload:UserInfo = {
+        // }
+    }
 
     const valiToJoin = () => {
         const vali_param = {
-            userIdValue: userIdValue,
+            accountId: userIdValue,
             password: password,
             password2: password2,
             email: email,
             name: name,
-            nick: nick,
-            birth: birth,
-            mobile: mobile,
+            nickName: nick,
+            birthDay: birth,
+            phoneNumber: mobile,
             address: address,
             add_detail: add_detail
         }
         setCount(10);
         for (const key in vali_param) {
+            console.log('key ',key)
             if (vali_param.hasOwnProperty(key)) {
                 const value = vali_param[key];
                 if (!value || value.trim() === '') {
@@ -156,8 +79,23 @@ const JoinPage = (props: { currentPage: string }) => {
                 }
             }
         }
+
+        const payload = {
+            accountId: userIdValue,
+            password: password,
+            // password2: password2,
+            email: email,
+            name: name,
+            nickName: nick,
+            birthDay: birth,
+            phoneNumber: mobile,
+            address: address,
+            // add_detail: add_detail
+        }
+
         if (count === 10) {
             console.log('전 항목 입력완료');
+            dispatch(joinActions.requestJoinInfo(payload));
         }
     }
 
@@ -235,6 +173,26 @@ const JoinPage = (props: { currentPage: string }) => {
         }
     }, [isAccountIdDupCheck])
 
+    useEffect(() => {
+        console.log("updateEmailCheck ", isUpdateIsEmailCheck)
+        let value: string = ""
+        if (isUpdateIsEmailCheck !== null) {
+            if (isUpdateIsEmailCheck) {
+                value = "emailCheck_true"
+            } else {
+                value = "emailCheck_true"
+            }
+            const payload: CommonModalInterface = {
+                title: ModalConst[props.currentPage][value].title,
+                content: ModalConst[props.currentPage][value].content,
+                isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+                isOpen: true,
+                currentPage: props.currentPage,
+            }
+            dispatch(updateCommonModalStatus(payload))
+        }
+    }, [isUpdateIsEmailCheck])
+
     const cancelClick = () => {
         console.log("cancel btn clicked !! ")
         const subPage: string = "cancel"
@@ -295,7 +253,7 @@ const JoinPage = (props: { currentPage: string }) => {
                             style={{display: "flex", alignItems: "flex-end", gap: "23px",}}
                         >
                             <JoinInput type="userName" onBlur={userEmail}/>
-                            <CertifiedBtn/>
+                            <CertifiedBtn onClick={() => certifiedBtn()}/>
                         </div>
                     </div>
                     <div>
@@ -363,7 +321,7 @@ const JoinPage = (props: { currentPage: string }) => {
                         display: "flex",
                         gap: "107px"
                     }}>
-                        <JoinBtn onClick={valiToJoin}/>
+                        <JoinBtn onClick={() => valiToJoin()}/>
                         <CancelBtn onClick={cancelClick}/>
                     </div>
                 </JoinFrame>
@@ -372,3 +330,90 @@ const JoinPage = (props: { currentPage: string }) => {
     )
 }
 export default JoinPage
+
+
+const JoinFrameWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  padding: 20px 60px 99px 60px;
+  align-items: flex-start;
+  gap: 36px;
+`
+
+const JoinFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 257px;
+  height: 1140px;
+  gap: 9px;
+`
+
+const JoinTextBox = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: #000;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+
+  &::before {
+    color: #000;
+    /* Head/Header */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.08px;
+    text-transform: uppercase;
+    content: "회원가입 하기";
+  }
+`
+
+const JoinInput = styled.input`
+  width: 159px;
+  height: 48px;
+  //border: 1px solid #000;
+  background: var(--color-whiter, #FFF)
+`
+
+const DuplicatesCheckBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-image: url('${joinDuplicatesBtnImgSrc}');
+`
+const CertifiedBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-image: url('${joinCertifiedBtnImgSrc}');
+`
+
+const JoinBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("${joinBtnImgSrc}");
+`
+const CancelBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("${joinCancelBtnImgSrc}");
+`
