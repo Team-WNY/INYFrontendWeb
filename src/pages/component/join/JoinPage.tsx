@@ -10,96 +10,8 @@ import React, {useEffect, useRef, useState} from "react";
 import {updateCommonModalStatus} from "../../saga/store/view/modal/modalViewStore";
 import {CommonModalInterface} from "../../../data/interface/modal/commonModalInterface";
 import {ModalConst} from "../../../data/const/modalConst";
-import {UserInfo} from "../../../data/interface/user/userInterface";
 import {joinActions} from "../../saga/action/join/joinActions";
 import {RootState} from "../../saga/store/rootStore";
-
-const JoinFrameWrapper = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  padding: 20px 60px 99px 60px;
-  align-items: flex-start;
-  gap: 36px;
-`
-
-const JoinTextBox = styled.div`
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  color: #000;
-  /* Head/Header */
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.08px;
-  text-transform: uppercase;
-
-  &::before {
-    color: #000;
-    /* Head/Header */
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.08px;
-    text-transform: uppercase;
-    content: "회원가입 하기";
-  }
-`
-
-const JoinFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 257px;
-  height: 500px;
-  gap: 9px;
-`
-
-const JoinInput = styled.input`
-  width: 159px;
-  height: 48px;
-  //border: 1px solid #000;
-  background: var(--color-whiter, #FFF)
-`
-
-const DuplicatesCheckBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  background-image: url('${joinDuplicatesBtnImgSrc}');
-`
-const CertifiedBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 30px;
-  justify-content: center;
-  align-items: center;
-  background-image: url('${joinCertifiedBtnImgSrc}');
-`
-
-const JoinBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  background-image: url("${joinBtnImgSrc}");
-`
-const CancelBtn = styled.button`
-  display: flex;
-  width: 75px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  background-image: url("${joinCancelBtnImgSrc}");
-`
-
 
 const JoinPage = (props: { currentPage: string }) => {
 
@@ -419,3 +331,90 @@ const JoinPage = (props: { currentPage: string }) => {
     )
 }
 export default JoinPage
+
+
+const JoinFrameWrapper = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  padding: 20px 60px 99px 60px;
+  align-items: flex-start;
+  gap: 36px;
+`
+
+const JoinFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 257px;
+  height: 1140px;
+  gap: 9px;
+`
+
+const JoinTextBox = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: #000;
+  /* Head/Header */
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.08px;
+  text-transform: uppercase;
+
+  &::before {
+    color: #000;
+    /* Head/Header */
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.08px;
+    text-transform: uppercase;
+    content: "회원가입 하기";
+  }
+`
+
+const JoinInput = styled.input`
+  width: 159px;
+  height: 48px;
+  //border: 1px solid #000;
+  background: var(--color-whiter, #FFF)
+`
+
+const DuplicatesCheckBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-image: url('${joinDuplicatesBtnImgSrc}');
+`
+const CertifiedBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  background-image: url('${joinCertifiedBtnImgSrc}');
+`
+
+const JoinBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("${joinBtnImgSrc}");
+`
+const CancelBtn = styled.button`
+  display: flex;
+  width: 75px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  background-image: url("${joinCancelBtnImgSrc}");
+`

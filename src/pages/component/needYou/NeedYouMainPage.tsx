@@ -20,6 +20,292 @@ import CommonModal from "../modal/CommonModal";
 import {UserInfo} from "../../../data/interface/user/userInterface";
 import {useLocation, useNavigate} from "react-router";
 
+const NeedYouMainPage = (props: { currentPage: string }) => {
+
+    const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
+    const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
+    const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
+
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
+
+    const [isRegister, setIsRegister] = useState<boolean>(false)
+    const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
+    const [isHelperRegisterComment, setIsHelperRegisterComment] = useState<boolean>(false)
+    const [helperRegisterCommentStr, setHelperRegisterCommentStr] = useState<string>("")
+    // const [helperRegisterComment, setHelperRegisterComment] = useState<HelperRegisterComment>({
+    //     isShowCommentYesBtn: false,
+    //     helperComment: ""
+    // })
+    const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
+
+    useEffect(() => {
+        console.log("state", location.state)
+    }, [location])
+
+    useEffect(() => {
+        if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
+            console.log("this page is NeedYouMainPage !! ")
+            dispatch(needYouActions.requestNeedYouList(props.currentPage))
+        }
+    }, [props.currentPage])
+
+    const RegisterBtnClick = () => {
+        console.log("clicked !! ", isRegister)
+        setIsRegister(!isRegister)
+    }
+
+    const RegisterCloseBtnClick = () => {
+        console.log("RegisterCloseBtn clicked !! ", isRegister)
+        setIsRegister(false)
+    }
+
+    useEffect(() => {
+        // if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
+        //     const subPage = "error"
+        //     const payload: CommonModalInterface = {
+        //         title: ModalConst[props.currentPage][subPage].title,
+        //         content: ModalConst[props.currentPage][subPage].content,
+        //         isOpen: true,
+        //         currentPage: props.currentPage,
+        //         subPage: subPage,
+        //     }
+        //     dispatch(updateCommonModalStatus(payload))
+        //     setTimeout(() => {
+        //         dispatch(updateCommonModalStatus({isOpen:false}))
+        //         navigate("/login", {replace: true})
+        //     }, 3000)
+        // }
+    }, [props.currentPage])
+
+
+    const calBottomSize = (indexNum: number) => {
+        const resStr: string = 100 + (indexNum * 30) + "px"
+        return resStr
+    }
+
+    const optionClick = (e) => {
+        const optionValue = e.target.value
+        let payload: RegModalInterface = {
+            isOpen: true
+        }
+        if (optionValue!! === "needYou") {
+            payload = {
+                ...payload,
+                title: "HELP"
+            }
+        } else {
+            payload = {
+                ...payload,
+                title: "AM I"
+            }
+        }
+        dispatch(updateRegModalStatus(payload))
+    }
+
+    const needYouItemClick = (item: NeedYou) => {
+        setIsShowNeedYouList(false)
+        dispatch(updateNeedYouSelect(item))
+    }
+
+    useEffect(() => {
+        if (isShowNeedYouList) {
+            setMainWrapperStyle({paddingTop: "50px"})
+        } else {
+            setMainWrapperStyle({paddingTop: "0px"})
+        }
+    }, [isShowNeedYouList])
+
+    const helpYesBtnClick = (item: Comment) => {
+        console.log("props.currentPage  ", props.currentPage)
+        const subPgae: string = "call"
+        const payload: CommonModalInterface = {
+            title: ModalConst[props.currentPage][subPgae].title,
+            content: ModalConst[props.currentPage][subPgae].content,
+            isConfirmMsg: ModalConst[props.currentPage][subPgae].isConfirmMsg,
+            isOpen: true,
+            currentPage: props.currentPage,
+            subPage: subPgae
+        }
+        dispatch(updateCommonModalStatus(payload))
+    }
+
+    useEffect(() => {
+        console.log("isHelperRegisterComment ", isHelperRegisterComment)
+    }, [isHelperRegisterComment])
+
+    const typingChk = (e) => {
+        if (e.target.value.length > 0) {
+            setIsHelperRegisterComment(true)
+        } else {
+            setIsHelperRegisterComment(false)
+        }
+    }
+
+    const helperCommentYesBtnClick = () => {
+
+        const value = "register"
+        const payload: CommonModalInterface = {
+            title: ModalConst[props.currentPage][value].title,
+            content: ModalConst[props.currentPage][value].content,
+            isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
+            isOpen: true,
+            currentPage: props.currentPage,
+            subPage: value
+        }
+        dispatch(updateCommonModalStatus(payload))
+    }
+
+    return (
+        <>
+            <CommonModal currentPage={props.currentPage}/>
+            <Header isShowNeedYouList={isShowNeedYouList}
+                    setIsShowNeedYouList={setIsShowNeedYouList}
+                    setIsHelperRegisterComment={setIsHelperRegisterComment}
+            />
+            <RegisterModal currentPage={props.currentPage}/>
+            <MainWrapper style={mainWrapperStyle}>
+                {/*needYouList*/}
+                {
+                    needYouList !== null &&
+                    //     needYouList.length !== 0 ?
+                    needYouList.map((item: NeedYou, index: number) => {
+                        return (
+                            <div onClick={() => needYouItemClick(item)}
+                                 style={{display: `${isShowNeedYouList ? 'block' : 'none'}`}}>
+                                <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
+                            </div>
+                        )
+                    })
+
+                    //     :
+                    //     // 조건에 해당하는 결과가 없을때
+                    //     <>
+                    //
+                    //     </>
+                    // :
+                    // // 서버 측에 문제가 생겨서 reload 를 시키거나 재검색을 시킬때
+                    // <>
+                    //
+                    // </>
+                }
+
+                {/*needYouSelect*/}
+                {
+                    needYouSelect &&
+                    <>
+                        <NeedYouSelectFrame>
+                            <NeedYouItemImg $itemImg={needYouSelect?.needYouImg}/>
+                            <UploadUserFrame>
+                                <UploadUserImgBox>
+                                    <img src={logoImg}
+                                         style={{
+                                             width: "20px",
+                                             height: "10px",
+                                             display: "flex",
+                                             alignItems: "center",
+                                             justifyContent: "center"
+                                         }}/>
+                                </UploadUserImgBox>
+                                <UploadUserInfoArea>
+                                    <UploadUserNickName>
+                                        {needYouSelect?.userInfo?.profile?.nickName}
+                                    </UploadUserNickName>
+                                    <UploadUserNickName>
+                                        {needYouSelect?.userInfo?.profile?.nickName}
+                                    </UploadUserNickName>
+                                </UploadUserInfoArea>
+                            </UploadUserFrame>
+
+                            <NeedYouSelectInfoArea>
+                                {/*제목*/}
+                                <NeedYouSelectInfoTitle>
+                                    {needYouSelect.subject}
+                                </NeedYouSelectInfoTitle>
+
+                                {/*/!*업로드 시간*!/*/}
+                                <NeedYouSelectInfoUploadTime>
+                                    업로드 시간 : {needYouSelect.uploadDtm}
+                                </NeedYouSelectInfoUploadTime>
+
+                                {/*/!*내용*!/*/}
+                                <NeedYouSelectInfoContent>
+                                    {needYouSelect.content}
+                                </NeedYouSelectInfoContent>
+
+                                {/*/!*주소*!/*/}
+                                <NeedYouSelectInfoAddress>
+                                    {needYouSelect.address}
+                                </NeedYouSelectInfoAddress>
+
+                                {/*/!*댓글*!/*/}
+                                {
+                                    needYouSelect.comment && needYouSelect.comment.length > 0 ?
+                                        needYouSelect.comment.map((item: Comment) => {
+                                            return (
+                                                <NeedYouSelectCommentFrame>
+                                                    <NeedYouSelectHelpComment>{item.comment}</NeedYouSelectHelpComment>
+                                                    <NeedYouSelectHelpYesBtn
+                                                        onClick={() => helpYesBtnClick(item)}>YES</NeedYouSelectHelpYesBtn>
+                                                </NeedYouSelectCommentFrame>
+                                            )
+                                        })
+                                        :
+                                        <>
+                                            <NeedYouSelectCommentFrame>
+                                                <NeedYouSelectHelpCommentInput placeholder={"아직 작성된 도움 댓글이 없습니다!"}
+                                                                               onKeyUp={(e) => typingChk(e)}
+                                                                               onBlur={(e)=> setHelperRegisterCommentStr(e.target.value)}
+                                                />
+                                                {
+                                                    isHelperRegisterComment &&
+                                                    <HelperRegisterCommentYesBtn
+                                                        onClick={() => helperCommentYesBtnClick()}>YES</HelperRegisterCommentYesBtn>
+                                                }
+                                            </NeedYouSelectCommentFrame>
+                                        </>
+                                }
+                                {/*<NeedYouSelectInfoComment>*/}
+
+                                {/*</NeedYouSelectInfoComment>*/}
+
+
+                            </NeedYouSelectInfoArea>
+                        </NeedYouSelectFrame>
+                    </>
+                }
+
+
+                {/*글쓰기*/}
+                {
+                    isRegister ?
+                        <>
+                            <RegisterOptionFrame>
+                                <RegisterOption style={{bottom: calBottomSize(1)}}
+                                                value={"needYou"}
+                                                onClick={(e) => optionClick(e)}
+                                >need you</RegisterOption>
+
+                                <RegisterOption style={{bottom: calBottomSize(0)}}
+                                                value={"amI"}
+                                                onClick={(e) => optionClick(e)}
+                                >am I</RegisterOption>
+                            </RegisterOptionFrame>
+                            <RegisterCloseBtn onClick={() => RegisterCloseBtnClick()}/>
+                        </>
+                        :
+                        <RegisterBtn onClick={() => RegisterBtnClick()}/>
+                }
+            </MainWrapper>
+            <Footer/>
+        </>
+    )
+}
+
+export default NeedYouMainPage
+
+
 const MainWrapper = styled.div`
   height: auto;
   min-height: 100%;
@@ -139,7 +425,7 @@ const NeedYouSelectFrame = styled.div`
   background: var(--color-whiter, #FFF);
 `
 
-const NeedYouItemImg = styled.div<{ itemImg?: string }>`
+const NeedYouItemImg = styled.div<{ $itemImg?: string }>`
   width: 100vw; // 360px
   //width: 360px;
 
@@ -150,7 +436,7 @@ const NeedYouItemImg = styled.div<{ itemImg?: string }>`
   display: flex;
   position: relative;
   top: 40px;
-  ${(props) => !props.itemImg ? `background-image: url(${props.itemImg})` : `background-image: url(${sampleImg})`};
+  ${(props) => !props.$itemImg ? `background-image: url(${props.$itemImg})` : `background-image: url(${sampleImg})`};
   background-repeat: no-repeat;
   display: block;
   text-align: center;
@@ -171,7 +457,7 @@ const UploadUserFrame = styled.div`
   border-bottom: 5px solid rgba(0, 0, 0, 0.11);
 `
 
-const UploadUserImgBox = styled.div<{ itemImg?: string }>`
+const UploadUserImgBox = styled.div<{ $itemImg?: string }>`
   width: 45px;
   height: 49.018px;
   margin-top: 6px;
@@ -181,7 +467,7 @@ const UploadUserImgBox = styled.div<{ itemImg?: string }>`
   border-radius: 5px;
   border: 0.4px solid var(--color-black, #000);
   background: var(--color-whiter, #FFF);
-  ${(props) => props.itemImg && `background-image: url(${props.itemImg})`};
+  ${(props) => props.$itemImg && `background-image: url(${props.$itemImg})`};
   background-repeat: no-repeat;
 `
 
@@ -364,288 +650,3 @@ const HelperRegisterCommentYesBtn = styled.button`
   position: relative;
   right: 0;
 `
-
-const NeedYouMainPage = (props: { currentPage: string }) => {
-
-    const dispatch = useDispatch()
-    const location = useLocation()
-    const navigate = useNavigate()
-    const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
-    const needYouSelect = useSelector((state: RootState) => state.server.needYou.needYouSelect as NeedYou)
-
-    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
-
-    const [isRegister, setIsRegister] = useState<boolean>(false)
-    const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
-    const [isHelperRegisterComment, setIsHelperRegisterComment] = useState<boolean>(false)
-    const [helperRegisterCommentStr, setHelperRegisterCommentStr] = useState<string>("")
-    // const [helperRegisterComment, setHelperRegisterComment] = useState<HelperRegisterComment>({
-    //     isShowCommentYesBtn: false,
-    //     helperComment: ""
-    // })
-    const [mainWrapperStyle, setMainWrapperStyle] = useState<any>({paddingTop: "50px"})
-
-    useEffect(() => {
-        console.log("state", location.state)
-    }, [location])
-
-    useEffect(() => {
-        if (props.currentPage && props.currentPage === CurrentPage.PAGE_MAIN) {
-            console.log("this page is NeedYouMainPage !! ")
-            dispatch(needYouActions.requestNeedYouList(props.currentPage))
-        }
-    }, [props.currentPage])
-
-    const RegisterBtnClick = () => {
-        console.log("clicked !! ", isRegister)
-        setIsRegister(!isRegister)
-    }
-
-    const RegisterCloseBtnClick = () => {
-        console.log("RegisterCloseBtn clicked !! ", isRegister)
-        setIsRegister(false)
-    }
-
-    useEffect(() => {
-        if (props.currentPage === "main" && !localStorage.getItem("Authorization")) {
-            const subPage = "error"
-            const payload: CommonModalInterface = {
-                title: ModalConst[props.currentPage][subPage].title,
-                content: ModalConst[props.currentPage][subPage].content,
-                isOpen: true,
-                currentPage: props.currentPage,
-                subPage: subPage,
-            }
-            dispatch(updateCommonModalStatus(payload))
-            setTimeout(() => {
-                dispatch(updateCommonModalStatus({isOpen:false}))
-                navigate("/login", {replace: true})
-            }, 3000)
-        }
-    }, [props.currentPage])
-
-
-    const calBottomSize = (indexNum: number) => {
-        const resStr: string = 100 + (indexNum * 30) + "px"
-        return resStr
-    }
-
-    const optionClick = (e) => {
-        const optionValue = e.target.value
-        let payload: RegModalInterface = {
-            isOpen: true
-        }
-        if (optionValue!! === "needYou") {
-            payload = {
-                ...payload,
-                title: "HELP"
-            }
-        } else {
-            payload = {
-                ...payload,
-                title: "AM I"
-            }
-        }
-        dispatch(updateRegModalStatus(payload))
-    }
-
-    const needYouItemClick = (item: NeedYou) => {
-        setIsShowNeedYouList(false)
-        dispatch(updateNeedYouSelect(item))
-    }
-
-    useEffect(() => {
-        if (isShowNeedYouList) {
-            setMainWrapperStyle({paddingTop: "50px"})
-        } else {
-            setMainWrapperStyle({paddingTop: "0px"})
-        }
-    }, [isShowNeedYouList])
-
-    const helpYesBtnClick = (item: Comment) => {
-        console.log("props.currentPage  ", props.currentPage)
-        const subPgae: string = "call"
-        const payload: CommonModalInterface = {
-            title: ModalConst[props.currentPage][subPgae].title,
-            content: ModalConst[props.currentPage][subPgae].content,
-            isConfirmMsg: ModalConst[props.currentPage][subPgae].isConfirmMsg,
-            isOpen: true,
-            currentPage: props.currentPage,
-            subPage: subPgae
-        }
-        dispatch(updateCommonModalStatus(payload))
-    }
-
-    useEffect(() => {
-        console.log("isHelperRegisterComment ", isHelperRegisterComment)
-    }, [isHelperRegisterComment])
-
-    const typingChk = (e) => {
-        if (e.target.value.length > 0) {
-            setIsHelperRegisterComment(true)
-        } else {
-            setIsHelperRegisterComment(false)
-        }
-    }
-
-    const helperCommentYesBtnClick = () => {
-
-        const value = "register"
-        const payload: CommonModalInterface = {
-            title: ModalConst[props.currentPage][value].title,
-            content: ModalConst[props.currentPage][value].content,
-            isConfirmMsg: ModalConst[props.currentPage][value]?.isConfirmMsg,
-            isOpen: true,
-            currentPage: props.currentPage,
-            subPage: value
-        }
-        dispatch(updateCommonModalStatus(payload))
-    }
-
-    return (
-        <>
-            <CommonModal currentPage={props.currentPage}/>
-            <Header isShowNeedYouList={isShowNeedYouList}
-                    setIsShowNeedYouList={setIsShowNeedYouList}
-                    setIsHelperRegisterComment={setIsHelperRegisterComment}
-            />
-            <RegisterModal currentPage={props.currentPage}/>
-            <MainWrapper style={mainWrapperStyle}>
-                {/*needYouList*/}
-                {
-                    needYouList !== null &&
-                    //     needYouList.length !== 0 ?
-                    needYouList.map((item: NeedYou, index: number) => {
-                        return (
-                            <div onClick={() => needYouItemClick(item)}
-                                 style={{display: `${isShowNeedYouList ? 'block' : 'none'}`}}>
-                                <NeedYouItem item={item} key={"ITEM_NEED_YOU_" + index}/>
-                            </div>
-                        )
-                    })
-
-                    //     :
-                    //     // 조건에 해당하는 결과가 없을때
-                    //     <>
-                    //
-                    //     </>
-                    // :
-                    // // 서버 측에 문제가 생겨서 reload 를 시키거나 재검색을 시킬때
-                    // <>
-                    //
-                    // </>
-                }
-
-                {/*needYouSelect*/}
-                {
-                    needYouSelect &&
-                    <>
-                        <NeedYouSelectFrame>
-                            <NeedYouItemImg itemImg={needYouSelect?.needYouImg}/>
-                            <UploadUserFrame>
-                                <UploadUserImgBox>
-                                    <img src={logoImg}
-                                         style={{
-                                             width: "20px",
-                                             height: "10px",
-                                             display: "flex",
-                                             alignItems: "center",
-                                             justifyContent: "center"
-                                         }}/>
-                                </UploadUserImgBox>
-                                <UploadUserInfoArea>
-                                    <UploadUserNickName>
-                                        {needYouSelect?.userInfo?.profile?.nickName}
-                                    </UploadUserNickName>
-                                    <UploadUserNickName>
-                                        {needYouSelect?.userInfo?.profile?.nickName}
-                                    </UploadUserNickName>
-                                </UploadUserInfoArea>
-                            </UploadUserFrame>
-
-                            <NeedYouSelectInfoArea>
-                                {/*제목*/}
-                                <NeedYouSelectInfoTitle>
-                                    {needYouSelect.subject}
-                                </NeedYouSelectInfoTitle>
-
-                                {/*/!*업로드 시간*!/*/}
-                                <NeedYouSelectInfoUploadTime>
-                                    업로드 시간 : {needYouSelect.uploadDtm}
-                                </NeedYouSelectInfoUploadTime>
-
-                                {/*/!*내용*!/*/}
-                                <NeedYouSelectInfoContent>
-                                    {needYouSelect.content}
-                                </NeedYouSelectInfoContent>
-
-                                {/*/!*주소*!/*/}
-                                <NeedYouSelectInfoAddress>
-                                    {needYouSelect.address}
-                                </NeedYouSelectInfoAddress>
-
-                                {/*/!*댓글*!/*/}
-                                {
-                                    needYouSelect.comment && needYouSelect.comment.length > 0 ?
-                                        needYouSelect.comment.map((item: Comment) => {
-                                            return (
-                                                <NeedYouSelectCommentFrame>
-                                                    <NeedYouSelectHelpComment>{item.comment}</NeedYouSelectHelpComment>
-                                                    <NeedYouSelectHelpYesBtn
-                                                        onClick={() => helpYesBtnClick(item)}>YES</NeedYouSelectHelpYesBtn>
-                                                </NeedYouSelectCommentFrame>
-                                            )
-                                        })
-                                        :
-                                        <>
-                                            <NeedYouSelectCommentFrame>
-                                                <NeedYouSelectHelpCommentInput placeholder={"아직 작성된 도움 댓글이 없습니다!"}
-                                                                               onKeyUp={(e) => typingChk(e)}
-                                                                               onBlur={(e)=> setHelperRegisterCommentStr(e.target.value)}
-                                                />
-                                                {
-                                                    isHelperRegisterComment &&
-                                                    <HelperRegisterCommentYesBtn
-                                                        onClick={() => helperCommentYesBtnClick()}>YES</HelperRegisterCommentYesBtn>
-                                                }
-                                            </NeedYouSelectCommentFrame>
-                                        </>
-                                }
-                                {/*<NeedYouSelectInfoComment>*/}
-
-                                {/*</NeedYouSelectInfoComment>*/}
-
-
-                            </NeedYouSelectInfoArea>
-                        </NeedYouSelectFrame>
-                    </>
-                }
-
-
-                {/*글쓰기*/}
-                {
-                    isRegister ?
-                        <>
-                            <RegisterOptionFrame>
-                                <RegisterOption style={{bottom: calBottomSize(1)}}
-                                                value={"needYou"}
-                                                onClick={(e) => optionClick(e)}
-                                >need you</RegisterOption>
-
-                                <RegisterOption style={{bottom: calBottomSize(0)}}
-                                                value={"amI"}
-                                                onClick={(e) => optionClick(e)}
-                                >am I</RegisterOption>
-                            </RegisterOptionFrame>
-                            <RegisterCloseBtn onClick={() => RegisterCloseBtnClick()}/>
-                        </>
-                        :
-                        <RegisterBtn onClick={() => RegisterBtnClick()}/>
-                }
-            </MainWrapper>
-            <Footer/>
-        </>
-    )
-}
-
-export default NeedYouMainPage

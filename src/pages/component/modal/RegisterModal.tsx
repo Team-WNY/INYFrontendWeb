@@ -34,18 +34,18 @@ const modalSettings = (visible: boolean) => css`
   transition: visibility 0.15s ease-out;
 `;
 
-const Background = styled.div<{ isVisible: boolean }>`
+const Background = styled.div<{ $isVisible: boolean }>`
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
-  ${(props) => modalSettings(props.isVisible)}
+  ${(props) => modalSettings(props.$isVisible)}
 `;
 
 
-const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
+const RegisterModalWrapper = styled.div<{ $isVisible: boolean }>`
   width: 360px;
   height: 600px;
   border-radius: 7px;
@@ -56,7 +56,7 @@ const RegisterModalWrapper = styled.div<{ isVisible: boolean }>`
   transform: translate(-50%, -50%);
   box-shadow: 5px 4px 5px -3px rgba(0, 0, 0, 0.25);
   background: var(--color-whiter, #FFF);
-  ${(props) => modalSettings(props.isVisible)}
+  ${(props) => modalSettings(props.$isVisible)}
 `
 
 
@@ -270,8 +270,8 @@ const RegisterModal = (props:{currentPage:string}) => {
                 isInit &&
                 <>
                     <CommonModal currentPage={props.currentPage}/>
-                    <Background isVisible={isShow}/>
-                    <RegisterModalWrapper isVisible={isShow}>
+                    <Background $isVisible={isShow}/>
+                    <RegisterModalWrapper $isVisible={isShow}>
                         <div style={{display: "flex"}}>
                             <CloseBtn onClick={() => closeClick()}/>
                             <Title>{regModalStatus.title}</Title>
@@ -330,10 +330,3 @@ const RegisterModal = (props:{currentPage:string}) => {
 }
 
 export default RegisterModal
-
-Background.defaultProps = {
-    isVisible: false
-}
-RegisterModalWrapper.defaultProps = {
-    isVisible: false
-}
