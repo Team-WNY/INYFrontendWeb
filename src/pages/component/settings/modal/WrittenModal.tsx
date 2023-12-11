@@ -1,19 +1,26 @@
 import styled, {css, keyframes} from "styled-components";
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../saga/store/rootStore";
 import {SettingsModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import SettingsOption from  "../SettingsOption";
+import NeedYouItem from "../../needYou/NeedYouItem";
+import {updateNeedYouSelect} from "../../../saga/store/server/needYou/needYouServerStore";
+import { NeedYou} from "../../../../data/interface/needYou/needYouInterface";
 
 const WrittenModal = (props:{currentPage:string}) => {
 
-    const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
+    const dispatch = useDispatch()
 
+    const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
+    const needYouList = useSelector((state: RootState) => state.server.needYou.needYouList)
+    
     const [isInit, setIsInit] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
     const [isHelp, setIsHelp] = useState<boolean>(false)
     const [isHelper, setIsHelper] = useState<boolean>(false)
     const [isGood, setIsGood] = useState<boolean>(false)
+    const [isShowNeedYouList, setIsShowNeedYouList] = useState<boolean>(true)
 
     useEffect(() => {
         if (settingsModalStatus.title === "작성 이력") {
@@ -32,7 +39,11 @@ const WrittenModal = (props:{currentPage:string}) => {
             setIsInit(false)
         }
     }, [settingsModalStatus.title])
-
+    
+    const needYouItemClick = (item: NeedYou) => {
+        setIsShowNeedYouList(false)
+        dispatch(updateNeedYouSelect(item))
+    }
     return(
         <>
             {/*작성 이력*/}

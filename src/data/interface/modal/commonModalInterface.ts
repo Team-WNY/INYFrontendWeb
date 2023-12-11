@@ -18,6 +18,7 @@ export interface RegModalInterface {
 
 export interface SettingsModalInterface {
     isOpen: boolean,
+    isShowNotice?: boolean,
     title?: string,
     settingsOptionList?: Array<string>,
 }

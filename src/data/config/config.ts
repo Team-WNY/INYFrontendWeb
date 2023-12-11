@@ -24,6 +24,11 @@ const URL_NOTICE = {
     LIST : `${API_URL}/settings`
 }
 
+const URL_PASSWORD_CONFIRM = {
+    PASSWORD_CONFIRM : `${API_URL}/api/v1/auth/login`,
+    GET_INFO : `${API_URL}/api/v1/account/getinfo`,
+}
+
 const API = {
     URL: {
         MAIN: {
@@ -40,6 +45,9 @@ const API = {
         },
         NOTICE: {
             URL_NOTICE
+        },
+        PASSWORD_CONFIRM: {
+            URL_PASSWORD_CONFIRM
         },
     }
 }

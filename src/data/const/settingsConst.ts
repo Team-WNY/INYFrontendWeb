@@ -23,7 +23,8 @@ export const SETTINGS_MODAL_STATUS: Array<SettingsModalInterface> = [
     },
     {
         isOpen: true,
-        title: "NOTICE"
+        title: "NOTICE",
+        isShowNotice: false
     },
     {
         isOpen: true,
@@ -55,13 +56,16 @@ export const noticeList: Array<Notice> = [
     {
        subject: "INY 서비스 오픈 안내",
        uploadDtm: "2023-11-01 21:23:42.224",
+       content: "우리 이제 오픈합니다. 많이 이용해주세요.",
     },
     {
        subject: "[11월 하트데이] 하트왕 TOP 10 선발 공지",
        uploadDtm: "2023-11-15 12:33:05.214",
+       content: "1등(2000하트) : 타마마 <br> 2등(1300하트) : 케로로 <br> 3등(1000하트) : 기로로",
     },
     {
        subject: "12월 25(월) INY 정기점검 안내",
        uploadDtm: "2023-11-21 13:48:26.112",
+       content: "우리 이제 점검합니다. 나중에 이용해주세요.",
     },
 ]

@@ -8,11 +8,13 @@ import {ModalConst} from "../../../../data/const/modalConst";
 import {CommonModalInterface} from "../../../../data/interface/modal/commonModalInterface";
 import {updateCommonModalStatus} from "../../../saga/store/view/modal/modalViewStore";
 import SettingsOption from  "../SettingsOption";
+import {UserInfo} from "../../../../data/interface/user/userInterface";
 
 const AccountModal = (props:{currentPage:string}) => {
 
     const dispatch = useDispatch()
     const settingsModalStatus: SettingsModalInterface = useSelector((state: RootState) => state.view.modal.settingsModalStatus)
+    const userInfo: UserInfo = useSelector((state: RootState) => state.server.user.userInfo)
 
     const [isInit, setIsInit] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
@@ -44,6 +46,7 @@ const AccountModal = (props:{currentPage:string}) => {
 
     const confirmButtonClick = () => {
         console.log("confirmButtonClick!!")
+        console.log("userInfo",userInfo)
         if(true){
             setIsConfirm(true)
         } else {
@@ -127,7 +130,7 @@ const AccountModal = (props:{currentPage:string}) => {
                     <EmailCertifiedWrapper isVisible={isEmailCertified}>
                         <EmailCertifiedFrame>
                             <div style={{fontSize: "18px", fontWeight: "650"}}>E-MAIL</div>
-                            <EmailCertifiedInput readOnly/>
+                            <EmailCertifiedInput>{userInfo.profile.email}</EmailCertifiedInput>
                         </EmailCertifiedFrame>
                     </EmailCertifiedWrapper>
                 </>
@@ -276,7 +279,7 @@ const CheckNewPasswordInput = styled.input`
   background: var(--color-whiter, #FFF)
 `
 
-const EmailCertifiedInput = styled.input`
+const EmailCertifiedInput = styled.div`
   width: 160px;
   height: 48px;
   border: 1px solid #000;
@@ -386,4 +389,3 @@ EmailCertifiedWrapper.defaultProps = {
 EnterNumberWrapper.defaultProps = {
     isVisible: false
 }
-

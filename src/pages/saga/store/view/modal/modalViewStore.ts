@@ -11,7 +11,7 @@ interface Props {
 const initialState = {
     commonModalStatus: {isOpen:false},
     regModalStatus: {isOpen:false},
-    settingsModalStatus: {isOpen:false, title:"환경설정"},
+    settingsModalStatus: {isOpen:false, title:"환경설정", isShowNotice: false},
 }
 
 const modalViewStore = createSlice({

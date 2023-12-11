@@ -15,10 +15,13 @@ const SettingsHeader = () => {
 
     const backBtnOnClick = (title: string) => {
         console.log("backBtnOnClick!!")
-        let payload;
-        if ((title === "계정 / 정보 관리") || (title === "작성 이력") ||  (title === "NOTICE")){
+        let payload: any;
+        if ((title === "계정 / 정보 관리") || (title === "작성 이력") || (title === "NOTICE" && settingsModalStatus.isShowNotice === false)) {
             payload = SETTINGS_MODAL_STATUS.find(status => status.title === "환경설정")
             navigate("/settings")
+            dispatch(updateSettingsModalStatus(payload))
+        } else if (title === "NOTICE" && settingsModalStatus.isShowNotice === true){
+            payload = SETTINGS_MODAL_STATUS.find(status => status.title === "NOTICE")
             dispatch(updateSettingsModalStatus(payload))
         } else if ((title === "비밀번호 변경하기") || (title === "이메일 인증확인") || (title === "연락처 입력하기")){
             payload = SETTINGS_MODAL_STATUS.find(status => status.title === "계정 / 정보 관리")
